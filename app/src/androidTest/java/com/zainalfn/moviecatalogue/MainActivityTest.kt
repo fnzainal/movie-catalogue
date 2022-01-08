@@ -33,6 +33,17 @@ class MainActivityTest {
         ActivityScenario.launch(MainActivity::class.java)
     }
 
+    @Test
+    fun clickAbout() {
+        onView(withId(R.id.action_about)).perform(click())
+        onView(withText(R.string.back)).perform(click())
+    }
+
+    @Test
+    fun clickOpenSource() {
+        onView(withId(R.id.action_open_source)).perform(click())
+    }
+
     private fun getRandomMovie(): Int {
         return (0 until dummyMovie.size).random()
     }

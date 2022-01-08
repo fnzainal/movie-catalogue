@@ -1,9 +1,12 @@
 package com.zainalfn.moviecatalogue
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import com.zainalfn.moviecatalogue.databinding.ActivityMainBinding
 import com.zainalfn.moviecatalogue.util.TabAdapter
@@ -38,19 +41,28 @@ class MainActivity : AppCompatActivity() {
         _binding = null
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.action_about -> {
+                showAbout()
+            }
+            else -> {
+                startActivity(Intent(this, OssLicensesMenuActivity::class.java))
+            }
         }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showAbout() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.action_about)
+            .setMessage(R.string.about_text)
+            .setPositiveButton(R.string.back){ d, _ ->d.dismiss()}
+            .show()
     }
 
     companion object {

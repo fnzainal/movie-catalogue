@@ -1,7 +1,6 @@
 package com.zainalfn.moviecatalogue.ui.detail
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.zainalfn.moviecatalogue.data.CatalogueData
@@ -35,13 +34,6 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home){
-            this.finish()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
     private fun ActivityDetailBinding.renderToView(catalog: CatalogueData) {
         catalog.apply {
             detailThumbnailIv.setImageResource(poster)
@@ -54,11 +46,10 @@ class DetailActivity : AppCompatActivity() {
     }
 
     companion object{
-        val ID = "id_catalogue"
-        val TYPE = "type_catalogue"
+        const val ID = "id_catalogue"
+        const val TYPE = "type_catalogue"
 
-        val MOVIE = 0
-        val TV_SHOW = 1
-
+        const val MOVIE = 0
+        const val TV_SHOW = 1
     }
 }
