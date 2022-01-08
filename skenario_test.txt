@@ -1,0 +1,54 @@
+# Skenario instrument test
+
+1. Menampilkan menu about
+    - memberi tindakan click pada menu id action_about
+    - memberi tindakan click pada tulisan back
+
+2. Menampilkan menu open source license
+    - memberi tindakan pada menu id action_open_source
+
+3. Menampilkan data movie
+    - memastikan movie_list_rv tampil pada layar
+    - memberi tindakan scroll sampai data terakhir movie_list_rv.
+
+4. Menampilkan data tv show
+    - memberi tindakan klik pada tab TV SHOW
+    - memastikan tvshow_list_rv tampil pada layar
+    - memberi tindakan scroll sampai data terakhir tvshow_list_rv.
+
+5. Menampilkan detail movie
+    - memberi tindakan klik pada movie_list_rv pada posisi acak index
+    - memastikan setiap data tampil & sesuai yang diharapkan
+
+6. Menampilkan detail tv show
+    - memberi tindakan klik pada tab TV SHOW
+    - memberi tindakan klik pada tvshow_list_rv pada posisi acak index
+    - memastikan setiap data tampil & sesuai yang diharapkan
+
+7. Memastikan tampilan data kosong movie
+    - menampilkan textView pesan data kosong
+    - menyembunyikan tampilan movie_list_rv
+
+8. Memastikan tampilan data kosong tv show
+    - memberi tindakan klik pada tab TV SHOW
+    - menampilkan textView pesan data kosong
+    - menyembunyikan tampilan tvshow_list_rv
+
+# Skenario unit test MovieViewModel
+1. Memuat data movie:
+    - Memastikan data movie tidak null.
+    - Memastikan jumlah data movie sesuai dengan yang diharapkan.
+
+2. Mengambil detail movie
+    - memastikan fungsi get detail movie berjalan
+    - memastikan setiap data dari get detail movie sesuai yang diharapkan
+
+
+# Skenario unit test TvShowViewModel
+1. Memuat data tv show:
+    - Memastikan data tv show tidak null.
+    - Memastikan jumlah data tv show sesuai dengan yang diharapkan.
+
+2. Mengambil detail tv show
+    - memastikan fungsi get detail tv show berjalan
+    - memastikan setiap data dari get detail tv show sesuai yang diharapkan
