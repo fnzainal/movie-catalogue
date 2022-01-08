@@ -116,6 +116,10 @@ class MainActivityTest {
             check(matches(isDisplayed()))
             check(matches(withText(catalogue.genre)))
         }
+        onView(withId(R.id.detail_year_tv)).apply {
+            check(matches(isDisplayed()))
+            check(matches(withText(catalogue.year.toString())))
+        }
         onView(withId(R.id.detail_overview_tv)).apply {
             check(matches(isDisplayed()))
             check(matches(withText(catalogue.overview)))
