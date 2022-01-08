@@ -64,6 +64,7 @@ class MainActivityTest {
 
     @Test
     fun loadDataTvShow() {
+        onView(withText("TV SHOW")).check(matches(isDisplayed()))
         onView(withText(R.string.tv_show)).perform(click())
         onView(withId(R.id.tvshow_list_rv)).check(matches(isDisplayed()))
         // scroll to max
@@ -90,6 +91,7 @@ class MainActivityTest {
     @Test
     fun loadDetailTvShow() {
         val index = getRandomTvShow()
+        onView(withText("TV SHOW")).check(matches(isDisplayed()))
         onView(withText("TV SHOW")).perform(click())
         onView(withId(R.id.tvshow_list_rv)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
@@ -104,14 +106,17 @@ class MainActivityTest {
     fun emptyDataMovie() {
         assertEquals(emptyData.size, 0)
         onView(withId(R.id.movie_empty_tv)).perform(setVisibility(true))
+        onView(withId(R.id.movie_empty_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.movie_list_rv)).perform(setVisibility(false))
     }
 
     @Test
     fun emptyDataTvShow() {
+        onView(withText("TV SHOW")).check(matches(isDisplayed()))
         onView(withText("TV SHOW")).perform(click())
         assertEquals(emptyData.size, 0)
         onView(withId(R.id.tvshow_empty_tv)).perform(setVisibility(true))
+        onView(withId(R.id.tvshow_empty_tv)).check(matches(isDisplayed()))
         onView(withId(R.id.tvshow_list_rv)).perform(setVisibility(false))
     }
 
