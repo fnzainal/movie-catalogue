@@ -65,8 +65,9 @@ class MainActivityTest {
     @Test
     fun loadDataTvShow() {
         onView(withText(R.string.tv_show)).perform(click())
+        onView(withId(R.id.tvshow_list_rv)).check(matches(isDisplayed()))
         // scroll to max
-        onView(withId(R.id.movie_list_rv)).apply {
+        onView(withId(R.id.tvshow_list_rv)).apply {
             check(matches(isDisplayed()))
             perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyTvShow.size - 1)
@@ -90,7 +91,7 @@ class MainActivityTest {
     fun loadDetailTvShow() {
         val index = getRandomTvShow()
         onView(withText("TV SHOW")).perform(click())
-        onView(withId(R.id.movie_list_rv)).perform(
+        onView(withId(R.id.tvshow_list_rv)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
                 index,
                 click()
@@ -110,8 +111,8 @@ class MainActivityTest {
     fun emptyDataTvShow() {
         onView(withText("TV SHOW")).perform(click())
         assertEquals(emptyData.size, 0)
-        onView(withId(R.id.movie_empty_tv)).perform(setVisibility(true))
-        onView(withId(R.id.movie_list_rv)).perform(setVisibility(false))
+        onView(withId(R.id.tvshow_empty_tv)).perform(setVisibility(true))
+        onView(withId(R.id.tvshow_list_rv)).perform(setVisibility(false))
     }
 
     private fun checkDetail(catalogue: CatalogueData) {

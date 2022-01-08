@@ -9,14 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zainalfn.moviecatalogue.data.CatalogueData
-import com.zainalfn.moviecatalogue.databinding.FragmentListCatalogueBinding
+import com.zainalfn.moviecatalogue.databinding.FragmentListTvShowBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
 
 class TvShowsFragment : Fragment() {
 
     private lateinit var viewModel: TvShowViewModel
-    private var _binding: FragmentListCatalogueBinding? = null
+    private var _binding: FragmentListTvShowBinding? = null
 
 
     private val binding get() = _binding!!
@@ -25,7 +25,7 @@ class TvShowsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListCatalogueBinding.inflate(inflater, container, false)
+        _binding = FragmentListTvShowBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -36,7 +36,7 @@ class TvShowsFragment : Fragment() {
         viewModel = ViewModelProvider(this)[TvShowViewModel::class.java]
 
         binding.apply {
-            movieListRv.apply {
+            tvshowListRv.apply {
                 setHasFixedSize(true)
                 layoutManager =
                     LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
