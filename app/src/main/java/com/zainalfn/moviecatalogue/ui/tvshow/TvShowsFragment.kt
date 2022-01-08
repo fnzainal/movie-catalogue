@@ -1,5 +1,6 @@
 package com.zainalfn.moviecatalogue.ui.tvshow
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.zainalfn.moviecatalogue.data.CatalogueData
 import com.zainalfn.moviecatalogue.databinding.FragmentListCatalogueBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
-
+import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
 
 class TvShowsFragment : Fragment() {
 
@@ -39,10 +41,17 @@ class TvShowsFragment : Fragment() {
                 layoutManager =
                     LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
                 adapter = CatalogueAdapter(viewModel.getTvShows()){
-                    println(it.title)
+                    onClickCatalogue(it)
                 }
             }
         }
+    }
+
+    private fun onClickCatalogue(it: CatalogueData) {
+        val intent = Intent(requireActivity(), DetailActivity::class.java)
+        intent.putExtra(DetailActivity.ID, it.id)
+        intent.putExtra(DetailActivity.TYPE, DetailActivity.TV_SHOW)
+        startActivity(intent)
     }
 
     override fun onDestroyView() {

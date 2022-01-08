@@ -2,8 +2,8 @@
     <string name="app_name">Movie Catalogue</string>
     <string name="action_settings">Settings</string>
 
-    <string name="movies">Movies</string>
-    <string name="tv_show">Tv Shows</string>
+    <string name="movies">MOVIE</string>
+    <string name="tv_show">TV SHOW</string>
     <string name="message_data_is_empty">Data is empty.</string>
     <string name="image_poster_catalogue">image poster</string>
 </resources>

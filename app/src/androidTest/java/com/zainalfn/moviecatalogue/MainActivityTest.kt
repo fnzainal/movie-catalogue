@@ -33,9 +33,17 @@ class MainActivityTest {
         ActivityScenario.launch(MainActivity::class.java)
     }
 
+    private fun getRandomMovie(): Int {
+        return (0 until dummyMovie.size).random()
+    }
+
+    private fun getRandomTvShow(): Int {
+        return (0 until dummyTvShow.size).random()
+    }
     @Test
     fun loadDataMovie() {
         onView(withId(R.id.movie_list_rv)).check(matches(isDisplayed()))
+        // scroll to max
         onView(withId(R.id.movie_list_rv)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                 dummyMovie.size - 1
@@ -46,33 +54,38 @@ class MainActivityTest {
     @Test
     fun loadDataTvShow() {
         onView(withText(R.string.tv_show)).perform(click())
+        // scroll to max
         onView(withId(R.id.movie_list_rv)).apply {
             check(matches(isDisplayed()))
-            perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyTvShow.size - 1))
+            perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                dummyTvShow.size - 1)
+            )
         }
     }
 
     @Test
     fun loadDetailMovie() {
+        val index = getRandomMovie()
         onView(withId(R.id.movie_list_rv)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                0,
+                index,
                 click()
             )
         )
-        checkDetail(dummyMovie[0])
+        checkDetail(dummyMovie[index])
     }
 
     @Test
     fun loadDetailTvShow() {
+        val index = getRandomTvShow()
         onView(withText("TV SHOW")).perform(click())
         onView(withId(R.id.movie_list_rv)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                0,
+                index,
                 click()
             )
         )
-        checkDetail(dummyTvShow[0])
+        checkDetail(dummyTvShow[index])
     }
 
     @Test
@@ -97,7 +110,7 @@ class MainActivityTest {
         }
         onView(withId(R.id.detail_score_tv)).apply {
             check(matches(isDisplayed()))
-            check(matches(withText(catalogue.score)))
+            check(matches(withText("${catalogue.score}%")))
         }
         onView(withId(R.id.detail_genre_tv)).apply {
             check(matches(isDisplayed()))
