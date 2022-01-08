@@ -35,12 +35,14 @@ class MainActivityTest {
 
     @Test
     fun clickAbout() {
+        onView(withId(R.id.action_about)).check(matches(isDisplayed()))
         onView(withId(R.id.action_about)).perform(click())
         onView(withText(R.string.back)).perform(click())
     }
 
     @Test
     fun clickOpenSource() {
+        onView(withId(R.id.action_open_source)).check(matches(isDisplayed()))
         onView(withId(R.id.action_open_source)).perform(click())
     }
 

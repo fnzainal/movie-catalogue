@@ -11,7 +11,7 @@
 2. Menampilkan menu open source license
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan menu action_open_source telah ditampilkan.
-    - memberi tindakan pada menu id action_open_source
+    - memberi tindakan click pada menu id action_open_source
     - menampilkan daftar license opensource
 
 3. Menampilkan data movie
