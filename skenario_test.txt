@@ -3,104 +3,100 @@
 1. Menampilkan menu about
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan menu action_about telah ditampilkan.
+    - memastikan tombol action_about dapat diklik
     - memberi tindakan click pada menu id action_about
-    - aplikasi menampilkan dialog tentang aplikasi
-    - memberi tindakan click pada tulisan back
-    - dialog tentang aplikasi menghilang
+    - memastikan dialog About tampil
+    - memastikan tombol Back dialog tampil
+    - memastikan tombol Back dapat diklik
+    - memberi tindakan klik pada tombol Back
 
 2. Menampilkan menu open source license
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan menu action_open_source telah ditampilkan.
+    - memastikan tombol action_open_source dapat diklik
     - memberi tindakan click pada menu id action_open_source
-    - menampilkan daftar license opensource
+    - memastikan daftar license opensource berhasil ditampilkan
 
 3. Menampilkan data movie
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan movie_list_rv tampil pada layar
     - memberi tindakan scroll sampai data terakhir movie_list_rv.
-    - menampilkan data paling akhir dari list movie movie_list_rv
+    - memastikan data paling akhir tampil dari list movie_list_rv
 
 4. Menampilkan data tv show
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan tab TV SHOW telah ditampilkan.
     - memberi tindakan klik pada tab TV SHOW
-    - menampilkan list data pada tv show
     - memastikan tvshow_list_rv telah ditampilkan
     - memberi tindakan scroll sampai data terakhir tvshow_list_rv.
-    - menampilkan data paling akhir dari list tv show  / tvshow_list_rv
+    - memastikan data paling akhir tampil dari list tv show  / tvshow_list_rv
 
 5. Menampilkan detail movie
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan movie_list_rv telah ditampilkan.
     - memberi tindakan klik pada movie_list_rv pada posisi acak index
-    - menampilkan detail movie yang telah diklik
-        - memastikan data title tampil
-        - memastikan data title sesuai yang diharapkan
-        - memastikan data score tampil
-        - memastikan data score sesuai yang diharapkan
-        - memastikan data genre tampil
-        - memastikan data genre sesuai yang diharapkan
-        - memastikan data year tampil
-        - memastikan data year sesuai yang diharapkan
-        - memastikan data overview tampil
-        - memastikan data overview sesuai yang diharapkan
-        - memastikan data poster tampil
-        - memastikan data poster sesuai yang diharapkan
+    - mengecek detail movie yang telah diklik :
+        - memastikan detail_title_tv telah ditampilkan
+        - memastikan data title yang tampil sesuai ekspektasi
+        - memastikan detail_score_tv telah ditampilkan
+        - memastikan data score yang tampil sesuai ekspektasi
+        - memastikan detail_genre_tv telah ditampilkan
+        - memastikan data genre yang tampil sesuai ekspektasi
+        - memastikan detail_year_tv telah ditampilkan
+        - memastikan data year yang tampil sesuai ekspektasi
+        - memastikan detail_overview_tv telah ditampilkan
+        - memastikan data overview yang tampil sesuai ekspektasi
+        - memastikan detail_thumbnail_iv telah ditampilkan
+        - memastikan data poster yang tampil sesuai ekspektasi
 
-6. Menampilkan detail tv show
+6. Menampilkan detail tv show tampilan
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan tab TV SHOW telah ditampilkan.
     - memberi tindakan klik pada tab TV SHOW
-    - menampilkan list data pada tv show
     - memberi tindakan klik pada tvshow_list_rv pada posisi acak index
-    - menampilkan detail tv show ->
-        - memastikan data title tampil
-        - memastikan data title sesuai yang diharapkan
-        - memastikan data score tampil
-        - memastikan data score sesuai yang diharapkan
-        - memastikan data genre tampil
-        - memastikan data genre sesuai yang diharapkan
-        - memastikan data year tampil
-        - memastikan data year sesuai yang diharapkan
-        - memastikan data overview tampil
-        - memastikan data overview sesuai yang diharapkan
-        - memastikan data poster tampil
-        - memastikan data poster sesuai yang diharapkan
+    - mengecek detail tvshow yang telah diklik :
+        - memastikan detail_title_tv telah ditampilkan
+        - memastikan data title yang tampil sesuai ekspektasi
+        - memastikan detail_score_tv telah ditampilkan
+        - memastikan data score yang tampil sesuai ekspektasi
+        - memastikan detail_genre_tv telah ditampilkan
+        - memastikan data genre yang tampil sesuai ekspektasi
+        - memastikan detail_year_tv telah ditampilkan
+        - memastikan data year yang tampil sesuai ekspektasi
+        - memastikan detail_overview_tv telah ditampilkan
+        - memastikan data overview yang tampil sesuai ekspektasi
+        - memastikan detail_thumbnail_iv telah ditampilkan
+        - memastikan data poster yang tampil sesuai ekspektasi
 
 7. Memastikan tampilan data kosong movie
     - aplikasi terbuka dan menampilkan beberapa view.
-    - menampilkan movie_empty_tv
-    - movie_empty_tv berhasil tampil pada layar
+    - merubah tampilan movie_empty_tv menjadi terlihat
     - memastikan movie_empty_tv ada tampil pada layar
-    - menyembunyikan tampilan movie_list_rv
-    - list data movie / movie_list_rv tidak tampil pada layar
+    - merubah tampilan movie_list_rv menjadi tidak terlihat
 
 8. Memastikan tampilan data kosong tv show
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan tab TV SHOW telah ditampilkan.
     - memberi tindakan klik pada tab TV SHOW
-    - menampilkan tab TV SHOW
-    - menampilkan tvshow_empty_tv pada layar
-    - tvshow_empty_tv berhasil tampil
+    - merubah tampilan tvshow_empty_tv menjadi terlihat
     - memastikan tvshow_empty_tv tampil pada layar
-    - menyembunyikan tampilan tvshow_list_rv
-    - tvshow_list_rv / list tv movie berhasil tidak tampil di layar
+    - merubah tampilan tvshow_list_rv menjadi tidak terlihat
 
 # Skenario unit test MovieViewModel
 1. Memuat data movie:
     - Memastikan data movie tidak null.
-    - Memastikan jumlah data movie sesuai dengan yang diharapkan.
+    - Memastikan jumlah data movie sesuai dengan ekspektasi.
 
 2. Mengambil detail movie
     - memastikan fungsi get detail movie berjalan
-    - memastikan setiap data dari get detail movie sesuai yang diharapkan
+    - memastikan setiap data dari get detail movie sesuai ekspektasi
 
 
 # Skenario unit test TvShowViewModel
 1. Memuat data tv show:
     - Memastikan data tv show tidak null.
-    - Memastikan jumlah data tv show sesuai dengan yang diharapkan.
+    - Memastikan jumlah data tv show sesuai dengan ekspektasi.
 
 2. Mengambil detail tv show
     - memastikan fungsi get detail tv show berjalan
-    - memastikan setiap data dari get detail tv show sesuai yang diharapkan
+    - memastikan setiap data dari get detail tv show sesuai ekspektasi

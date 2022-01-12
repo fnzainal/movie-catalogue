@@ -25,7 +25,7 @@ import org.junit.Test
 class MainActivityTest {
 
     private val dummyMovie = DummyData.getMovie()
-    private val dummyTvShow =DummyData.getTvShow()
+    private val dummyTvShow = DummyData.getTvShow()
     private val emptyData = emptyList<CatalogueData>()
 
     @Before
@@ -36,14 +36,20 @@ class MainActivityTest {
     @Test
     fun clickAbout() {
         onView(withId(R.id.action_about)).check(matches(isDisplayed()))
+        onView(withId(R.id.action_about)).check(matches(isClickable()))
         onView(withId(R.id.action_about)).perform(click())
+        onView(withText(R.string.action_about)).check(matches(isDisplayed()))
+        onView(withText(R.string.back)).check(matches(isDisplayed()))
+        onView(withText(R.string.back)).check(matches(isClickable()))
         onView(withText(R.string.back)).perform(click())
     }
 
     @Test
     fun clickOpenSource() {
         onView(withId(R.id.action_open_source)).check(matches(isDisplayed()))
+        onView(withId(R.id.action_open_source)).check(matches(isClickable()))
         onView(withId(R.id.action_open_source)).perform(click())
+        onView(withText("Open source licenses")).check(matches(isDisplayed()))
     }
 
     private fun getRandomMovie(): Int {
@@ -53,6 +59,7 @@ class MainActivityTest {
     private fun getRandomTvShow(): Int {
         return (0 until dummyTvShow.size).random()
     }
+
     @Test
     fun loadDataMovie() {
         onView(withId(R.id.movie_list_rv)).check(matches(isDisplayed()))
@@ -72,8 +79,10 @@ class MainActivityTest {
         // scroll to max
         onView(withId(R.id.tvshow_list_rv)).apply {
             check(matches(isDisplayed()))
-            perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                dummyTvShow.size - 1)
+            perform(
+                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                    dummyTvShow.size - 1
+                )
             )
         }
     }
