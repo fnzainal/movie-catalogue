@@ -1,4 +1,4 @@
-package com.zainalfn.moviecatalogue
+package com.zainalfn.moviecatalogue.ui
 
 import android.content.Intent
 import android.os.Bundle

@@ -1,4 +1,4 @@
-package com.zainalfn.moviecatalogue
+package com.zainalfn.moviecatalogue.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.material.tabs.TabLayoutMediator
+import com.zainalfn.moviecatalogue.R
 import com.zainalfn.moviecatalogue.databinding.ActivityMainBinding
 import com.zainalfn.moviecatalogue.util.TabAdapter
 
@@ -66,6 +67,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val TITLE = intArrayOf(R.string.movies,R.string.tv_show)
+        private val TITLE = intArrayOf(R.string.movies, R.string.tv_show)
     }
 }
