@@ -1,11 +1,15 @@
 package com.zainalfn.moviecatalogue.ui.tvshow
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.zainalfn.moviecatalogue.data.CatalogueData
-import com.zainalfn.moviecatalogue.data.DummyData
+import com.zainalfn.moviecatalogue.data.CatalogueRepository
+import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
+import com.zainalfn.moviecatalogue.util.DummyData
 
-class TvShowViewModel : ViewModel() {
+class TvShowViewModel(
+    private val repository: CatalogueRepository) : ViewModel() {
 
-    fun getTvShows(): ArrayList<CatalogueData> = DummyData.getTvShow()
+    fun getTvShows(): LiveData<ArrayList<CatalogueEntity>> = repository.getTvShows()
     fun getDetailTvShows(id : Int): CatalogueData = DummyData.getDetailTvShow(id)
 }

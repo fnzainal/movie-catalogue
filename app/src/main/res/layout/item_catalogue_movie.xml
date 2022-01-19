@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="110dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -21,8 +21,9 @@
         app:layout_constraintStart_toEndOf="@id/item_movie_thumbnail_iv"
         app:layout_constraintTop_toTopOf="@id/item_movie_thumbnail_iv"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/item_movie_genre_tv"
         android:layout_marginStart="10dp"
-        style="@style/TextAppearance.AppCompat.Headline"
+        style="@style/TextAppearance.AppCompat.Body2"
         android:layout_marginEnd="10dp"
         tools:text="@tools:sample/full_names"
         android:layout_width="0dp"
@@ -33,12 +34,16 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/item_movie_genre_tv"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="3dp"
         android:layout_marginStart="10dp"
         android:ellipsize="end"
-        style="@style/TextAppearance.AppCompat.Subhead"
-        tools:text="@tools:sample/lorem"
+        style="@style/TextAppearance.AppCompat.Caption"
+        tools:text="@tools:sample/lorem/random"
+        android:minLines="2"
+        android:maxLines="3"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@id/item_movie_year_tv"
         app:layout_constraintEnd_toEndOf="@+id/item_movie_title_tv"
         app:layout_constraintStart_toEndOf="@+id/item_movie_thumbnail_iv"
         app:layout_constraintTop_toBottomOf="@+id/item_movie_title_tv" />
@@ -50,6 +55,7 @@
         android:layout_marginTop="3dp"
         android:layout_marginStart="10dp"
         android:ellipsize="end"
+        android:lines="1"
         style="@style/TextAppearance.AppCompat.Caption"
         tools:text="2019"
         app:layout_constraintEnd_toEndOf="@+id/item_movie_title_tv"

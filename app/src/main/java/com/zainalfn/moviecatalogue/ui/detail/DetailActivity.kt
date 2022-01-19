@@ -2,11 +2,8 @@ package com.zainalfn.moviecatalogue.ui.detail
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.zainalfn.moviecatalogue.data.CatalogueData
+import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
 import com.zainalfn.moviecatalogue.databinding.ActivityDetailBinding
-import com.zainalfn.moviecatalogue.ui.movie.MovieViewModel
-import com.zainalfn.moviecatalogue.ui.tvshow.TvShowViewModel
 
 class DetailActivity : AppCompatActivity() {
 
@@ -19,18 +16,18 @@ class DetailActivity : AppCompatActivity() {
         intent.extras?.let {
             val id = it.getInt(ID)
 
-            val catalog = when(it.getInt(TYPE)){
-                MOVIE->{
-                    val viewModel = ViewModelProvider(this)[MovieViewModel::class.java]
-                    viewModel.getDetailMovie(id)
-                }
-                else ->{
-                    val viewModel = ViewModelProvider(this)[TvShowViewModel::class.java]
-                    viewModel.getDetailTvShows(id)
-                }
-            }
-
-            binding.renderToView(catalog)
+//            val catalog = when(it.getInt(TYPE)){
+//                MOVIE->{
+//                    val viewModel = ViewModelProvider(this)[MovieViewModel::class.java]
+//                    viewModel.getDetailMovie(id)
+//                }
+//                else ->{
+//                    val viewModel = ViewModelProvider(this)[TvShowViewModel::class.java]
+//                    viewModel.getDetailTvShows(id)
+//                }
+//            }
+//
+//            binding.renderToView(catalog)
         }
     }
 

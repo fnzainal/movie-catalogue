@@ -1,11 +1,12 @@
 package com.zainalfn.moviecatalogue.ui.movie
 
 import androidx.lifecycle.ViewModel
-import com.zainalfn.moviecatalogue.data.CatalogueData
-import com.zainalfn.moviecatalogue.data.DummyData
+import com.zainalfn.moviecatalogue.data.CatalogueRepository
 
-class MovieViewModel : ViewModel() {
+class MovieViewModel(
+    private val repository: CatalogueRepository
+) : ViewModel() {
 
-    fun getMovies(): ArrayList<CatalogueData> = DummyData.getMovie()
-    fun getDetailMovie(id : Int): CatalogueData = DummyData.getDetailMovie(id)
+    fun getMovies() = repository.getMovies()
+    fun getDetailMovie(id : String) = repository.getDetailMovie(id)
 }

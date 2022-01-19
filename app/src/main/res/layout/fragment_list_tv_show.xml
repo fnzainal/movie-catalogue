@@ -13,6 +13,16 @@
         android:layout_height="match_parent"
         tools:listitem="@layout/item_catalogue_movie" />
 
+    <ProgressBar
+        android:id="@+id/tvshow_progress"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvshow_empty_tv"
         app:layout_constraintTop_toTopOf="parent"

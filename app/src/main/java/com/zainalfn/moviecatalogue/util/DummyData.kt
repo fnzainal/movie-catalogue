@@ -1,6 +1,7 @@
-package com.zainalfn.moviecatalogue.data
+package com.zainalfn.moviecatalogue.util
 
 import com.zainalfn.moviecatalogue.R
+import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
 
 /**
  * Created by zainal on 1/4/22 - 7:58 AM

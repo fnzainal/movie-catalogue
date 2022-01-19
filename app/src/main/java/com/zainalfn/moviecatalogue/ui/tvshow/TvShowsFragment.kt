@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zainalfn.moviecatalogue.data.CatalogueData
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.databinding.FragmentListTvShowBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
+import com.zainalfn.moviecatalogue.util.ViewModelFactory
+import com.zainalfn.moviecatalogue.util.gone
+import com.zainalfn.moviecatalogue.util.visible
 
 class TvShowsFragment : Fragment() {
 
@@ -32,22 +35,39 @@ class TvShowsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this)[TvShowViewModel::class.java]
+        val factory = ViewModelFactory.getInstance()
+        viewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
 
         binding.apply {
             tvshowListRv.apply {
                 setHasFixedSize(true)
                 layoutManager =
                     LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
-                adapter = CatalogueAdapter(viewModel.getTvShows()){
-                    onClickCatalogue(it)
+            }
+            showLoading(true)
+            viewModel.getTvShows().observe(viewLifecycleOwner){
+                showLoading(false)
+                if (it.isNotEmpty()){
+                    val adapter = CatalogueAdapter(it){ data->
+                        onClickCatalogue(data)
+                    }
+                    tvshowListRv.adapter = adapter
+                } else {
+                    tvshowEmptyTv.visible()
                 }
             }
         }
     }
 
-    private fun onClickCatalogue(it: CatalogueData) {
+    private fun FragmentListTvShowBinding.showLoading(loading: Boolean) {
+        if (loading){
+            tvshowProgress.visible()
+        } else {
+            tvshowProgress.gone()
+        }
+    }
+
+    private fun onClickCatalogue(it: CatalogueEntity) {
         val intent = Intent(requireActivity(), DetailActivity::class.java)
         intent.putExtra(DetailActivity.ID, it.id)
         intent.putExtra(DetailActivity.TYPE, DetailActivity.TV_SHOW)

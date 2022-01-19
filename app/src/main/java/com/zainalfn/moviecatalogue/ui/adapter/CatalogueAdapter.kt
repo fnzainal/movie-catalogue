@@ -3,12 +3,15 @@ package com.zainalfn.moviecatalogue.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.zainalfn.moviecatalogue.data.CatalogueData
+import com.zainalfn.moviecatalogue.R
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.databinding.ItemCatalogueMovieBinding
+import com.zainalfn.moviecatalogue.util.loadImage
+import com.zainalfn.moviecatalogue.util.toReadableDate
 
 class CatalogueAdapter(
-    private var listCatalogue: ArrayList<CatalogueData>,
-    private val onClick: (CatalogueData: CatalogueData) -> Unit
+    private var listCatalogue: ArrayList<CatalogueEntity>,
+    private val onClick: (CatalogueEntity: CatalogueEntity) -> Unit
 ) : RecyclerView.Adapter<CatalogueAdapter.CatalogueViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogueViewHolder {
@@ -28,14 +31,19 @@ class CatalogueAdapter(
 
     inner class CatalogueViewHolder(private val binding: ItemCatalogueMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: CatalogueData) {
+        fun bind(data: CatalogueEntity) {
             with(binding) {
                 data.apply {
-                    itemMovieTitleTv.text = title
-                    itemMovieGenreTv.text = genre
-                    itemMovieYearTv.text = year.toString()
-                    "$score%".also { itemMovieScoreTv.text = it }
-                    poster.let { itemMovieThumbnailIv.setImageResource(it) }
+                    itemMovieTitleTv.text = name
+                    itemMovieGenreTv.text = overview
+                    releaseDate?.let {
+                        itemMovieYearTv.text = toReadableDate(it)
+                    }
+                    "$voteAverage%".also { itemMovieScoreTv.text = it }
+                    posterPath?.let { itemMovieThumbnailIv.loadImage(it) }
+                        ?: itemMovieThumbnailIv.setImageResource(
+                            R.drawable.ic_baseline_image_placeholder
+                        )
                     root.setOnClickListener { onClick(this) }
                 }
             }

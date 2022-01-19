@@ -1,7 +1,7 @@
 package com.zainalfn.moviecatalogue.ui.movie
 
 import com.zainalfn.moviecatalogue.R
-import com.zainalfn.moviecatalogue.data.CatalogueData
+import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before

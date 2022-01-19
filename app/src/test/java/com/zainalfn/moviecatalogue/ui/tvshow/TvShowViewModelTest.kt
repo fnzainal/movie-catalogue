@@ -1,7 +1,7 @@
 package com.zainalfn.moviecatalogue.ui.tvshow
 
 import com.zainalfn.moviecatalogue.R
-import com.zainalfn.moviecatalogue.data.CatalogueData
+import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -16,7 +16,7 @@ class TvShowViewModelTest{
 
     @Before
     fun setUp() {
-        viewModel = TvShowViewModel()
+        viewModel = TvShowViewModel(catalogueRepository)
         movie = CatalogueData(
             0,
             "Dragon Ball",

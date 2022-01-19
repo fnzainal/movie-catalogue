@@ -1,0 +1,93 @@
+{
+  "response":[
+  {
+    "genre": "Action, Science Fiction, Adventure",
+    "id": 0,
+    "overview": "When Alita awakens with no memory of who she is in a future world she does not recognize, she is taken in by Ido, a compassionate doctor who realizes that somewhere in this abandoned cyborg shell is the heart and soul of a young woman with an extraordinary past.",
+    "poster": "https://www.themoviedb.org/t/p/original/k5jx2nIBKmdz8otnCQbbZXonijk.jpg",
+    "score": "71",
+    "title": "Alita: Battle Angle",
+    "year": 2019
+  },
+  {
+    "genre": "Comedy, Action, Adventure, Science Fiction",
+    "id": 1,
+    "overview": "A bank teller called Guy realizes he is a background character in an open world video game called Free City that will soon go offline.",
+    "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/acCS12FVUQ7blkC8qEbuXbsWEs2.jpg",
+    "score": "77",
+    "title": "Free Guy",
+    "year": 2021
+  },
+  {
+    "genre": "Action, Crime, Thriller",
+    "id": 2,
+    "overview": "The quiet family life of Nels Coxman, a snowplow driver, is upended after his son's murder. Nels begins a vengeful hunt for Viking, the drug lord he holds responsible for the killing, eliminating Viking's associates one by one. As Nels draws closer to Viking, his actions bring even more unexpected and violent consequences, as he proves that revenge is all in the execution.",
+    "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/hXgmWPd1SuujRZ4QnKLzrj79PAw.jpg",
+    "score": "57",
+    "title": "Cold Pursuit",
+    "year": 2019
+  },
+  {
+    "genre": "War, Action, Drama, History",
+    "id": 3,
+    "overview": "In 1944, a courageous group of Russian soldiers managed to escape from German captivity in a half-destroyed legendary T-34 tank. Those were the times of unforgettable bravery, fierce fighting, unbreakable love, and legendary miracles.",
+    "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/jqBIHiSglRfNxjh1zodHLa9E7zW.jpg",
+    "score": "70",
+    "title": "T-34",
+    "year": 2018
+  },
+  {
+    "genre": "Thriller, Drama, Science Fiction",
+    "id": 4,
+    "overview": "In a series of escalating encounters, former security guard David Dunn uses his supernatural abilities to track Kevin Wendell Crumb, a disturbed man who has twenty-four personalities. Meanwhile, the shadowy presence of Elijah Price emerges as an orchestrator who holds secrets critical to both men.",
+    "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/9CpYHHtykjQZowRE2TZyYJMhZ9l.jpg",
+    "score": "67",
+    "title": "Glass",
+    "year": 2019
+  },
+  {
+    "genre": "Animation, Family, Adventure",
+    "id": 5,
+    "overview": "As Hiccup fulfills his dream of creating a peaceful dragon utopia, Toothless’ discovery of an untamed, elusive mate draws the Night Fury away. When danger mounts at home and Hiccup’s reign as village chief is tested, both dragon and rider must make impossible decisions to save their kind.",
+    "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2mf3UPeTZz8Z3soC0oqNkwZDNZV.jpg",
+    "score": "78",
+    "title": "How to Train Your Dragon: The Hidden World",
+    "year": 2019
+  },
+  {
+    "genre": "Adventure, Action, Science Fiction",
+    "id": 6,
+    "overview": "As the Avengers and their allies have continued to protect the world from threats too large for any one hero to handle, a new danger has emerged from the cosmic shadows: Thanos. A despot of intergalactic infamy, his goal is to collect all six Infinity Stones, artifacts of unimaginable power, and use them to inflict his twisted will on all of reality. Everything the Avengers have fought for has led up to this moment - the fate of Earth and existence itself has never been more uncertain.",
+    "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/zDnUwgyjtpRWJ5Og5ctMyVoJLjm.jpg",
+    "score": "83",
+    "title": "Avengers: Infinity War",
+    "year": 2018
+  },
+  {
+    "genre": "Horror, War, Science Fiction",
+    "id": 7,
+    "overview": "France, June 1944. On the eve of D-Day, some American paratroopers fall behind enemy lines after their aircraft crashes while on a mission to destroy a radio tower in a small village near the beaches of Normandy. After reaching their target, the surviving paratroopers realise that, in addition to fighting the Nazi troops that patrol the village, they also must fight against something else.",
+    "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/2Sfo3O54kTAAnBfZaCXrwimORSo.jpg",
+    "score": "67",
+    "title": "Overlord",
+    "year": 2018
+  },
+  {
+  "genre": "Family, Animation, Comedy, Adventure",
+  "id": 8,
+  "overview": "Video game bad guy Ralph and fellow misfit Vanellope von Schweetz must risk it all by traveling to the World Wide Web in search of a replacement part to save Vanellopes video game, Sugar Rush. In way over their heads, Ralph and Vanellope rely on the citizens of the internet — the netizens — to help navigate their way, including an entrepreneur named Yesss, who is the head algorithm and the heart and soul of trend-making site BuzzzTube.",
+  "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/lDroo0e4Pr33c1Y4LWr7f4IE8f2.jpg",
+  "score": "72",
+  "title": "Ralph Breaks the Internet",
+  "year": 2018
+},
+  {
+  "genre": "Action, Adventure, Animation, Science Fiction, Comedy",
+  "id": 9,
+  "overview": "Miles Morales is juggling his life between being a high school student and being a spider-man. When Wilson Kingpin Fisk uses a super collider, others from across the Spider-Verse are transported to this dimension.",
+  "poster": "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg",
+  "score": "84",
+  "title": "Spider-Man: Into the Spider-Verse",
+  "year": 2018
+}
+]}

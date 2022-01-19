@@ -13,9 +13,9 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
-import com.zainalfn.moviecatalogue.data.CatalogueData
-import com.zainalfn.moviecatalogue.data.DummyData
+import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
 import com.zainalfn.moviecatalogue.ui.MainActivity
+import com.zainalfn.moviecatalogue.util.DummyData
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
