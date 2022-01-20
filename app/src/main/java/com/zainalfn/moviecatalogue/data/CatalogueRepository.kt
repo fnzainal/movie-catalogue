@@ -2,7 +2,6 @@ package com.zainalfn.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.zainalfn.moviecatalogue.data.source.CatalogueDataSource
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.data.source.remote.RemoteDataSource

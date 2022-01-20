@@ -1,4 +1,4 @@
-package com.zainalfn.moviecatalogue.data.source
+package com.zainalfn.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity

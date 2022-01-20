@@ -1,48 +1,90 @@
 package com.zainalfn.moviecatalogue.ui.detail
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.databinding.ActivityDetailBinding
+import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
+import com.zainalfn.moviecatalogue.util.*
+import com.zainalfn.moviecatalogue.util.visible
 
 class DetailActivity : AppCompatActivity() {
 
+    private var _binding: ActivityDetailBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var viewModel: DetailViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityDetailBinding.inflate(layoutInflater)
+        _binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val factory = ViewModelFactory.getInstance()
+        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
+
         intent.extras?.let {
             val id = it.getInt(ID)
+            val type = it.getInt(TYPE)
 
-//            val catalog = when(it.getInt(TYPE)){
-//                MOVIE->{
-//                    val viewModel = ViewModelProvider(this)[MovieViewModel::class.java]
-//                    viewModel.getDetailMovie(id)
-//                }
-//                else ->{
-//                    val viewModel = ViewModelProvider(this)[TvShowViewModel::class.java]
-//                    viewModel.getDetailTvShows(id)
-//                }
-//            }
-//
-//            binding.renderToView(catalog)
+            id?.let { idCatalogue ->
+                when (type) {
+                    MOVIE -> {
+                        getDetailMovie(idCatalogue)
+                    }
+                    else -> {
+                        getDetailTvShow(idCatalogue)
+                    }
+                }
+            }
         }
     }
 
-    private fun ActivityDetailBinding.renderToView(catalog: CatalogueData) {
+    private fun getDetailTvShow(id: Int) {
+        showLoading(true)
+        viewModel.getDetailTvShow(id).observe(this) {
+            it.apply {
+                binding.renderToView(this)
+                showLoading(false)
+
+            }
+        }
+    }
+
+    private fun getDetailMovie(id: Int) {
+        showLoading(true)
+        viewModel.getDetailMovie(id).observe(this) {
+            it.apply {
+                binding.renderToView(this)
+                showLoading(false)
+            }
+        }
+    }
+
+    private fun showLoading(isloading: Boolean) {
+        binding.apply {
+            if (isloading){
+                detailProgress.visible()
+                detailContent.gone()
+            } else {
+                detailProgress.gone()
+                detailContent.visible()
+
+            }
+        }
+    }
+
+    private fun ActivityDetailBinding.renderToView(catalog: CatalogueDetailEntity) {
         catalog.apply {
-            detailThumbnailIv.setImageResource(poster)
-            detailTitleTv.text = title
-            detailGenreTv.text = genre
-            detailYearTv.text = year.toString()
+            detailThumbnailIv.loadImage(posterPath)
+            detailTitleTv.text = name
+            detailGenreTv.text = genres
+            detailYearTv.text = releaseDate?.let { toReadableDate(it) }
             detailOverviewTv.text = overview
-            "$score%".also { detailScoreTv.text = it }
+            "$voteAverage%".also { detailScoreTv.text = it }
         }
     }
 
-    companion object{
+    companion object {
         const val ID = "id_catalogue"
         const val TYPE = "type_catalogue"
 
