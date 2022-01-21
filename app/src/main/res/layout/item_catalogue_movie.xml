@@ -10,7 +10,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:src="@drawable/poster_t34"
+        tools:src="@tools:sample/avatars"
         android:scaleType="centerCrop"
         android:layout_margin="10dp"
         android:layout_width="70dp"

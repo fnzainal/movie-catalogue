@@ -27,10 +27,10 @@
             android:layout_width="150dp"
             android:layout_height="250dp"
             android:contentDescription="@string/image_poster_catalogue"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/poster_alita" />
+            tools:src="@tools:sample/avatars" />
 
 
         <androidx.appcompat.widget.AppCompatTextView

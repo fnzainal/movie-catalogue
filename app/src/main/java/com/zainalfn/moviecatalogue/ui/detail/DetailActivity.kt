@@ -25,7 +25,7 @@ class DetailActivity : AppCompatActivity() {
             val id = it.getInt(ID)
             val type = it.getInt(TYPE)
 
-            id?.let { idCatalogue ->
+            id.let { idCatalogue ->
                 when (type) {
                     MOVIE -> {
                         getDetailMovie(idCatalogue)
