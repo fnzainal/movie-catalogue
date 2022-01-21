@@ -39,25 +39,28 @@
             app:layout_constraintTop_toTopOf="@id/detail_thumbnail_iv"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginStart="10dp"
-            style="@style/TextAppearance.AppCompat.Headline"
+            style="@style/TextAppearance.AppCompat.Title"
             android:layout_marginEnd="10dp"
             tools:text="@tools:sample/full_names"
             android:layout_width="0dp"
             android:minLines="3"
+            android:maxLines="4"
             android:ellipsize="end"
             android:layout_height="wrap_content"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/detail_genre_tv"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="3dp"
             android:layout_marginStart="10dp"
-            android:lines="2"
+            android:maxLines="4"
+            android:ellipsize="end"
             style="@style/TextAppearance.AppCompat.Subhead"
             tools:text="@tools:sample/lorem"
             app:layout_constraintEnd_toEndOf="@+id/detail_title_tv"
             app:layout_constraintStart_toEndOf="@+id/detail_thumbnail_iv"
+            app:layout_constraintBottom_toTopOf="@id/detail_year_tv"
             app:layout_constraintTop_toBottomOf="@+id/detail_title_tv" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -67,7 +70,7 @@
             android:layout_marginTop="3dp"
             android:layout_marginStart="10dp"
             android:ellipsize="end"
-            style="@style/TextAppearance.AppCompat.Medium"
+            style="@style/TextAppearance.AppCompat.Small"
             tools:text="2019"
             app:layout_constraintEnd_toEndOf="@+id/detail_title_tv"
             app:layout_constraintStart_toEndOf="@+id/detail_thumbnail_iv"

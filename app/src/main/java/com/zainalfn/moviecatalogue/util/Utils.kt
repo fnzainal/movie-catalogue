@@ -18,17 +18,9 @@ fun ImageView.loadImage(url: String?) {
 }
 
 fun ArrayList<Genres>?.toGenreString(): String {
-    var stringGenre = ""
-
-    this?.forEachIndexed { index, genre ->
-        stringGenre += if (index != this.size - 1) {
-            genre.name + ", "
-        } else {
-            genre.name
-        }
-    }
-
-    return stringGenre
+    return if (!this.isNullOrEmpty()) {
+        this.joinToString { "${it.name}" }
+    } else ""
 }
 
 fun View.visible(){

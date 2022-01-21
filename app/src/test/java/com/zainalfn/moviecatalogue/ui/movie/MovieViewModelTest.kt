@@ -1,52 +1,57 @@
 package com.zainalfn.moviecatalogue.ui.movie
 
-import com.zainalfn.moviecatalogue.R
-import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
-import org.junit.Assert
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import com.zainalfn.moviecatalogue.data.CatalogueRepository
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
+import com.zainalfn.moviecatalogue.util.DummyData
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
+import org.mockito.junit.MockitoJUnitRunner
 
 /**
  * Created by zainal on 1/8/22 - 9:12 AM
  */
+@RunWith(MockitoJUnitRunner::class)
 class MovieViewModelTest {
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
+
     private lateinit var viewModel: MovieViewModel
-    private lateinit var movie: CatalogueData
+
+    @Mock
+    private lateinit var repository: CatalogueRepository
+
+    @Mock
+    private lateinit var moviesObserver: Observer<ArrayList<CatalogueEntity>>
 
     @Before
     fun setUp() {
-        viewModel = MovieViewModel()
-        movie = CatalogueData(
-            0,
-            "Alita: Battle Angle",
-            "When Alita awakens with no memory of who she is in a future world she does " +
-                    "not recognize, she is taken in by Ido, a compassionate doctor who realizes " +
-                    "that somewhere in this abandoned cyborg shell is the heart and soul of a " +
-                    "young woman with an extraordinary past.",
-            "Action, Science Fiction, Adventure",
-            "71",
-            R.drawable.poster_alita,
-            2019
-        )
+        viewModel = MovieViewModel(repository)
     }
 
     @Test
     fun getMovies() {
-        val movieEntities = viewModel.getMovies()
-        Assert.assertNotNull(movieEntities)
-        assertEquals(10, movieEntities.size)
-    }
+        val dummyMovies = DummyData.getMovies()
+        val movies = MutableLiveData<ArrayList<CatalogueEntity>>()
+        movies.value = dummyMovies
 
-    @Test
-    fun getDetailMovie() {
-        val detailMovie = viewModel.getDetailMovie(0)
-        assertEquals(movie.id, detailMovie.id)
-        assertEquals(movie.title, detailMovie.title)
-        assertEquals(movie.overview, detailMovie.overview)
-        assertEquals(movie.genre, detailMovie.genre)
-        assertEquals(movie.score, detailMovie.score)
-        assertEquals(movie.year, detailMovie.year)
-        assertEquals(movie.poster, detailMovie.poster)
+        `when`(repository.getMovies()).thenReturn(movies)
+        val movie = viewModel.getMovies().value
+        verify(repository).getMovies()
+        assertNotNull(movie)
+        assertEquals(3, movie?.size)
+
+        viewModel.getMovies().observeForever(moviesObserver)
+        verify(moviesObserver).onChanged(dummyMovies)
     }
 }

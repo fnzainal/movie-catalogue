@@ -3,7 +3,6 @@ package com.zainalfn.moviecatalogue.data.source.remote
 /**
  * Created by zainal on 1/17/22 - 7:42 AM
  */
-import android.util.Log
 import com.zainalfn.moviecatalogue.BuildConfig.API_KEY
 import com.zainalfn.moviecatalogue.data.source.remote.response.MovieDetailResponse
 import com.zainalfn.moviecatalogue.data.source.remote.response.MoviesResponse
@@ -20,7 +19,7 @@ class RemoteDataSource {
 
     fun getMovies(callback: LoadMoviesCallback) {
         EspressoIdlingResource.increment()
-        val client = RetrofitConfig.apiInstance.getMovies(API_KEY)
+        val client = apiService().getMovies(API_KEY)
         client.enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(
                 call: Call<MoviesResponse>,
@@ -31,7 +30,6 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                Log.e("RemoteDataSource", "getMovies onFailure : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
         })
@@ -39,7 +37,7 @@ class RemoteDataSource {
 
     fun getDetailMovie(callback: LoadDetailMovieCallback, movieId: String) {
         EspressoIdlingResource.increment()
-        val client = RetrofitConfig.apiInstance.getMovieDetail(movieId, API_KEY)
+        val client = apiService().getMovieDetail(movieId, API_KEY)
         client.enqueue(object : Callback<MovieDetailResponse> {
             override fun onResponse(
                 call: Call<MovieDetailResponse>,
@@ -50,7 +48,6 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<MovieDetailResponse>, t: Throwable) {
-                Log.e("RemoteDataSource", "getMovieDetail onFailure : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
         })
@@ -58,7 +55,7 @@ class RemoteDataSource {
 
     fun getTvShows(callback: LoadTvShowsCallback) {
         EspressoIdlingResource.increment()
-        val client = RetrofitConfig.apiInstance.getTvShows(API_KEY)
+        val client = apiService().getTvShows(API_KEY)
         client.enqueue(object : Callback<TvShowsResponse> {
             override fun onResponse(
                 call: Call<TvShowsResponse>,
@@ -69,7 +66,6 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<TvShowsResponse>, t: Throwable) {
-                Log.e("RemoteDataSource", "getTvShows onFailure : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
         })
@@ -77,7 +73,7 @@ class RemoteDataSource {
 
     fun getDetailTvShow(callback: LoadDetailTvShowCallback, tvShowId: String) {
         EspressoIdlingResource.increment()
-        val client = RetrofitConfig.apiInstance.getTvShowDetail(tvShowId, API_KEY)
+        val client = apiService().getTvShowDetail(tvShowId, API_KEY)
         client.enqueue(object : Callback<TvShowDetailResponse> {
             override fun onResponse(
                 call: Call<TvShowDetailResponse>,
@@ -88,11 +84,12 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<TvShowDetailResponse>, t: Throwable) {
-                Log.e("RemoteDataSource", "getDetailTvShow onFailure : ${t.message}")
                 EspressoIdlingResource.decrement()
             }
         })
     }
+
+    private fun apiService() = RetrofitConfig.apiInstance
 
     interface LoadMoviesCallback {
         fun onMoviesLoaded(movies: ArrayList<MovieDetailResponse>?)

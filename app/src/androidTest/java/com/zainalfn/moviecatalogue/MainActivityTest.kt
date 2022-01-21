@@ -25,7 +25,7 @@ import org.junit.Test
 
 class MainActivityTest {
 
-    private val dummyMovie = DummyData.getMovie()
+    private val dummyMovie = DummyData.getMovies()
     private val dummyTvShow = DummyData.getTvShow()
     private val emptyData = emptyList<CatalogueData>()
 

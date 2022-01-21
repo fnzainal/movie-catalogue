@@ -1,12 +1,11 @@
 package com.zainalfn.moviecatalogue.ui.detail
 
+import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.databinding.ActivityDetailBinding
-import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
 import com.zainalfn.moviecatalogue.util.*
-import com.zainalfn.moviecatalogue.util.visible
 
 class DetailActivity : AppCompatActivity() {
 
@@ -78,7 +77,12 @@ class DetailActivity : AppCompatActivity() {
             detailThumbnailIv.loadImage(posterPath)
             detailTitleTv.text = name
             detailGenreTv.text = genres
-            detailYearTv.text = releaseDate?.let { toReadableDate(it) }
+            if (releaseDate.isNullOrEmpty()){
+                detailYearTv.gone()
+            } else {
+                detailYearTv.visible()
+                detailYearTv.text = toReadableDate(releaseDate)
+            }
             detailOverviewTv.text = overview
             "$voteAverage%".also { detailScoreTv.text = it }
         }
