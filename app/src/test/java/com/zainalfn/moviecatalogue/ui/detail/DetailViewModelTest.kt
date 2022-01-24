@@ -61,6 +61,7 @@ class DetailViewModelTest{
         assertEquals(dummyMovieDetail.overview, movieDetailEntity.overview)
         assertEquals(dummyMovieDetail.genres, movieDetailEntity.genres)
         assertEquals(dummyMovieDetail.voteAverage, movieDetailEntity.voteAverage)
+        assertEquals(dummyMovieDetail.releaseDate, movieDetailEntity.releaseDate)
 
         detailViewModel.getDetailMovie(dummyMovieDetailId.toInt()).observeForever(movieObserver)
         verify(movieObserver).onChanged(dummyMovieDetail)
@@ -86,6 +87,7 @@ class DetailViewModelTest{
         assertEquals(dummyTvShowDetail.overview, tvShowDetailEntity.overview)
         assertEquals(dummyTvShowDetail.genres, tvShowDetailEntity.genres)
         assertEquals(dummyTvShowDetail.voteAverage, tvShowDetailEntity.voteAverage)
+        assertEquals(dummyTvShowDetail.releaseDate, tvShowDetailEntity.releaseDate)
 
         detailViewModel.getDetailTvShow(dummyTvShowDetailId.toInt()).observeForever(tvShowObserver)
         verify(tvShowObserver).onChanged(dummyTvShowDetail)

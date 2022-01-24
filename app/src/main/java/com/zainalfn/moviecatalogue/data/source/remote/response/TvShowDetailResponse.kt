@@ -11,4 +11,5 @@ data class TvShowDetailResponse(
     val posterPath: String?,
     val overview: String? = null,
     val genres: ArrayList<Genres>? = null,
+    val first_air_date: String? = null,
 )

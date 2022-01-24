@@ -57,9 +57,10 @@ object DummyData {
             CatalogueEntity(
                 77169,
                 "Cobra Kai",
-                8.1,
+                8.2,
                 "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg",
-                "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi."
+                "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi.",
+                "2018-05-02"
             )
         )
 
@@ -70,18 +71,10 @@ object DummyData {
                 7.8,
                 "/lJA2RCMfsWoskqlQhXPSLFQGXEJ.jpg",
                 "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \\\"meta-human\\\" who was created in the wake of the accelerator explosion -- and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become...The Flash.",
+                "2014-10-07"
             )
         )
 
-        listTvShows.add(
-            CatalogueEntity(
-                134949,
-                "Rebelde",
-                7.3,
-                "/iqWCUwLcjkVgtpsDLs8xx8kscg6.jpg",
-                "Head back to Elite Way School as a new generation of students hope to win the Battle of the Bands."
-            )
-        )
         return listTvShows
     }
 
@@ -98,7 +91,7 @@ object DummyData {
                     Genres(12, "Adventure"),
                     Genres(878, "Science Fiction")
                 ).toGenreString(),
-                8.4,
+                8.5,
                 "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
                 "2021-12-15",
                 )
@@ -154,8 +147,9 @@ object DummyData {
                     Genres(10759, "Action & Adventure"),
                     Genres(18, "Drama")
                 ).toGenreString(),
-                8.1,
+                8.2,
                 "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg",
+                "2018-05-02"
             )
         )
 
@@ -170,21 +164,9 @@ object DummyData {
                 ).toGenreString(),
                 7.8,
                 "/lJA2RCMfsWoskqlQhXPSLFQGXEJ.jpg",
+                "2014-10-07"
             )
         )
-
-        listTvShowDetails.add(
-            CatalogueDetailEntity(
-                134949,
-                "Rebelde",
-                "Head back to Elite Way School as a new generation of students hope to win the Battle of the Bands.",
-                arrayListOf(
-                    Genres(18, "Drama")).toGenreString(),
-                7.3,
-                "/jRlI5euugVZR6a1Ptt0nSWeiWH.jpg",
-            )
-        )
-
         return listTvShowDetails
     }
 
@@ -250,13 +232,14 @@ object DummyData {
             TvShowDetailResponse(
                 77169,
                 "Cobra Kai",
-                8.1,
+                8.2,
                 "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg",
                 "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi.",
                 arrayListOf(
                     Genres(10759, "Action & Adventure"),
                     Genres(18, "Drama")
-                )
+                ),
+                "2018-05-02"
             )
         )
 
@@ -270,18 +253,8 @@ object DummyData {
                 arrayListOf(
                     Genres(18, "Drama"),
                     Genres(10765, "Sci-Fi & Fantasy")
-                )
-            )
-        )
-
-        listTvShowDetails.add(
-            TvShowDetailResponse(
-                134949,
-                "Rebelde",
-                7.3,
-                "/jRlI5euugVZR6a1Ptt0nSWeiWH.jpg",
-                "Head back to Elite Way School as a new generation of students hope to win the Battle of the Bands.",
-                arrayListOf(Genres(18, "Drama")),
+                ),
+                "2014-10-07"
             )
         )
 
@@ -335,9 +308,10 @@ object DummyData {
             TvShowDetailResponse(
                 77169,
                 "Cobra Kai",
-                8.1,
+                8.2,
                 "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg",
-                "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi."
+                "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi.",
+                first_air_date = "2018-05-02"
             )
         )
 
@@ -348,18 +322,10 @@ object DummyData {
                 7.8,
                 "/lJA2RCMfsWoskqlQhXPSLFQGXEJ.jpg",
                 "After a particle accelerator causes a freak storm, CSI Investigator Barry Allen is struck by lightning and falls into a coma. Months later he awakens with the power of super speed, granting him the ability to move through Central City like an unseen guardian angel. Though initially excited by his newfound powers, Barry is shocked to discover he is not the only \\\"meta-human\\\" who was created in the wake of the accelerator explosion -- and not everyone is using their new powers for good. Barry partners with S.T.A.R. Labs and dedicates his life to protect the innocent. For now, only a few close friends and associates know that Barry is literally the fastest man alive, but it won't be long before the world learns what Barry Allen has become...The Flash.",
+                first_air_date = "2014-10-07"
             )
         )
 
-        listTvShows.add(
-            TvShowDetailResponse(
-                134949,
-                "Rebelde",
-                7.3,
-                "/iqWCUwLcjkVgtpsDLs8xx8kscg6.jpg",
-                "Head back to Elite Way School as a new generation of students hope to win the Battle of the Bands."
-            )
-        )
         return listTvShows
     }
 

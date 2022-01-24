@@ -74,7 +74,6 @@ class DetailActivity : AppCompatActivity() {
 
     private fun ActivityDetailBinding.renderToView(catalog: CatalogueDetailEntity) {
         catalog.apply {
-            detailThumbnailIv.loadImage(posterPath)
             detailTitleTv.text = name
             detailGenreTv.text = genres
             if (releaseDate.isNullOrEmpty()){
@@ -85,6 +84,8 @@ class DetailActivity : AppCompatActivity() {
             }
             detailOverviewTv.text = overview
             "$voteAverage%".also { detailScoreTv.text = it }
+            detailThumbnailIv.loadImage(posterPath)
+            detailThumbnailIv.tag = posterPath
         }
     }
 

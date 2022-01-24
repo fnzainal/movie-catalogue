@@ -79,7 +79,8 @@ class CatalogueRepository private constructor(private val remoteDataSource: Remo
                                 name,
                                 voteAverage,
                                 posterPath,
-                                overview
+                                overview,
+                                first_air_date
                             )
                             tvList.add(tvShow)
                         }
@@ -110,7 +111,8 @@ class CatalogueRepository private constructor(private val remoteDataSource: Remo
                             overview,
                             genres.toGenreString(),
                             voteAverage,
-                            posterPath
+                            posterPath,
+                            first_air_date
                         )
                         movieDetailResult.postValue(detailMovie)
                     }

@@ -65,6 +65,7 @@ class CatalogueRepositoryTest{
         assertEquals(movieDetail.genres.toGenreString(), movieDetailEntity.genres)
         assertEquals(movieDetail.posterPath, movieDetailEntity.posterPath)
         assertEquals(movieDetail.voteAverage, movieDetailEntity.voteAverage)
+        assertEquals(movieDetail.releaseDate, movieDetailEntity.releaseDate)
     }
 
     @Test
@@ -101,5 +102,6 @@ class CatalogueRepositoryTest{
         assertEquals(tvShowDetail.genres.toGenreString(), tvShowDetailEntity.genres)
         assertEquals(tvShowDetail.posterPath, tvShowDetailEntity.posterPath)
         assertEquals(tvShowDetail.voteAverage, tvShowDetailEntity.voteAverage)
+        assertEquals(tvShowDetail.first_air_date, tvShowDetailEntity.releaseDate)
     }
 }

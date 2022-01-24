@@ -54,7 +54,8 @@ class FakeCatalogueRepository(private val remoteDataSource: RemoteDataSource) :
                             overview,
                             genres.toGenreString(),
                             voteAverage,
-                            posterPath
+                            posterPath,
+                            releaseDate
                         )
                         movieDetailResult.postValue(detailMovie)
                     }
@@ -109,7 +110,8 @@ class FakeCatalogueRepository(private val remoteDataSource: RemoteDataSource) :
                             overview,
                             genres.toGenreString(),
                             voteAverage,
-                            posterPath
+                            posterPath,
+                            first_air_date
                         )
                         movieDetailResult.postValue(detailMovie)
                     }

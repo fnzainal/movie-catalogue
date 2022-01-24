@@ -1,12 +1,10 @@
 package com.zainalfn.moviecatalogue
 
 import android.view.View
-import android.widget.ImageView
-import androidx.annotation.DrawableRes
-import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
@@ -14,24 +12,35 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.zainalfn.moviecatalogue.data.source.local.CatalogueData
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.ui.MainActivity
 import com.zainalfn.moviecatalogue.util.DummyData
-import org.hamcrest.Description
+import com.zainalfn.moviecatalogue.util.EspressoIdlingResource
+import com.zainalfn.moviecatalogue.util.toReadableDate
+import org.hamcrest.CoreMatchers
 import org.hamcrest.Matcher
-import org.hamcrest.TypeSafeMatcher
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
 class MainActivityTest {
 
-    private val dummyMovie = DummyData.getMovies()
-    private val dummyTvShow = DummyData.getTvShow()
+    private val dummyMovie = DummyData.getDetailMovie().first()
+    private val dummyTvShow = DummyData.getDetailTvShow().first()
     private val emptyData = emptyList<CatalogueData>()
 
     @Before
     fun setup() {
         ActivityScenario.launch(MainActivity::class.java)
+        IdlingRegistry.getInstance().register(
+            EspressoIdlingResource.getEspressoIdlingResource())
+    }
+
+
+    @After
+    fun tearDown() {
+        IdlingRegistry.getInstance().unregister(EspressoIdlingResource.getEspressoIdlingResource())
     }
 
     @Test
@@ -53,21 +62,13 @@ class MainActivityTest {
         onView(withText("Open source licenses")).check(matches(isDisplayed()))
     }
 
-    private fun getRandomMovie(): Int {
-        return (0 until dummyMovie.size).random()
-    }
-
-    private fun getRandomTvShow(): Int {
-        return (0 until dummyTvShow.size).random()
-    }
-
     @Test
     fun loadDataMovie() {
         onView(withId(R.id.movie_list_rv)).check(matches(isDisplayed()))
         // scroll to max
         onView(withId(R.id.movie_list_rv)).perform(
             RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                dummyMovie.size - 1
+                19
             )
         )
     }
@@ -82,7 +83,7 @@ class MainActivityTest {
             check(matches(isDisplayed()))
             perform(
                 RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                    dummyTvShow.size - 1
+                    19
                 )
             )
         }
@@ -90,28 +91,26 @@ class MainActivityTest {
 
     @Test
     fun loadDetailMovie() {
-        val index = getRandomMovie()
         onView(withId(R.id.movie_list_rv)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                index,
+                2,
                 click()
             )
         )
-        checkDetail(dummyMovie[index])
+        checkDetail(dummyMovie)
     }
 
     @Test
     fun loadDetailTvShow() {
-        val index = getRandomTvShow()
         onView(withText("TV SHOW")).check(matches(isDisplayed()))
         onView(withText("TV SHOW")).perform(click())
         onView(withId(R.id.tvshow_list_rv)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                index,
+                3,
                 click()
             )
         )
-        checkDetail(dummyTvShow[index])
+        checkDetail(dummyTvShow)
     }
 
     @Test
@@ -132,30 +131,33 @@ class MainActivityTest {
         onView(withId(R.id.tvshow_list_rv)).perform(setVisibility(false))
     }
 
-    private fun checkDetail(catalogue: CatalogueData) {
-        onView(withId(R.id.detail_title_tv)).apply {
-            check(matches(isDisplayed()))
-            check(matches(withText(catalogue.title)))
-        }
-        onView(withId(R.id.detail_score_tv)).apply {
-            check(matches(isDisplayed()))
-            check(matches(withText("${catalogue.score}%")))
-        }
-        onView(withId(R.id.detail_genre_tv)).apply {
-            check(matches(isDisplayed()))
-            check(matches(withText(catalogue.genre)))
-        }
-        onView(withId(R.id.detail_year_tv)).apply {
-            check(matches(isDisplayed()))
-            check(matches(withText(catalogue.year.toString())))
-        }
-        onView(withId(R.id.detail_overview_tv)).apply {
-            check(matches(isDisplayed()))
-            check(matches(withText(catalogue.overview)))
-        }
-        onView(withId(R.id.detail_thumbnail_iv)).apply {
-            check(matches(isDisplayed()))
-            check(matches(withDrawable(catalogue.poster)))
+    private fun checkDetail(catalogue: CatalogueDetailEntity) {
+        catalogue.apply {
+
+            onView(withId(R.id.detail_title_tv)).apply {
+                check(matches(isDisplayed()))
+                check(matches(withText(name)))
+            }
+            onView(withId(R.id.detail_score_tv)).apply {
+                check(matches(isDisplayed()))
+                check(matches(withText("${voteAverage}%")))
+            }
+            onView(withId(R.id.detail_genre_tv)).apply {
+                check(matches(isDisplayed()))
+                check(matches(withText(genres)))
+            }
+            onView(withId(R.id.detail_year_tv)).apply {
+                check(matches(isDisplayed()))
+                check(matches(withText(toReadableDate(releaseDate.toString()))))
+            }
+            onView(withId(R.id.detail_overview_tv)).apply {
+                check(matches(isDisplayed()))
+                check(matches(withText(overview)))
+            }
+            onView(withId(R.id.detail_thumbnail_iv)).apply {
+                check(matches(isDisplayed()))
+                check(matches(withTagValue(CoreMatchers.equalTo(posterPath))))
+            }
         }
     }
 
@@ -172,19 +174,6 @@ class MainActivityTest {
             override fun getDescription(): String {
                 return "Show / Hide View"
             }
-        }
-    }
-
-    private fun withDrawable(@DrawableRes id: Int) = object : TypeSafeMatcher<View>() {
-        override fun describeTo(description: Description) {
-            description.appendText("ImageView with drawable same as drawable with id $id")
-        }
-
-        override fun matchesSafely(view: View): Boolean {
-            val context = view.context
-            val expectedBitmap = context.getDrawable(id)!!.toBitmap()
-
-            return view is ImageView && view.drawable.toBitmap().sameAs(expectedBitmap)
         }
     }
 }

@@ -49,7 +49,7 @@ class TvShowViewModelTest {
         val tvShow = tvShowViewModel.getTvShows().value
         verify(catalogueRepository).getTvShows()
         Assert.assertNotNull(tvShow)
-        Assert.assertEquals(3, tvShow?.size)
+        Assert.assertEquals(2, tvShow?.size)
 
         tvShowViewModel.getTvShows().observeForever(tvShowObserver)
         verify(tvShowObserver).onChanged(dummyTvShow)
