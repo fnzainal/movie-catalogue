@@ -130,13 +130,11 @@
 # Skenario unit test Repository
 1. Memuat data movie
     - Memastikan jika fungsi getMovies dipanggil, akan dijawab atau mendapatkan balikan nilai
-    - Memastikan ada perubahan data movie di dalam LiveData sesuai yang diharapkan
     - Memastikan data movieEntities dari livedata tidak null
     - Memastikan jumlah data movie response sesuai yang diharapkan
 
 2. Memuat detail movie
     - Memastikan jika fungsi getDetailMovie dipanggil, akan dijawab atau mendapatkan balikan nilai
-    - Memastikan ada perubahan data di dalam LiveData sesuai yang diharapkan
     - Memastikan data movieDetailEntity dari livedata tidak null
     - Memastikan data detail movie sesuai yang diharapkan
         - memastikan data id sesuai ekspektasi
@@ -149,13 +147,11 @@
 
 3. Memuat data tvshow
     - Memastikan jika fungsi getTvShows dipanggil, akan dijawab atau mendapatkan balikan nilai
-    - Memastikan ada perubahan data TvShow di dalam LiveData sesuai yang diharapkan
     - Memastikan data tvShowEntities dari livedata tidak null
     - Memastikan jumlah data tvShow response sesuai yang diharapkan
 
 4. Memuat detail tvshow
     - Memastikan jika fungsi getDetailTvShow dipanggil, akan dijawab atau mendapatkan balikan nilai
-    - Memastikan ada perubahan data di dalam LiveData sesuai yang diharapkan
     - Memastikan data tvShowDetailEntity dari livedata tidak null
     - Memastikan data detail tvshow sesuai yang diharapkan
         - memastikan data id sesuai ekspektasi
