@@ -14,5 +14,5 @@ data class CatalogueData(
     val genre: String,
     val score: String,
     val poster: Int,
-    val year: Int?=0,
+    val year: Int? = 0,
 ) : Parcelable

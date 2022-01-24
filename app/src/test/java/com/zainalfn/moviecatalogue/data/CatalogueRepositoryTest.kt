@@ -19,7 +19,7 @@ import org.mockito.Mockito.mock
 /**
  * Created by zainal on 1/20/22 - 7:54 AM
  */
-class CatalogueRepositoryTest{
+class CatalogueRepositoryTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()

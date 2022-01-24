@@ -14,5 +14,5 @@ data class CatalogueResponse(
     val genre: String,
     val score: String,
     val poster: String,
-    val year: Int=0,
+    val year: Int = 0,
 ) : Parcelable

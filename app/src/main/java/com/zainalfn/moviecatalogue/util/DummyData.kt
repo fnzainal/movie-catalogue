@@ -78,7 +78,7 @@ object DummyData {
         return listTvShows
     }
 
-    fun getDetailMovie() : ArrayList<CatalogueDetailEntity> {
+    fun getDetailMovie(): ArrayList<CatalogueDetailEntity> {
         val listMovieDetails = ArrayList<CatalogueDetailEntity>()
 
         listMovieDetails.add(
@@ -94,7 +94,7 @@ object DummyData {
                 8.5,
                 "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
                 "2021-12-15",
-                )
+            )
         )
 
         listMovieDetails.add(
@@ -112,7 +112,7 @@ object DummyData {
                 "/b6qUu00iIIkXX13szFy7d0CyNcg.jpg",
                 "2021-11-03"
 
-                )
+            )
         )
 
         listMovieDetails.add(
@@ -170,7 +170,7 @@ object DummyData {
         return listTvShowDetails
     }
 
-    fun getRemoteDetailMovie() : ArrayList<MovieDetailResponse> {
+    fun getRemoteDetailMovie(): ArrayList<MovieDetailResponse> {
         val listMovieDetails = ArrayList<MovieDetailResponse>()
 
         listMovieDetails.add(
@@ -181,12 +181,12 @@ object DummyData {
                 "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
                 "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
                 "2021-12-15",
-                    arrayListOf(
-                        Genres(28, "Action"),
-                        Genres(12, "Adventure"),
-                        Genres(878, "Science Fiction")
-                    ),
-                )
+                arrayListOf(
+                    Genres(28, "Action"),
+                    Genres(12, "Adventure"),
+                    Genres(878, "Science Fiction")
+                ),
+            )
         )
 
         listMovieDetails.add(
@@ -202,7 +202,8 @@ object DummyData {
                     Genres(12, "Adventure"),
                     Genres(14, "Fantasy"),
                     Genres(878, "Science Fiction")
-                ))
+                )
+            )
         )
 
         listMovieDetails.add(

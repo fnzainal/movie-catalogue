@@ -21,7 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner
  * Created by zainal on 1/21/22 - 7:40 AM
  */
 @RunWith(MockitoJUnitRunner::class)
-class DetailViewModelTest{
+class DetailViewModelTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 

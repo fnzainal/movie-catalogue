@@ -45,10 +45,10 @@ class TvShowsFragment : Fragment() {
                     LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             }
             showLoading(true)
-            viewModel.getTvShows().observe(viewLifecycleOwner){
+            viewModel.getTvShows().observe(viewLifecycleOwner) {
                 showLoading(false)
-                if (it.isNotEmpty()){
-                    val adapter = CatalogueAdapter(it){ data->
+                if (it.isNotEmpty()) {
+                    val adapter = CatalogueAdapter(it) { data ->
                         onClickCatalogue(data)
                     }
                     tvshowListRv.adapter = adapter
@@ -60,7 +60,7 @@ class TvShowsFragment : Fragment() {
     }
 
     private fun FragmentListTvShowBinding.showLoading(loading: Boolean) {
-        if (loading){
+        if (loading) {
             tvshowProgress.visible()
         } else {
             tvshowProgress.gone()

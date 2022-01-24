@@ -34,7 +34,8 @@ class MainActivityTest {
     fun setup() {
         ActivityScenario.launch(MainActivity::class.java)
         IdlingRegistry.getInstance().register(
-            EspressoIdlingResource.getEspressoIdlingResource())
+            EspressoIdlingResource.getEspressoIdlingResource()
+        )
     }
 
 

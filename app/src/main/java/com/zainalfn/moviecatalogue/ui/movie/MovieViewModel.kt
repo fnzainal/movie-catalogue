@@ -8,5 +8,5 @@ class MovieViewModel(
 ) : ViewModel() {
 
     fun getMovies() = repository.getMovies()
-    fun getDetailMovie(id : String) = repository.getDetailMovie(id)
+    fun getDetailMovie(id: String) = repository.getDetailMovie(id)
 }

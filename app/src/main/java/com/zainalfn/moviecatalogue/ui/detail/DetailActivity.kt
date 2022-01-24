@@ -61,7 +61,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showLoading(isloading: Boolean) {
         binding.apply {
-            if (isloading){
+            if (isloading) {
                 detailProgress.visible()
                 detailContent.gone()
             } else {
@@ -76,7 +76,7 @@ class DetailActivity : AppCompatActivity() {
         catalog.apply {
             detailTitleTv.text = name
             detailGenreTv.text = genres
-            if (releaseDate.isNullOrEmpty()){
+            if (releaseDate.isNullOrEmpty()) {
                 detailYearTv.gone()
             } else {
                 detailYearTv.visible()

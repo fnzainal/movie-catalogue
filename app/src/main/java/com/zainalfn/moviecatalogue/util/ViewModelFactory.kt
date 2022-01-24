@@ -8,7 +8,8 @@ import com.zainalfn.moviecatalogue.ui.detail.DetailViewModel
 import com.zainalfn.moviecatalogue.ui.movie.MovieViewModel
 import com.zainalfn.moviecatalogue.ui.tvshow.TvShowViewModel
 
-class ViewModelFactory private constructor(private val catalogueRepository: CatalogueRepository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory private constructor(private val catalogueRepository: CatalogueRepository) :
+    ViewModelProvider.NewInstanceFactory() {
     companion object {
         @Volatile
         private var instance: ViewModelFactory? = null
@@ -28,7 +29,7 @@ class ViewModelFactory private constructor(private val catalogueRepository: Cata
             modelClass.isAssignableFrom(TvShowViewModel::class.java) -> {
                 TvShowViewModel(catalogueRepository) as T
             }
-            modelClass.isAssignableFrom(DetailViewModel::class.java) ->{
+            modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(catalogueRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)

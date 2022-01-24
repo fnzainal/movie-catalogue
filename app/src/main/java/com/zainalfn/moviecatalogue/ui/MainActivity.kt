@@ -30,8 +30,7 @@ class MainActivity : AppCompatActivity() {
         val adapter = TabAdapter(this)
         binding.apply {
             mainViewPagerCatalogue.adapter = adapter
-            TabLayoutMediator(mainTabsCatalogue, mainViewPagerCatalogue){
-                tab, position ->
+            TabLayoutMediator(mainTabsCatalogue, mainViewPagerCatalogue) { tab, position ->
                 tab.text = getString(TITLE[position])
             }.attach()
         }
@@ -41,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         _binding = null
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(R.string.action_about)
             .setMessage(R.string.about_text)
-            .setPositiveButton(R.string.back){ d, _ ->d.dismiss()}
+            .setPositiveButton(R.string.back) { d, _ -> d.dismiss() }
             .show()
     }
 

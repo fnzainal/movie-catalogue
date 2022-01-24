@@ -7,6 +7,6 @@ class DetailViewModel(
     private val repository: CatalogueRepository
 ) : ViewModel() {
 
-    fun getDetailMovie(id : Int) = repository.getDetailMovie(id.toString())
-    fun getDetailTvShow(id : Int) = repository.getDetailTvShow(id.toString())
+    fun getDetailMovie(id: Int) = repository.getDetailMovie(id.toString())
+    fun getDetailTvShow(id: Int) = repository.getDetailTvShow(id.toString())
 }

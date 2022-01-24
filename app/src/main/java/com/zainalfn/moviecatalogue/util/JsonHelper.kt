@@ -42,7 +42,8 @@ class JsonHelper(private val context: Context) {
                     val poster = getString("poster")
                     val score = getString("score")
 
-                    val courseResponse = CatalogueResponse(id,title,overview,genre, score,poster, year)
+                    val courseResponse =
+                        CatalogueResponse(id, title, overview, genre, score, poster, year)
                     list.add(courseResponse)
                 }
 
@@ -55,7 +56,7 @@ class JsonHelper(private val context: Context) {
     }
 
     fun getDetailMovie(id: Int): CatalogueResponse? {
-        var data : CatalogueResponse? = null
+        var data: CatalogueResponse? = null
         try {
             val result = loadCatalogue(true)
             val element = result.firstOrNull { it.id == id }
@@ -69,7 +70,7 @@ class JsonHelper(private val context: Context) {
     }
 
     fun getDetailTvSHow(id: Int): CatalogueResponse? {
-        var data : CatalogueResponse? = null
+        var data: CatalogueResponse? = null
         try {
             val result = loadCatalogue(false)
             val element = result.firstOrNull { it.id == id }

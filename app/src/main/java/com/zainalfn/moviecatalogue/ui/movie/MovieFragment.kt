@@ -46,10 +46,10 @@ class MovieFragment : Fragment() {
                     LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             }
             showLoading(true)
-            viewModel.getMovies().observe(viewLifecycleOwner){
+            viewModel.getMovies().observe(viewLifecycleOwner) {
                 showLoading(false)
-                if (it.isNotEmpty()){
-                    val adapter = CatalogueAdapter(it){
+                if (it.isNotEmpty()) {
+                    val adapter = CatalogueAdapter(it) {
                         onClickCatalogue(it)
                     }
                     movieListRv.adapter = adapter
@@ -68,7 +68,7 @@ class MovieFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding.apply {
-            if (isLoading){
+            if (isLoading) {
                 movieProgress.visible()
             } else {
                 movieProgress.gone()

@@ -23,11 +23,11 @@ fun ArrayList<Genres>?.toGenreString(): String {
     } else ""
 }
 
-fun View.visible(){
+fun View.visible() {
     visibility = View.VISIBLE
 }
 
-fun View.gone(){
+fun View.gone() {
     visibility = View.GONE
 }
 

@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvshow_empty_tv"
@@ -33,5 +33,5 @@
         style="@style/TextAppearance.AppCompat.Caption"
         android:text="@string/message_data_is_empty"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>
