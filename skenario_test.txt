@@ -53,7 +53,7 @@
     - aplikasi terbuka dan menampilkan beberapa view.
     - memastikan tab TV SHOW telah ditampilkan.
     - memberi tindakan klik pada tab TV SHOW
-    - memberi tindakan klik pada tvshow_list_rv pada posisi 4 (index 3)
+    - memberi tindakan klik pada tvshow_list_rv pada posisi 5 (index 4)
     - mengecek detail tvshow yang telah diklik :
         - memastikan detail_title_tv telah ditampilkan
         - memastikan data name yang tampil sesuai ekspektasi
@@ -67,20 +67,6 @@
         - memastikan data overview yang tampil sesuai ekspektasi
         - memastikan detail_thumbnail_iv telah ditampilkan
         - memastikan data poster/posterPath yang tampil sesuai ekspektasi
-
-7. Memastikan tampilan data kosong movie
-    - aplikasi terbuka dan menampilkan beberapa view.
-    - merubah tampilan movie_empty_tv menjadi terlihat
-    - memastikan movie_empty_tv ada tampil pada layar
-    - merubah tampilan movie_list_rv menjadi tidak terlihat
-
-8. Memastikan tampilan data kosong tv show
-    - aplikasi terbuka dan menampilkan beberapa view.
-    - memastikan tab TV SHOW telah ditampilkan.
-    - memberi tindakan klik pada tab TV SHOW
-    - merubah tampilan tvshow_empty_tv menjadi terlihat
-    - memastikan tvshow_empty_tv tampil pada layar
-    - merubah tampilan tvshow_list_rv menjadi tidak terlihat
 
 # Skenario unit test MovieViewModel
 1. Memuat data movie:
