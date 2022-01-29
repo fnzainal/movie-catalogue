@@ -15,12 +15,12 @@ import com.zainalfn.moviecatalogue.util.TabAdapter
 class MainActivity : AppCompatActivity() {
 
     private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding?.root)
 
         supportActionBar?.elevation = 0f
         initViewPager()
@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewPager() {
         val adapter = TabAdapter(this)
-        binding.apply {
+        binding?.apply {
             mainViewPagerCatalogue.adapter = adapter
             TabLayoutMediator(mainTabsCatalogue, mainViewPagerCatalogue) { tab, position ->
                 tab.text = getString(TITLE[position])

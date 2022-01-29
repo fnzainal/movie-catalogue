@@ -23,14 +23,14 @@ class MovieFragment : Fragment() {
     private var _binding: FragmentListCatalogueBinding? = null
 
 
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentListCatalogueBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
 
     }
 
@@ -39,7 +39,7 @@ class MovieFragment : Fragment() {
 
         setupViewModel()
 
-        binding.apply {
+        binding?.apply {
             movieListRv.apply {
                 setHasFixedSize(true)
                 layoutManager =
@@ -67,7 +67,7 @@ class MovieFragment : Fragment() {
     }
 
     private fun showLoading(isLoading: Boolean) {
-        binding.apply {
+        binding?.apply {
             if (isLoading) {
                 movieProgress.visible()
             } else {

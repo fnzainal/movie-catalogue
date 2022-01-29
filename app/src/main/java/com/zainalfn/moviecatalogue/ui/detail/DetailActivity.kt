@@ -10,13 +10,13 @@ import com.zainalfn.moviecatalogue.util.*
 class DetailActivity : AppCompatActivity() {
 
     private var _binding: ActivityDetailBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var viewModel: DetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding?.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         val factory = ViewModelFactory.getInstance()
         viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
@@ -42,7 +42,7 @@ class DetailActivity : AppCompatActivity() {
         showLoading(true)
         viewModel.getDetailTvShow(id).observe(this) {
             it.apply {
-                binding.renderToView(this)
+                binding?.renderToView(this)
                 showLoading(false)
 
             }
@@ -53,14 +53,14 @@ class DetailActivity : AppCompatActivity() {
         showLoading(true)
         viewModel.getDetailMovie(id).observe(this) {
             it.apply {
-                binding.renderToView(this)
+                binding?.renderToView(this)
                 showLoading(false)
             }
         }
     }
 
     private fun showLoading(isloading: Boolean) {
-        binding.apply {
+        binding?.apply {
             if (isloading) {
                 detailProgress.visible()
                 detailContent.gone()

@@ -22,14 +22,14 @@ class TvShowsFragment : Fragment() {
     private var _binding: FragmentListTvShowBinding? = null
 
 
-    private val binding get() = _binding!!
+    private val binding get() = _binding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         _binding = FragmentListTvShowBinding.inflate(inflater, container, false)
-        return binding.root
+        return binding?.root
 
     }
 
@@ -38,7 +38,7 @@ class TvShowsFragment : Fragment() {
         val factory = ViewModelFactory.getInstance()
         viewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
 
-        binding.apply {
+        binding?.apply {
             tvshowListRv.apply {
                 setHasFixedSize(true)
                 layoutManager =
