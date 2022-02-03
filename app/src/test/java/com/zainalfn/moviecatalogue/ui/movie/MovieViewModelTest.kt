@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.zainalfn.moviecatalogue.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
+import com.zainalfn.moviecatalogue.ui.discover.movie.MovieViewModel
 import com.zainalfn.moviecatalogue.util.DummyData
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

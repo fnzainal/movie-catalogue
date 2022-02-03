@@ -1,12 +1,14 @@
 package com.zainalfn.moviecatalogue.util
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.zainalfn.moviecatalogue.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.di.Injection
 import com.zainalfn.moviecatalogue.ui.detail.DetailViewModel
-import com.zainalfn.moviecatalogue.ui.movie.MovieViewModel
-import com.zainalfn.moviecatalogue.ui.tvshow.TvShowViewModel
+import com.zainalfn.moviecatalogue.ui.discover.movie.MovieViewModel
+import com.zainalfn.moviecatalogue.ui.discover.tvshow.TvShowViewModel
+import com.zainalfn.moviecatalogue.ui.favorite.FavoriteViewModel
 
 class ViewModelFactory private constructor(private val catalogueRepository: CatalogueRepository) :
     ViewModelProvider.NewInstanceFactory() {
@@ -14,9 +16,9 @@ class ViewModelFactory private constructor(private val catalogueRepository: Cata
         @Volatile
         private var instance: ViewModelFactory? = null
 
-        fun getInstance(): ViewModelFactory =
+        fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository())
+                instance ?: ViewModelFactory(Injection.provideRepository(context))
             }
     }
 
@@ -31,6 +33,9 @@ class ViewModelFactory private constructor(private val catalogueRepository: Cata
             }
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 DetailViewModel(catalogueRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteViewModel::class.java) -> {
+                FavoriteViewModel(catalogueRepository) as T
             }
             else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }

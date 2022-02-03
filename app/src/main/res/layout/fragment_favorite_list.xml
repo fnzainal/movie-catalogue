@@ -3,18 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.discover.movie.MovieFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movie_list_rv"
+        android:id="@+id/favorite_list_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:visibility="invisible"
         tools:listitem="@layout/item_catalogue_movie" />
 
     <ProgressBar
-        android:id="@+id/movie_progress"
+        android:id="@+id/favorite_progress"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,14 +24,17 @@
         android:layout_height="wrap_content" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/movie_empty_tv"
+        android:id="@+id/favorite_empty_tv"
         app:layout_constraintTop_toTopOf="parent"
-        android:drawableTop="@drawable/ic_round_warning_96"
+        android:layout_margin="20dp"
+        android:drawablePadding="10dp"
+        android:drawableTop="@drawable/ic_round_emoji_food_beverage_48"
         android:gravity="center"
         android:visibility="gone"
         tools:visibility="visible"
+        android:fontFamily="sans-serif-light"
         style="@style/TextAppearance.AppCompat.Caption"
-        android:text="@string/message_data_is_empty"
+        android:text="@string/favorit_data_is_empty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>

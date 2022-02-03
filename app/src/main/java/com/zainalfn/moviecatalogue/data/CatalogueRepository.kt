@@ -2,15 +2,23 @@ package com.zainalfn.moviecatalogue.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.zainalfn.moviecatalogue.data.source.local.LocalDataSource
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.data.source.remote.RemoteDataSource
 import com.zainalfn.moviecatalogue.data.source.remote.response.MovieDetailResponse
 import com.zainalfn.moviecatalogue.data.source.remote.response.TvShowDetailResponse
+import com.zainalfn.moviecatalogue.util.AppExecutors
+import com.zainalfn.moviecatalogue.util.Resource
 import com.zainalfn.moviecatalogue.util.toGenreString
 
-class CatalogueRepository private constructor(private val remoteDataSource: RemoteDataSource) :
-    CatalogueDataSource {
+class CatalogueRepository private constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val appExecutors: AppExecutors
+) : CatalogueDataSource {
 
     override fun getMovies(): LiveData<ArrayList<CatalogueEntity>> {
         val movieResult = MutableLiveData<ArrayList<CatalogueEntity>>()
@@ -35,9 +43,9 @@ class CatalogueRepository private constructor(private val remoteDataSource: Remo
         return movieResult
     }
 
-    override fun getDetailMovie(movieId: String): LiveData<CatalogueDetailEntity> {
-        val movieDetailResult = MutableLiveData<CatalogueDetailEntity>()
-
+    override fun getDetailMovie(movieId: String): LiveData<Resource<CatalogueDetailEntity>> {
+        val liveData = MutableLiveData<Resource<CatalogueDetailEntity>>()
+        liveData.postValue(Resource.loading())
         remoteDataSource.getDetailMovie(object : RemoteDataSource.LoadDetailMovieCallback {
             override fun onDetailMovieLoaded(movieDetail: MovieDetailResponse?) {
                 if (movieDetail != null) {
@@ -57,12 +65,18 @@ class CatalogueRepository private constructor(private val remoteDataSource: Remo
                             posterPath,
                             releaseDate
                         )
-                        movieDetailResult.postValue(detailMovie)
+                        liveData.postValue(Resource.success(detailMovie))
                     }
+                } else {
+                    liveData.postValue(Resource.error("Data detail not available"))
                 }
             }
+
+            override fun onFailed(error: String?) {
+                liveData.postValue(Resource.error(error))
+            }
         }, movieId)
-        return movieDetailResult
+        return liveData
     }
 
     override fun getTvShows(): LiveData<ArrayList<CatalogueEntity>> {
@@ -92,9 +106,9 @@ class CatalogueRepository private constructor(private val remoteDataSource: Remo
         return tvResult
     }
 
-    override fun getDetailTvShow(tvShowId: String): LiveData<CatalogueDetailEntity> {
-        val movieDetailResult = MutableLiveData<CatalogueDetailEntity>()
-
+    override fun getDetailTvShow(tvShowId: String): LiveData<Resource<CatalogueDetailEntity>> {
+        val movieDetailResult = MutableLiveData<Resource<CatalogueDetailEntity>>()
+        movieDetailResult.postValue(Resource.loading())
         remoteDataSource.getDetailTvShow(object : RemoteDataSource.LoadDetailTvShowCallback {
             override fun onDetailTvShowLoaded(tvShowDetail: TvShowDetailResponse?) {
                 if (tvShowDetail != null) {
@@ -114,20 +128,80 @@ class CatalogueRepository private constructor(private val remoteDataSource: Remo
                             posterPath,
                             first_air_date
                         )
-                        movieDetailResult.postValue(detailMovie)
+                        movieDetailResult.postValue(
+                            Resource.success(detailMovie)
+                        )
                     }
+                } else {
+                    movieDetailResult.postValue(Resource.error("Data detail not available"))
                 }
+            }
+
+            override fun onFailed(error: String?) {
+                movieDetailResult.postValue(
+                    Resource.error(error)
+                )
             }
         }, tvShowId)
         return movieDetailResult
     }
 
+    override fun getFavMovies(): LiveData<PagedList<CatalogueDetailEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(4)
+            .setPageSize(4)
+            .build()
+
+        return LivePagedListBuilder(localDataSource.getFavMovies(), config).build()
+    }
+
+    override fun getFavTvShows(): LiveData<PagedList<CatalogueDetailEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(4)
+            .setPageSize(4)
+            .build()
+
+        return LivePagedListBuilder(localDataSource.getFavTvShows(), config).build()
+    }
+
+    override fun getDetailFavorite(id: Int): LiveData<CatalogueDetailEntity?> {
+        return localDataSource.getFavoriteById(id)
+    }
+
+    override fun addMovieToFavorite(entity: CatalogueDetailEntity) {
+        appExecutors.diskIO().execute {
+            localDataSource.setMovieFavorite(entity)
+        }
+    }
+
+    override fun addTvShowToFavorite(entity: CatalogueDetailEntity) {
+        appExecutors.diskIO().execute {
+            localDataSource.setTvShowFavorite(entity)
+        }
+    }
+
+    override fun removeFromFavorite(id: Int) {
+        appExecutors.diskIO().execute {
+            localDataSource.removeFavorite(id)
+        }
+    }
+
     companion object {
         @Volatile
         private var instance: CatalogueRepository? = null
-        fun getInstance(remoteData: RemoteDataSource): CatalogueRepository =
+        fun getInstance(
+            remoteData: RemoteDataSource,
+            localData: LocalDataSource,
+            appExecutors: AppExecutors
+        ): CatalogueRepository =
             instance ?: synchronized(this) {
-                instance ?: CatalogueRepository(remoteData)
+                instance ?: CatalogueRepository(
+                    remoteData,
+                    localData,
+                    appExecutors
+                )
             }
     }
 }

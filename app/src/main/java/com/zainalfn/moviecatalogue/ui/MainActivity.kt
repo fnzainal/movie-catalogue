@@ -6,11 +6,11 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
-import com.google.android.material.tabs.TabLayoutMediator
 import com.zainalfn.moviecatalogue.R
 import com.zainalfn.moviecatalogue.databinding.ActivityMainBinding
-import com.zainalfn.moviecatalogue.util.TabAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,16 +23,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding?.root)
 
         supportActionBar?.elevation = 0f
-        initViewPager()
+        initNavigation()
     }
 
-    private fun initViewPager() {
-        val adapter = TabAdapter(this)
+    private fun initNavigation() {
         binding?.apply {
-            mainViewPagerCatalogue.adapter = adapter
-            TabLayoutMediator(mainTabsCatalogue, mainViewPagerCatalogue) { tab, position ->
-                tab.text = getString(TITLE[position])
-            }.attach()
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_host_main) as NavHostFragment
+            NavigationUI.setupWithNavController(
+                bottomNavMain,
+                navHostFragment.navController
+            )
         }
     }
 
@@ -66,7 +67,4 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
-    companion object {
-        private val TITLE = intArrayOf(R.string.movies, R.string.tv_show)
-    }
 }

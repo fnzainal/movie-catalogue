@@ -1,4 +1,4 @@
-package com.zainalfn.moviecatalogue.ui.movie
+package com.zainalfn.moviecatalogue.ui.discover.movie
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
+import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.moviecatalogue.databinding.FragmentListCatalogueBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
@@ -62,7 +63,7 @@ class MovieFragment : Fragment() {
     }
 
     private fun setupViewModel() {
-        val factory = ViewModelFactory.getInstance()
+        val factory = ViewModelFactory.getInstance(requireActivity())
         viewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
     }
 
@@ -79,7 +80,7 @@ class MovieFragment : Fragment() {
     private fun onClickCatalogue(it: CatalogueEntity) {
         val intent = Intent(requireActivity(), DetailActivity::class.java)
         intent.putExtra(DetailActivity.ID, it.id)
-        intent.putExtra(DetailActivity.TYPE, DetailActivity.MOVIE)
+        intent.putExtra(DetailActivity.TYPE, TYPE_MOVIE)
         startActivity(intent)
     }
 
