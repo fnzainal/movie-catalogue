@@ -7,8 +7,10 @@ import androidx.paging.PagedList
 import com.zainalfn.moviecatalogue.data.source.local.LocalDataSource
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
+import com.zainalfn.moviecatalogue.data.source.remote.ApiResponse
 import com.zainalfn.moviecatalogue.data.source.remote.RemoteDataSource
 import com.zainalfn.moviecatalogue.data.source.remote.response.MovieDetailResponse
+import com.zainalfn.moviecatalogue.data.source.remote.response.MoviesResponse
 import com.zainalfn.moviecatalogue.data.source.remote.response.TvShowDetailResponse
 import com.zainalfn.moviecatalogue.util.AppExecutors
 import com.zainalfn.moviecatalogue.util.Resource
@@ -20,9 +22,9 @@ class CatalogueRepository private constructor(
     private val appExecutors: AppExecutors
 ) : CatalogueDataSource {
 
-    override fun getMovies(): LiveData<ArrayList<CatalogueEntity>> {
-        val movieResult = MutableLiveData<ArrayList<CatalogueEntity>>()
-
+    override fun getMovies(): LiveData<Resource<ArrayList<CatalogueEntity>>> {
+        val movieResult = MutableLiveData<Resource<ArrayList<CatalogueEntity>>>()
+        movieResult.postValue(Resource.loading())
         remoteDataSource.getMovies(object : RemoteDataSource.LoadMoviesCallback {
             override fun onMoviesLoaded(movies: ArrayList<MovieDetailResponse>?) {
                 val movieList = ArrayList<CatalogueEntity>()
@@ -36,8 +38,14 @@ class CatalogueRepository private constructor(
                             movieList.add(movie)
                         }
                     }
-                    movieResult.postValue(movieList)
+                    movieResult.postValue(Resource.success(movieList))
+                } else {
+                    movieResult.postValue(Resource.error("Data movies not available."))
                 }
+            }
+
+            override fun onFailed(error: String?) {
+                movieResult.postValue(Resource.error(error))
             }
         })
         return movieResult
@@ -79,8 +87,9 @@ class CatalogueRepository private constructor(
         return liveData
     }
 
-    override fun getTvShows(): LiveData<ArrayList<CatalogueEntity>> {
-        val tvResult = MutableLiveData<ArrayList<CatalogueEntity>>()
+    override fun getTvShows(): LiveData<Resource<ArrayList<CatalogueEntity>>> {
+        val result = MutableLiveData<Resource<ArrayList<CatalogueEntity>>>()
+        result.postValue(Resource.loading())
 
         remoteDataSource.getTvShows(object : RemoteDataSource.LoadTvShowsCallback {
             override fun onTvShowsLoaded(tvShows: ArrayList<TvShowDetailResponse>?) {
@@ -99,11 +108,17 @@ class CatalogueRepository private constructor(
                             tvList.add(tvShow)
                         }
                     }
-                    tvResult.postValue(tvList)
+                    result.postValue(Resource.success(tvList))
+                } else {
+                    result.postValue(Resource.error("Data tv shows not available"))
                 }
             }
+
+            override fun onFailed(error: String?) {
+                result.postValue(Resource.error(error))
+            }
         })
-        return tvResult
+        return result
     }
 
     override fun getDetailTvShow(tvShowId: String): LiveData<Resource<CatalogueDetailEntity>> {

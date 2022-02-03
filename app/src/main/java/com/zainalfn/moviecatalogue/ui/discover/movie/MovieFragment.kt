@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +14,7 @@ import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.moviecatalogue.databinding.FragmentListCatalogueBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
-import com.zainalfn.moviecatalogue.util.ViewModelFactory
-import com.zainalfn.moviecatalogue.util.gone
-import com.zainalfn.moviecatalogue.util.visible
+import com.zainalfn.moviecatalogue.util.*
 
 
 class MovieFragment : Fragment() {
@@ -46,17 +45,28 @@ class MovieFragment : Fragment() {
                 layoutManager =
                     LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
             }
-            showLoading(true)
             viewModel.getMovies().observe(viewLifecycleOwner) {
-                showLoading(false)
-                if (it.isNotEmpty()) {
-                    val adapter = CatalogueAdapter(it) {
-                        onClickCatalogue(it)
+                when(it.status){
+                    Status.LOADING-> showLoading(true)
+                    Status.ERROR-> {
+                        showLoading(false)
+                        Toast.makeText(requireActivity(), it.message,
+                            Toast.LENGTH_SHORT).show()
                     }
-                    movieListRv.adapter = adapter
-                    movieEmptyTv.gone()
-                } else {
-                    movieEmptyTv.visible()
+                    Status.SUCCESS-> {
+                        showLoading(false)
+                        it.data?.apply {
+                            if (this.isNotEmpty()) {
+                                val adapter = CatalogueAdapter(this) { data->
+                                    onClickCatalogue(data)
+                                }
+                                movieListRv.adapter = adapter
+                                movieEmptyTv.gone()
+                            } else {
+                                movieEmptyTv.visible()
+                            }
+                        }
+                    }
                 }
             }
         }

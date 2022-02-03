@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.moviecatalogue.databinding.FragmentListTvShowBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
+import com.zainalfn.moviecatalogue.util.Status
 import com.zainalfn.moviecatalogue.util.ViewModelFactory
 import com.zainalfn.moviecatalogue.util.gone
 import com.zainalfn.moviecatalogue.util.visible
@@ -47,14 +49,26 @@ class TvShowsFragment : Fragment() {
             }
             showLoading(true)
             viewModel.getTvShows().observe(viewLifecycleOwner) {
-                showLoading(false)
-                if (it.isNotEmpty()) {
-                    val adapter = CatalogueAdapter(it) { data ->
-                        onClickCatalogue(data)
+                when(it.status){
+                    Status.LOADING-> showLoading(true)
+                    Status.ERROR-> {
+                        showLoading(false)
+                        Toast.makeText(requireActivity(), it.message,
+                            Toast.LENGTH_SHORT).show()
                     }
-                    tvshowListRv.adapter = adapter
-                } else {
-                    tvshowEmptyTv.visible()
+                    Status.SUCCESS-> {
+                        showLoading(false)
+                        it.data?.apply {
+                            if (this.isNotEmpty()) {
+                                val adapter = CatalogueAdapter(this) { data ->
+                                    onClickCatalogue(data)
+                                }
+                                tvshowListRv.adapter = adapter
+                            } else {
+                                tvshowEmptyTv.visible()
+                            }
+                        }
+                    }
                 }
             }
         }

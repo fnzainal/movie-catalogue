@@ -31,6 +31,8 @@ class RemoteDataSource {
 
             override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
                 EspressoIdlingResource.decrement()
+                callback.onFailed(t.message)
+
             }
         })
     }
@@ -67,6 +69,7 @@ class RemoteDataSource {
             }
 
             override fun onFailure(call: Call<TvShowsResponse>, t: Throwable) {
+                callback.onFailed(t.message)
                 EspressoIdlingResource.decrement()
             }
         })
@@ -95,6 +98,7 @@ class RemoteDataSource {
 
     interface LoadMoviesCallback {
         fun onMoviesLoaded(movies: ArrayList<MovieDetailResponse>?)
+        fun onFailed(error: String?)
     }
 
     interface LoadDetailMovieCallback {
@@ -104,6 +108,7 @@ class RemoteDataSource {
 
     interface LoadTvShowsCallback {
         fun onTvShowsLoaded(tvShows: ArrayList<TvShowDetailResponse>?)
+        fun onFailed(error: String?)
     }
 
     interface LoadDetailTvShowCallback {
