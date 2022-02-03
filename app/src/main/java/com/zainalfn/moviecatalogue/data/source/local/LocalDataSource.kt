@@ -1,9 +1,7 @@
 package com.zainalfn.moviecatalogue.data.source.local
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import com.google.gson.Gson
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
@@ -19,7 +17,6 @@ class LocalDataSource(private val mCatalogueDao: CatalogueDao) {
     fun setMovieFavorite(entity: CatalogueDetailEntity) {
         entity.apply {
             type = TYPE_MOVIE
-            Log.i(LocalDataSource::class.simpleName,"save movie//\n"+ Gson().toJson(this))
             mCatalogueDao.insertFavorite(this)
         }
     }
@@ -27,7 +24,6 @@ class LocalDataSource(private val mCatalogueDao: CatalogueDao) {
     fun setTvShowFavorite(entity: CatalogueDetailEntity) {
         entity.apply {
             type = TYPE_TVSHOW
-            Log.i(LocalDataSource::class.simpleName,"save tv//\n"+ Gson().toJson(this))
             mCatalogueDao.insertFavorite(this)
         }
     }

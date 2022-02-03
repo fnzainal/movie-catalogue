@@ -1,27 +1,25 @@
 package com.zainalfn.moviecatalogue.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.zainalfn.moviecatalogue.R
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
-import com.zainalfn.moviecatalogue.databinding.ActivityDetailBinding
-import com.zainalfn.moviecatalogue.util.*
-import androidx.core.content.ContextCompat
-import com.google.gson.Gson
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
+import com.zainalfn.moviecatalogue.databinding.ActivityDetailBinding
+import com.zainalfn.moviecatalogue.util.*
 
 
 class DetailActivity : AppCompatActivity() {
 
     private var catalogData: CatalogueDetailEntity? = null
     private var mMenu: Menu? = null
-    private var id: Int = 0
+    private var idArgs: Int = 0
     private var isFavorite: Boolean = false
     private var typeCatalogue: Int = TYPE_TVSHOW
     private var _binding: ActivityDetailBinding? = null
@@ -39,27 +37,32 @@ class DetailActivity : AppCompatActivity() {
         intent.extras?.let {
             val id = it.getInt(ID)
             typeCatalogue = it.getInt(TYPE)
-            this.id = id
-
-            id.let { idCatalogue ->
-                when (typeCatalogue) {
-                    TYPE_MOVIE -> {
-                        getDetailMovie(idCatalogue)
-                    }
-                    else -> {
-                        getDetailTvShow(idCatalogue)
-                    }
-                }
-            }
-
-            initObserver(id)
+            idArgs = id
+            initObserver()
         }
     }
 
-    private fun initObserver(id: Int) {
-        viewModel.getFavoriteDetail(id).observe(this){
+    private fun initObserver() {
+        viewModel.getFavoriteDetail(idArgs).observe(this){
             isFavorite = it != null
             setFavIconState()
+
+            if (!isFavorite){
+                // if not favorite get detail from api
+                when (typeCatalogue) {
+                    TYPE_MOVIE -> {
+                        getDetailMovie(idArgs)
+                    }
+                    else -> {
+                        getDetailTvShow(idArgs)
+                    }
+                }
+            } else {
+                // if favorite, render data from local
+                it?.apply {
+                    binding?.renderToView(this)
+                }
+            }
         }
     }
 
@@ -112,13 +115,11 @@ class DetailActivity : AppCompatActivity() {
 
     private fun saveOrRemoveFavorite() {
         if (isFavorite){
-            viewModel.removeFromFavorite(id)
+            viewModel.removeFromFavorite(idArgs)
             isFavorite = false
         } else {
             catalogData?.apply {
                 isFavorite = true
-//                val data : CatalogueDetailEntity = prepareWithType(this)
-//                Log.i(DetailActivity::class.simpleName,"save favorite//\n"+ Gson().toJson(data))
                 if (typeCatalogue == TYPE_MOVIE) {
                     viewModel.addMovieToFavorite(this)
                 } else {
@@ -127,14 +128,6 @@ class DetailActivity : AppCompatActivity() {
             }
         }
         setFavIconState()
-    }
-
-    private fun prepareWithType(catalogueDetailEntity: CatalogueDetailEntity): CatalogueDetailEntity {
-        catalogueDetailEntity.apply {
-            return CatalogueDetailEntity(
-                id, name, overview, genres, voteAverage, posterPath, releaseDate, type
-            )
-        }
     }
 
     private fun getDetailMovie(id: Int) {
