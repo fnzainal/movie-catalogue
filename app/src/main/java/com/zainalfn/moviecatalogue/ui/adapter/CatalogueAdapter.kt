@@ -2,6 +2,8 @@ package com.zainalfn.moviecatalogue.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zainalfn.moviecatalogue.R
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
@@ -10,9 +12,9 @@ import com.zainalfn.moviecatalogue.util.loadImage
 import com.zainalfn.moviecatalogue.util.toReadableDate
 
 class CatalogueAdapter(
-    private var listCatalogue: ArrayList<CatalogueEntity>,
     private val onClick: (CatalogueEntity: CatalogueEntity) -> Unit
-) : RecyclerView.Adapter<CatalogueAdapter.CatalogueViewHolder>() {
+) : PagedListAdapter<CatalogueEntity, CatalogueAdapter.CatalogueViewHolder>(
+    DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogueViewHolder {
         val itemCatalogueBinding =
@@ -24,10 +26,8 @@ class CatalogueAdapter(
     }
 
     override fun onBindViewHolder(holder: CatalogueViewHolder, position: Int) {
-        holder.bind(listCatalogue[position])
+        getItem(position)?.let { holder.bind(it) }
     }
-
-    override fun getItemCount(): Int = listCatalogue.size
 
     inner class CatalogueViewHolder(private val binding: ItemCatalogueMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -46,6 +46,25 @@ class CatalogueAdapter(
                         )
                     root.setOnClickListener { onClick(this) }
                 }
+            }
+        }
+    }
+
+
+
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CatalogueEntity>() {
+            override fun areItemsTheSame(oldItem: CatalogueEntity,
+                                         newItem: CatalogueEntity
+            ): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: CatalogueEntity,
+                                            newItem: CatalogueEntity
+            ): Boolean {
+                return oldItem == newItem
             }
         }
     }

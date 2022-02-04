@@ -19,6 +19,7 @@ import com.zainalfn.moviecatalogue.util.*
 
 class MovieFragment : Fragment() {
 
+    private lateinit var catalogueAdapter: CatalogueAdapter
     private lateinit var viewModel: MovieViewModel
     private var _binding: FragmentListCatalogueBinding? = null
 
@@ -40,35 +41,45 @@ class MovieFragment : Fragment() {
         setupViewModel()
 
         binding?.apply {
-            movieListRv.apply {
-                setHasFixedSize(true)
-                layoutManager =
-                    LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
-            }
-            viewModel.getMovies().observe(viewLifecycleOwner) {
-                when(it.status){
-                    Status.LOADING-> showLoading(true)
-                    Status.ERROR-> {
-                        showLoading(false)
-                        Toast.makeText(requireActivity(), it.message,
-                            Toast.LENGTH_SHORT).show()
-                    }
-                    Status.SUCCESS-> {
-                        showLoading(false)
-                        it.data?.apply {
-                            if (this.isNotEmpty()) {
-                                val adapter = CatalogueAdapter(this) { data->
-                                    onClickCatalogue(data)
-                                }
-                                movieListRv.adapter = adapter
-                                movieEmptyTv.gone()
-                            } else {
-                                movieEmptyTv.visible()
-                            }
+            setupAdapterRV()
+            initObserver()
+        }
+    }
+
+    private fun FragmentListCatalogueBinding.initObserver() {
+        viewModel.getMovies().observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.LOADING -> showLoading(true)
+                Status.ERROR -> {
+                    showLoading(false)
+                    Toast.makeText(
+                        requireActivity(), "Failed get movies.\nE:" + it.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                Status.SUCCESS -> {
+                    showLoading(false)
+                    it.data?.apply {
+                        if (this.isNotEmpty()) {
+                            catalogueAdapter.submitList(this)
+                            movieEmptyTv.gone()
+                        } else {
+                            movieEmptyTv.visible()
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun FragmentListCatalogueBinding.setupAdapterRV() {
+        catalogueAdapter = CatalogueAdapter { data ->
+            onClickCatalogue(data)
+        }
+        movieListRv.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireActivity())
+            adapter = catalogueAdapter
         }
     }
 

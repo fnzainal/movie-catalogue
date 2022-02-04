@@ -7,6 +7,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.zainalfn.moviecatalogue.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.util.DummyData
+import com.zainalfn.moviecatalogue.util.Resource
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -22,6 +23,13 @@ import org.mockito.junit.MockitoJUnitRunner
  */
 @RunWith(MockitoJUnitRunner::class)
 class DetailViewModelTest {
+
+    private val dummyMovie = DummyData.getDetailMovie().first()
+    private val dummyMovieDetailId = dummyMovie.id.toString()
+
+    private val dummyTvShowDetail = DummyData.getDetailTvShow().first()
+    private val dummyTvShowDetailId = dummyTvShowDetail.id.toString()
+
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
@@ -29,10 +37,10 @@ class DetailViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var movieObserver: Observer<CatalogueDetailEntity>
+    private lateinit var movieObserver: Observer<Resource<CatalogueDetailEntity>>
 
     @Mock
-    private lateinit var tvShowObserver: Observer<CatalogueDetailEntity>
+    private lateinit var tvShowObserver: Observer<Resource<CatalogueDetailEntity>>
 
     private lateinit var detailViewModel: DetailViewModel
 
@@ -43,25 +51,26 @@ class DetailViewModelTest {
 
     @Test
     fun getDetailMovie() {
-        val dummyMovieDetail = DummyData.getDetailMovie().first()
-        val dummyMovieDetailId = dummyMovieDetail.id.toString()
-        val movieDetail = MutableLiveData<CatalogueDetailEntity>()
+        val dummyMovieDetail = Resource.success(DummyData.getDetailMovie().first())
+        val movieDetail = MutableLiveData<Resource<CatalogueDetailEntity>>()
         movieDetail.value = dummyMovieDetail
 
         Mockito.`when`(catalogueRepository.getDetailMovie(dummyMovieDetailId))
             .thenReturn(movieDetail)
         val movieDetailEntity =
-            detailViewModel.getDetailMovie(dummyMovieDetailId.toInt()).value as CatalogueDetailEntity
+            detailViewModel.getDetailMovie(dummyMovieDetailId.toInt()).value as Resource<CatalogueDetailEntity>
         verify(catalogueRepository).getDetailMovie(dummyMovieDetailId)
 
         Assert.assertNotNull(movieDetailEntity)
-        assertEquals(dummyMovieDetail.id, movieDetailEntity.id)
-        assertEquals(dummyMovieDetail.name, movieDetailEntity.name)
-        assertEquals(dummyMovieDetail.posterPath, movieDetailEntity.posterPath)
-        assertEquals(dummyMovieDetail.overview, movieDetailEntity.overview)
-        assertEquals(dummyMovieDetail.genres, movieDetailEntity.genres)
-        assertEquals(dummyMovieDetail.voteAverage, movieDetailEntity.voteAverage)
-        assertEquals(dummyMovieDetail.releaseDate, movieDetailEntity.releaseDate)
+        movieDetailEntity.data?.apply {
+            assertEquals(dummyMovie.id, id)
+            assertEquals(dummyMovie.name, name)
+            assertEquals(dummyMovie.posterPath, posterPath)
+            assertEquals(dummyMovie.overview, overview)
+            assertEquals(dummyMovie.genres, genres)
+            assertEquals(dummyMovie.voteAverage, voteAverage)
+            assertEquals(dummyMovie.releaseDate, releaseDate)
+        }
 
         detailViewModel.getDetailMovie(dummyMovieDetailId.toInt()).observeForever(movieObserver)
         verify(movieObserver).onChanged(dummyMovieDetail)
@@ -69,28 +78,30 @@ class DetailViewModelTest {
 
     @Test
     fun getDetailTvShow() {
-        val dummyTvShowDetail = DummyData.getDetailTvShow().first()
-        val dummyTvShowDetailId = dummyTvShowDetail.id.toString()
-        val tvShowDetail = MutableLiveData<CatalogueDetailEntity>()
-        tvShowDetail.value = dummyTvShowDetail
+
+        val dummyDataTvShow = Resource.success(dummyTvShowDetail)
+        val tvShowDetail = MutableLiveData<Resource<CatalogueDetailEntity>>()
+        tvShowDetail.value = dummyDataTvShow
 
         Mockito.`when`(catalogueRepository.getDetailTvShow(dummyTvShowDetailId))
             .thenReturn(tvShowDetail)
         val tvShowDetailEntity =
-            detailViewModel.getDetailTvShow(dummyTvShowDetailId.toInt()).value as CatalogueDetailEntity
+            detailViewModel.getDetailTvShow(dummyTvShowDetailId.toInt()).value as Resource<CatalogueDetailEntity>
         verify(catalogueRepository).getDetailTvShow(dummyTvShowDetailId)
 
         Assert.assertNotNull(tvShowDetailEntity)
-        assertEquals(dummyTvShowDetail.id, tvShowDetailEntity.id)
-        assertEquals(dummyTvShowDetail.name, tvShowDetailEntity.name)
-        assertEquals(dummyTvShowDetail.posterPath, tvShowDetailEntity.posterPath)
-        assertEquals(dummyTvShowDetail.overview, tvShowDetailEntity.overview)
-        assertEquals(dummyTvShowDetail.genres, tvShowDetailEntity.genres)
-        assertEquals(dummyTvShowDetail.voteAverage, tvShowDetailEntity.voteAverage)
-        assertEquals(dummyTvShowDetail.releaseDate, tvShowDetailEntity.releaseDate)
+        tvShowDetailEntity.data?.apply {
+            assertEquals(dummyTvShowDetail.id, id)
+            assertEquals(dummyTvShowDetail.name, name)
+            assertEquals(dummyTvShowDetail.posterPath, posterPath)
+            assertEquals(dummyTvShowDetail.overview, overview)
+            assertEquals(dummyTvShowDetail.genres, genres)
+            assertEquals(dummyTvShowDetail.voteAverage, voteAverage)
+            assertEquals(dummyTvShowDetail.releaseDate, releaseDate)
+        }
 
         detailViewModel.getDetailTvShow(dummyTvShowDetailId.toInt()).observeForever(tvShowObserver)
-        verify(tvShowObserver).onChanged(dummyTvShowDetail)
+        verify(tvShowObserver).onChanged(dummyDataTvShow)
     }
 
 }

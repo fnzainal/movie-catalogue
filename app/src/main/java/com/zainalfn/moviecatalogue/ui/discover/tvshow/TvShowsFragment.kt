@@ -21,6 +21,7 @@ import com.zainalfn.moviecatalogue.util.visible
 
 class TvShowsFragment : Fragment() {
 
+    private lateinit var catalogueAdapter: CatalogueAdapter
     private lateinit var viewModel: TvShowViewModel
     private var _binding: FragmentListTvShowBinding? = null
 
@@ -42,35 +43,44 @@ class TvShowsFragment : Fragment() {
         viewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
 
         binding?.apply {
-            tvshowListRv.apply {
-                setHasFixedSize(true)
-                layoutManager =
-                    LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
-            }
-            showLoading(true)
-            viewModel.getTvShows().observe(viewLifecycleOwner) {
-                when(it.status){
-                    Status.LOADING-> showLoading(true)
-                    Status.ERROR-> {
-                        showLoading(false)
-                        Toast.makeText(requireActivity(), it.message,
-                            Toast.LENGTH_SHORT).show()
-                    }
-                    Status.SUCCESS-> {
-                        showLoading(false)
-                        it.data?.apply {
-                            if (this.isNotEmpty()) {
-                                val adapter = CatalogueAdapter(this) { data ->
-                                    onClickCatalogue(data)
-                                }
-                                tvshowListRv.adapter = adapter
-                            } else {
-                                tvshowEmptyTv.visible()
-                            }
+            setupAdapterRV()
+            initObserver()
+        }
+    }
+
+    private fun FragmentListTvShowBinding.initObserver() {
+        viewModel.getTvShows().observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.LOADING -> showLoading(true)
+                Status.ERROR -> {
+                    showLoading(false)
+                    Toast.makeText(
+                        requireActivity(), "Failed get Tv shows.\nE:" + it.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                Status.SUCCESS -> {
+                    showLoading(false)
+                    it.data?.apply {
+                        if (this.isNotEmpty()) {
+                            catalogueAdapter.submitList(this)
+                        } else {
+                            tvshowEmptyTv.visible()
                         }
                     }
                 }
             }
+        }
+    }
+
+    private fun FragmentListTvShowBinding.setupAdapterRV() {
+        catalogueAdapter = CatalogueAdapter { data ->
+            onClickCatalogue(data)
+        }
+        tvshowListRv.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(requireActivity())
+            adapter = catalogueAdapter
         }
     }
 

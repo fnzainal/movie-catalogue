@@ -10,18 +10,11 @@ import com.zainalfn.moviecatalogue.util.Resource
  * Created by zainal on 1/17/22 - 7:55 AM
  */
 interface CatalogueDataSource {
-    fun getMovies(): LiveData<Resource<ArrayList<CatalogueEntity>>>
+    fun getMovies(): LiveData<Resource<PagedList<CatalogueEntity>>>
     fun getDetailMovie(movieId: String): LiveData<Resource<CatalogueDetailEntity>>
 
-    fun getTvShows(): LiveData<Resource<ArrayList<CatalogueEntity>>>
+    fun getTvShows(): LiveData<Resource<PagedList<CatalogueEntity>>>
     fun getDetailTvShow(tvShowId: String): LiveData<Resource<CatalogueDetailEntity>>
-
-//    fun getMovies(): LiveData<ArrayList<CatalogueEntity>>
-//    fun getDetailMovie(movieId: String): LiveData<Resource<CatalogueDetailEntity>>
-//    fun getTvShows(): LiveData<ArrayList<CatalogueEntity>>
-//    fun getDetailTvShow(tvShowId: String): LiveData<Resource<CatalogueDetailEntity>>
-
-
 
     fun getFavMovies(): LiveData<PagedList<CatalogueDetailEntity>>
     fun getFavTvShows(): LiveData<PagedList<CatalogueDetailEntity>>

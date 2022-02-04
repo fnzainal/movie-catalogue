@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 
 @Database(
-    entities = [CatalogueDetailEntity::class],
+    entities = [CatalogueDetailEntity::class, CatalogueEntity::class],
     version = 1,
     exportSchema = false
 )

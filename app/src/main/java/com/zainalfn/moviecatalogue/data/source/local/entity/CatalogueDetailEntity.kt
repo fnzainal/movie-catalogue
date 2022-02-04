@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 const val TYPE_MOVIE: Int = 0
 const val TYPE_TVSHOW: Int = 1
 
-@Entity(tableName = "entities_favorite")
+@Entity(tableName = "favorite_entities")
 data class CatalogueDetailEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")

@@ -1,14 +1,24 @@
 package com.zainalfn.moviecatalogue.data.source.local.entity
 
-import com.google.gson.annotations.SerializedName
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "catalog_entities")
 data class CatalogueEntity(
+    @PrimaryKey(autoGenerate = false)
+    @ColumnInfo(name = "id")
     val id: Int?,
+    @ColumnInfo(name = "name")
     val name: String?,
-    @SerializedName("vote_average")
+    @ColumnInfo(name = "voteAverage")
     val voteAverage: Double?,
-    @SerializedName("poster_path")
+    @ColumnInfo(name = "posterPath")
     val posterPath: String?,
+    @ColumnInfo(name = "overview")
     val overview: String?,
-    val releaseDate: String? = null
+    @ColumnInfo(name = "releaseDate")
+    val releaseDate: String? = null,
+    @ColumnInfo(name = "type")
+    var type: Int = 0
 )

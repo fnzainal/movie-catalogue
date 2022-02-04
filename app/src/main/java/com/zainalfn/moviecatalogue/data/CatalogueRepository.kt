@@ -7,10 +7,11 @@ import androidx.paging.PagedList
 import com.zainalfn.moviecatalogue.data.source.local.LocalDataSource
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
+import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
+import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.moviecatalogue.data.source.remote.ApiResponse
 import com.zainalfn.moviecatalogue.data.source.remote.RemoteDataSource
 import com.zainalfn.moviecatalogue.data.source.remote.response.MovieDetailResponse
-import com.zainalfn.moviecatalogue.data.source.remote.response.MoviesResponse
 import com.zainalfn.moviecatalogue.data.source.remote.response.TvShowDetailResponse
 import com.zainalfn.moviecatalogue.util.AppExecutors
 import com.zainalfn.moviecatalogue.util.Resource
@@ -22,33 +23,48 @@ class CatalogueRepository private constructor(
     private val appExecutors: AppExecutors
 ) : CatalogueDataSource {
 
-    override fun getMovies(): LiveData<Resource<ArrayList<CatalogueEntity>>> {
-        val movieResult = MutableLiveData<Resource<ArrayList<CatalogueEntity>>>()
-        movieResult.postValue(Resource.loading())
-        remoteDataSource.getMovies(object : RemoteDataSource.LoadMoviesCallback {
-            override fun onMoviesLoaded(movies: ArrayList<MovieDetailResponse>?) {
+    override fun getMovies(): LiveData<Resource<PagedList<CatalogueEntity>>> {
+        return object :
+            NetworkBoundResource<PagedList<CatalogueEntity>, ArrayList<MovieDetailResponse>>(
+                appExecutors
+            ) {
+            override fun loadFromDb(): LiveData<PagedList<CatalogueEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(4)
+                    .setPageSize(4)
+                    .build()
+
+                return LivePagedListBuilder(localDataSource.getAllMovies(), config).build()
+            }
+
+            override fun shouldFetch(data: PagedList<CatalogueEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            override fun createCall(): LiveData<ApiResponse<ArrayList<MovieDetailResponse>>> {
+                return remoteDataSource.getMovies()
+            }
+
+            override fun saveCallResult(data: ArrayList<MovieDetailResponse>) {
                 val movieList = ArrayList<CatalogueEntity>()
-
-                if (movies != null) {
-                    for (response in movies) {
-                        with(response) {
-                            val movie = CatalogueEntity(
-                                id, title, voteAverage, posterPath, overview, releaseDate
-                            )
-                            movieList.add(movie)
-                        }
+                for (response in data) {
+                    with(response) {
+                        val movie = CatalogueEntity(
+                            id,
+                            title,
+                            voteAverage,
+                            posterPath,
+                            overview,
+                            releaseDate,
+                            TYPE_MOVIE
+                        )
+                        movieList.add(movie)
                     }
-                    movieResult.postValue(Resource.success(movieList))
-                } else {
-                    movieResult.postValue(Resource.error("Data movies not available."))
                 }
+                localDataSource.insertCatalogue(movieList)
             }
 
-            override fun onFailed(error: String?) {
-                movieResult.postValue(Resource.error(error))
-            }
-        })
-        return movieResult
+        }.asLiveData()
     }
 
     override fun getDetailMovie(movieId: String): LiveData<Resource<CatalogueDetailEntity>> {
@@ -87,38 +103,48 @@ class CatalogueRepository private constructor(
         return liveData
     }
 
-    override fun getTvShows(): LiveData<Resource<ArrayList<CatalogueEntity>>> {
-        val result = MutableLiveData<Resource<ArrayList<CatalogueEntity>>>()
-        result.postValue(Resource.loading())
+    override fun getTvShows(): LiveData<Resource<PagedList<CatalogueEntity>>> {
+        return object :
+            NetworkBoundResource<PagedList<CatalogueEntity>, ArrayList<TvShowDetailResponse>>(
+                appExecutors
+            ) {
+            override fun loadFromDb(): LiveData<PagedList<CatalogueEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(4)
+                    .setPageSize(4)
+                    .build()
 
-        remoteDataSource.getTvShows(object : RemoteDataSource.LoadTvShowsCallback {
-            override fun onTvShowsLoaded(tvShows: ArrayList<TvShowDetailResponse>?) {
+                return LivePagedListBuilder(localDataSource.getAllTvShows(), config).build()
+            }
+
+            override fun shouldFetch(data: PagedList<CatalogueEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            override fun createCall(): LiveData<ApiResponse<ArrayList<TvShowDetailResponse>>> =
+                remoteDataSource.getTvShows()
+
+            override fun saveCallResult(data: ArrayList<TvShowDetailResponse>) {
                 val tvList = ArrayList<CatalogueEntity>()
-                if (tvShows != null) {
-                    for (response in tvShows) {
-                        with(response) {
-                            val tvShow = CatalogueEntity(
-                                id,
-                                name,
-                                voteAverage,
-                                posterPath,
-                                overview,
-                                first_air_date
-                            )
-                            tvList.add(tvShow)
-                        }
+                for (response in data) {
+                    with(response) {
+                        val tvShow = CatalogueEntity(
+                            id,
+                            name,
+                            voteAverage,
+                            posterPath,
+                            overview,
+                            first_air_date,
+                            TYPE_TVSHOW
+                        )
+                        tvList.add(tvShow)
                     }
-                    result.postValue(Resource.success(tvList))
-                } else {
-                    result.postValue(Resource.error("Data tv shows not available"))
                 }
+                localDataSource.insertCatalogue(tvList)
+
             }
 
-            override fun onFailed(error: String?) {
-                result.postValue(Resource.error(error))
-            }
-        })
-        return result
+        }.asLiveData()
     }
 
     override fun getDetailTvShow(tvShowId: String): LiveData<Resource<CatalogueDetailEntity>> {

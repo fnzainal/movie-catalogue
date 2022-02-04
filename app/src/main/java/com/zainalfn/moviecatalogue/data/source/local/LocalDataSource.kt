@@ -3,12 +3,16 @@ package com.zainalfn.moviecatalogue.data.source.local
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.moviecatalogue.data.source.local.room.CatalogueDao
 
 class LocalDataSource(private val mCatalogueDao: CatalogueDao) {
 
+
+    fun getAllMovies(): DataSource.Factory<Int, CatalogueEntity> = mCatalogueDao.getMovies()
+    fun getAllTvShows(): DataSource.Factory<Int, CatalogueEntity> = mCatalogueDao.getTvShows()
 
     fun getFavMovies(): DataSource.Factory<Int, CatalogueDetailEntity> = mCatalogueDao.getFavoriteMovies()
     fun getFavTvShows(): DataSource.Factory<Int, CatalogueDetailEntity> = mCatalogueDao.getFavoriteTvShows()
@@ -20,6 +24,8 @@ class LocalDataSource(private val mCatalogueDao: CatalogueDao) {
             mCatalogueDao.insertFavorite(this)
         }
     }
+
+    fun insertCatalogue(list: List<CatalogueEntity>) = mCatalogueDao.insertCatalogue(list)
 
     fun setTvShowFavorite(entity: CatalogueDetailEntity) {
         entity.apply {

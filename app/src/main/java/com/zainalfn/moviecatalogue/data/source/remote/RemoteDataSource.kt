@@ -3,6 +3,8 @@ package com.zainalfn.moviecatalogue.data.source.remote
 /**
  * Created by zainal on 1/17/22 - 7:42 AM
  */
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.zainalfn.moviecatalogue.BuildConfig.API_KEY
 import com.zainalfn.moviecatalogue.data.source.remote.response.MovieDetailResponse
 import com.zainalfn.moviecatalogue.data.source.remote.response.MoviesResponse
@@ -17,24 +19,26 @@ import retrofit2.Response
 
 class RemoteDataSource {
 
-    fun getMovies(callback: LoadMoviesCallback) {
+    fun getMovies() : LiveData<ApiResponse<ArrayList<MovieDetailResponse>>> {
         EspressoIdlingResource.increment()
+        val movies = MutableLiveData<ApiResponse<ArrayList<MovieDetailResponse>>>()
         val client = apiService().getMovies(API_KEY)
         client.enqueue(object : Callback<MoviesResponse> {
             override fun onResponse(
                 call: Call<MoviesResponse>,
                 response: Response<MoviesResponse>
             ) {
-                callback.onMoviesLoaded(response.body()?.results)
+                movies.postValue(ApiResponse.success(response.body()?.results as ArrayList<MovieDetailResponse>))
                 EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
+                t.printStackTrace()
                 EspressoIdlingResource.decrement()
-                callback.onFailed(t.message)
-
             }
         })
+
+        return movies
     }
 
     fun getDetailMovie(callback: LoadDetailMovieCallback, movieId: String) {
@@ -56,23 +60,25 @@ class RemoteDataSource {
         })
     }
 
-    fun getTvShows(callback: LoadTvShowsCallback) {
+    fun getTvShows() :LiveData<ApiResponse<ArrayList<TvShowDetailResponse>>> {
         EspressoIdlingResource.increment()
+        val tvShows = MutableLiveData<ApiResponse<ArrayList<TvShowDetailResponse>>>()
         val client = apiService().getTvShows(API_KEY)
         client.enqueue(object : Callback<TvShowsResponse> {
             override fun onResponse(
                 call: Call<TvShowsResponse>,
                 response: Response<TvShowsResponse>
             ) {
-                callback.onTvShowsLoaded(response.body()?.results)
+                tvShows.postValue(ApiResponse.success(response.body()?.results as ArrayList<TvShowDetailResponse>))
                 EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<TvShowsResponse>, t: Throwable) {
-                callback.onFailed(t.message)
+                t.printStackTrace()
                 EspressoIdlingResource.decrement()
             }
         })
+        return tvShows
     }
 
     fun getDetailTvShow(callback: LoadDetailTvShowCallback, tvShowId: String) {
@@ -98,7 +104,6 @@ class RemoteDataSource {
 
     interface LoadMoviesCallback {
         fun onMoviesLoaded(movies: ArrayList<MovieDetailResponse>?)
-        fun onFailed(error: String?)
     }
 
     interface LoadDetailMovieCallback {
