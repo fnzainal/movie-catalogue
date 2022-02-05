@@ -1,12 +1,14 @@
 package com.zainalfn.moviecatalogue.ui.detail
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import com.zainalfn.moviecatalogue.R
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
@@ -128,7 +130,6 @@ class DetailActivity : AppCompatActivity() {
                 }
             }
         }
-        setFavIconState()
     }
 
     private fun getDetailMovie(id: Int) {
@@ -165,6 +166,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun ActivityDetailBinding.renderToView(catalog: CatalogueDetailEntity) {
+        Log.i(DetailActivity::class.java.simpleName,Gson().toJson(catalog))
         catalog.apply {
             catalogData = this
             detailTitleTv.text = name

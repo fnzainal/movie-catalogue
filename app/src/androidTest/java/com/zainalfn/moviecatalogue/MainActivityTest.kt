@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
@@ -69,7 +70,7 @@ class MainActivityTest {
 
     @Test
     fun loadDataTvShow() {
-        onView(withText("TV SHOW")).check(matches(isDisplayed()))
+        onView(withText(R.string.tv_show)).check(matches(isDisplayed()))
         onView(withText(R.string.tv_show)).perform(click())
         onView(withId(R.id.tvshow_list_rv)).check(matches(isDisplayed()))
         // scroll to max
@@ -87,7 +88,7 @@ class MainActivityTest {
     fun loadDetailMovie() {
         onView(withId(R.id.movie_list_rv)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                2,
+                0,
                 click()
             )
         )
@@ -96,11 +97,11 @@ class MainActivityTest {
 
     @Test
     fun loadDetailTvShow() {
-        onView(withText("TV SHOW")).check(matches(isDisplayed()))
-        onView(withText("TV SHOW")).perform(click())
+        onView(withText(R.string.tv_show)).check(matches(isDisplayed()))
+        onView(withText(R.string.tv_show)).perform(click())
         onView(withId(R.id.tvshow_list_rv)).perform(
             RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                4,
+                0,
                 click()
             )
         )
@@ -135,5 +136,95 @@ class MainActivityTest {
                 check(matches(withTagValue(CoreMatchers.equalTo(posterPath))))
             }
         }
+    }
+
+    @Test
+    fun setFavoriteMovie() {
+        onView(withId(R.id.movie_list_rv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        // set favorite
+        onView(withId(R.id.action_favorite)).apply {
+            check(matches(isDisplayed()))
+            check(matches(isClickable()))
+            perform(click())
+        }
+        // set un favorite
+        onView(withId(R.id.action_favorite)).apply {
+            check(matches(isDisplayed()))
+            check(matches(isClickable()))
+            perform(click())
+        }
+    }
+
+    @Test
+    fun setFavoriteTvShow() {
+        onView(withText(R.string.tv_show)).check(matches(isDisplayed()))
+        onView(withText(R.string.tv_show)).perform(click())
+        onView(withId(R.id.tvshow_list_rv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+
+        // set favorite
+        onView(withId(R.id.action_favorite)).apply {
+            check(matches(isDisplayed()))
+            check(matches(isClickable()))
+            perform(click())
+        }
+
+        // set un favorite
+        onView(withId(R.id.action_favorite)).apply {
+            check(matches(isDisplayed()))
+            check(matches(isClickable()))
+            perform(click())
+        }
+    }
+
+    @Test
+    fun loadDetailFavoriteMovie() {
+        onView(withId(R.id.movie_list_rv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.action_favorite)).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
+        onView(withId(R.id.menu_favorite)).perform(click())
+        onView(withId(R.id.favorite_list_rv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        checkDetail(dummyMovie)
+    }
+
+    @Test
+    fun loadDetailFavoriteTvShow() {
+        onView(withText(R.string.tv_show)).perform(click())
+        onView(withId(R.id.tvshow_list_rv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        onView(withId(R.id.action_favorite)).perform(click())
+        onView(isRoot()).perform(ViewActions.pressBack())
+        onView(withId(R.id.menu_favorite)).perform(click())
+        onView(withText(R.string.tv_show)).perform(click())
+        onView(withId(R.id.favorite_list_rv)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
+        checkDetail(dummyTvShow)
     }
 }

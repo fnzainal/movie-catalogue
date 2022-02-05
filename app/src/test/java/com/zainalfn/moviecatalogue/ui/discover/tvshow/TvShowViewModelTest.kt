@@ -1,12 +1,14 @@
-package com.zainalfn.moviecatalogue.ui.tvshow
+package com.zainalfn.moviecatalogue.ui.discover.tvshow
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import com.zainalfn.moviecatalogue.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.ui.discover.tvshow.TvShowViewModel
 import com.zainalfn.moviecatalogue.util.DummyData
+import com.zainalfn.moviecatalogue.util.Resource
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -31,7 +33,10 @@ class TvShowViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var tvShowObserver: Observer<ArrayList<CatalogueEntity>>
+    private lateinit var pagedList: PagedList<CatalogueEntity>
+
+    @Mock
+    private lateinit var tvShowObserver: Observer<Resource<PagedList<CatalogueEntity>>>
 
     private lateinit var tvShowViewModel: TvShowViewModel
 
@@ -42,15 +47,16 @@ class TvShowViewModelTest {
 
     @Test
     fun getTvShows() {
-        val dummyTvShow = DummyData.getTvShow()
-        val tvShows = MutableLiveData<ArrayList<CatalogueEntity>>()
+        val dummyTvShow = Resource.success(pagedList)
+        Mockito.`when`(dummyTvShow.data?.size).thenReturn(3)
+        val tvShows = MutableLiveData<Resource<PagedList<CatalogueEntity>>>()
         tvShows.value = dummyTvShow
 
         Mockito.`when`(catalogueRepository.getTvShows()).thenReturn(tvShows)
-        val tvShow = tvShowViewModel.getTvShows().value
+        val tvShow = tvShowViewModel.getTvShows().value?.data
         verify(catalogueRepository).getTvShows()
         Assert.assertNotNull(tvShow)
-        Assert.assertEquals(2, tvShow?.size)
+        Assert.assertEquals(3, tvShow?.size)
 
         tvShowViewModel.getTvShows().observeForever(tvShowObserver)
         verify(tvShowObserver).onChanged(dummyTvShow)

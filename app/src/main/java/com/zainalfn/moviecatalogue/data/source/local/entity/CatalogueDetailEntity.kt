@@ -11,7 +11,7 @@ const val TYPE_TVSHOW: Int = 1
 data class CatalogueDetailEntity(
     @PrimaryKey(autoGenerate = false)
     @ColumnInfo(name = "id")
-    val id: Int?,
+    val id: Int,
     @ColumnInfo(name = "name")
     val name: String?,
     @ColumnInfo(name = "overview")

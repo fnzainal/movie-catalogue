@@ -7,9 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
@@ -23,6 +24,7 @@ private const val ARG_TYPE = "type_catalogue"
 
 class FavoriteListFragment : Fragment() {
 
+    private var liveData: LiveData<PagedList<CatalogueDetailEntity>>? = null
     private lateinit var favoriteAdapter: CatalogueFavoriteAdapter
     private lateinit var viewModel: FavoriteViewModel
     private var typeArgs: Int = 0
@@ -67,13 +69,12 @@ class FavoriteListFragment : Fragment() {
     }
 
     private fun initObserver(typeArgs: Int) {
-        val data = when(typeArgs){
+        liveData = when(typeArgs){
             TYPE_MOVIE -> viewModel.getFavMovie()
             else-> viewModel.getFavTvShow()
         }
 
-        data.observe(viewLifecycleOwner){ list ->
-            Log.i(FavoriteListFragment::class.simpleName,"favorite//json=\n"+Gson().toJson(list))
+        liveData?.observe(viewLifecycleOwner) { list ->
             binding?.apply {
                 showLoading(false)
                 if (list.isEmpty()) {
@@ -84,7 +85,14 @@ class FavoriteListFragment : Fragment() {
                 }
             }
         }
+    }
 
+    override fun onResume() {
+        super.onResume()
+        Log.i(FavoriteListFragment::class.java.simpleName,"live data="+liveData)
+        if (liveData!=null){
+            initObserver(typeArgs)
+        }
     }
 
     private fun FragmentFavoriteListBinding.viewEmpty() {

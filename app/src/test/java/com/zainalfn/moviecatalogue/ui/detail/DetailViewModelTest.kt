@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.verifyNoMoreInteractions
 import com.zainalfn.moviecatalogue.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.util.DummyData
@@ -37,7 +38,10 @@ class DetailViewModelTest {
     private lateinit var catalogueRepository: CatalogueRepository
 
     @Mock
-    private lateinit var movieObserver: Observer<Resource<CatalogueDetailEntity>>
+    private lateinit var catalogueObserver: Observer<Resource<CatalogueDetailEntity>>
+
+    @Mock
+    private lateinit var detailCatalogueObserver: Observer<CatalogueDetailEntity?>
 
     @Mock
     private lateinit var tvShowObserver: Observer<Resource<CatalogueDetailEntity>>
@@ -72,13 +76,12 @@ class DetailViewModelTest {
             assertEquals(dummyMovie.releaseDate, releaseDate)
         }
 
-        detailViewModel.getDetailMovie(dummyMovieDetailId.toInt()).observeForever(movieObserver)
-        verify(movieObserver).onChanged(dummyMovieDetail)
+        detailViewModel.getDetailMovie(dummyMovieDetailId.toInt()).observeForever(catalogueObserver)
+        verify(catalogueObserver).onChanged(dummyMovieDetail)
     }
 
     @Test
     fun getDetailTvShow() {
-
         val dummyDataTvShow = Resource.success(dummyTvShowDetail)
         val tvShowDetail = MutableLiveData<Resource<CatalogueDetailEntity>>()
         tvShowDetail.value = dummyDataTvShow
@@ -102,6 +105,65 @@ class DetailViewModelTest {
 
         detailViewModel.getDetailTvShow(dummyTvShowDetailId.toInt()).observeForever(tvShowObserver)
         verify(tvShowObserver).onChanged(dummyDataTvShow)
+    }
+
+
+    @Test
+    fun addMovieToFavorite() {
+        val dummyDetailMovie = Resource.success(dummyMovie)
+        val movie = MutableLiveData<Resource<CatalogueDetailEntity>>()
+        movie.value = dummyDetailMovie
+
+        dummyDetailMovie.data?.let { detailViewModel.addMovieToFavorite(it) }
+        verify(catalogueRepository).addMovieToFavorite(movie.value!!.data as CatalogueDetailEntity)
+        verifyNoMoreInteractions(catalogueObserver)
+    }
+
+    @Test
+    fun addTvShowToFavorite() {
+        val dummyDetailTvShow = Resource.success(dummyTvShowDetail)
+        val movie = MutableLiveData<Resource<CatalogueDetailEntity>>()
+        movie.value = dummyDetailTvShow
+
+        dummyDetailTvShow.data?.let { detailViewModel.addTvShowToFavorite(it) }
+        verify(catalogueRepository).addTvShowToFavorite(movie.value!!.data as CatalogueDetailEntity)
+        verifyNoMoreInteractions(catalogueObserver)
+    }
+
+    @Test
+    fun removeFromFavorite() {
+        val dummyDetailTvShow = Resource.success(dummyTvShowDetail)
+        val movie = MutableLiveData<Resource<CatalogueDetailEntity>>()
+        movie.value = dummyDetailTvShow
+
+        dummyDetailTvShow.data?.let { detailViewModel.removeFromFavorite(it.id) }
+        movie.value?.data?.let { verify(catalogueRepository).removeFromFavorite(it.id)}
+        verifyNoMoreInteractions(catalogueObserver)
+    }
+
+    @Test
+    fun getFavoriteDetail() {
+        val movie = MutableLiveData<CatalogueDetailEntity>()
+        movie.value = dummyMovie
+
+
+        Mockito.`when`(catalogueRepository.getDetailFavorite(dummyMovieDetailId.toInt())).thenReturn(movie)
+        val detailFavMovie = detailViewModel.getFavoriteDetail(dummyMovieDetailId.toInt()).value
+        verify(catalogueRepository).getDetailFavorite(dummyMovieDetailId.toInt())
+
+        Assert.assertNotNull(detailFavMovie)
+        detailFavMovie?.apply {
+            assertEquals(dummyMovie.id, id)
+            assertEquals(dummyMovie.name, name)
+            assertEquals(dummyMovie.posterPath, posterPath)
+            assertEquals(dummyMovie.overview, overview)
+            assertEquals(dummyMovie.genres, genres)
+            assertEquals(dummyMovie.voteAverage, voteAverage)
+            assertEquals(dummyMovie.releaseDate, releaseDate)
+        }
+
+        detailViewModel.getFavoriteDetail(dummyMovieDetailId.toInt()).observeForever(detailCatalogueObserver)
+        verify(detailCatalogueObserver).onChanged(dummyMovie)
     }
 
 }

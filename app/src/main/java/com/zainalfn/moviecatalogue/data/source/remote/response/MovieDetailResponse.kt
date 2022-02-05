@@ -3,7 +3,7 @@ package com.zainalfn.moviecatalogue.data.source.remote.response
 import com.google.gson.annotations.SerializedName
 
 data class MovieDetailResponse(
-    val id: Int?,
+    val id: Int,
     val title: String?,
     @SerializedName("vote_average")
     val voteAverage: Double?,

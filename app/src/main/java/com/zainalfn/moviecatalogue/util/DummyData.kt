@@ -15,12 +15,12 @@ object DummyData {
 
         listMovies.add(
             CatalogueEntity(
-                634649,
-                "Spider-Man: No Way Home",
-                8.4,
+                425909,
+                "Ghostbusters: Afterlife",
+                7.7,
                 "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-                "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
-                "2021-12-15"
+                "When a single mom and her two kids arrive in a small town, they begin to discover their connection to the original Ghostbusters and the secret legacy their grandfather left behind.",
+                "2021-11-11"
             )
         )
 
@@ -55,12 +55,12 @@ object DummyData {
 
         listTvShows.add(
             CatalogueEntity(
-                77169,
-                "Cobra Kai",
-                8.2,
-                "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg",
-                "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi.",
-                "2018-05-02"
+                966,
+                "Hollyoaks",
+                5.2,
+                "/bpmLMZP3M1vLujPqHnOTnKVjRJY.jpg",
+                "The daily soap that follows the loves, lives and misdemeanours of a group of people living in the Chester village of Hollyoaks where anything could, and frequently does, happen...",
+                "1995-10-23"
             )
         )
 
@@ -83,17 +83,18 @@ object DummyData {
 
         listMovieDetails.add(
             CatalogueDetailEntity(
-                634649,
-                "Spider-Man: No Way Home",
-                "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
+                425909,
+                "Ghostbusters: Afterlife",
+                "When a single mom and her two kids arrive in a small town, they begin to discover their connection to the original Ghostbusters and the secret legacy their grandfather left behind.",
                 arrayListOf(
-                    Genres(28, "Action"),
-                    Genres(12, "Adventure"),
-                    Genres(878, "Science Fiction")
+                    Genres(35, "Comedy"),
+                    Genres(14, "Fantasy"),
+                    Genres(12, "Adventure")
                 ).toGenreString(),
-                8.5,
-                "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-                "2021-12-15",
+                7.7,
+                "/sg4xJaufDiQl7caFEskBtQXfD4x.jpg",
+                "2021-11-11"
+
             )
         )
 
@@ -140,16 +141,15 @@ object DummyData {
 
         listTvShowDetails.add(
             CatalogueDetailEntity(
-                77169,
-                "Cobra Kai",
-                "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi.",
+                966,
+                "Hollyoaks",
+                "The daily soap that follows the loves, lives and misdemeanours of a group of people living in the Chester village of Hollyoaks where anything could, and frequently does, happen...",
                 arrayListOf(
-                    Genres(10759, "Action & Adventure"),
-                    Genres(18, "Drama")
+                    Genres(10766, "Soap")
                 ).toGenreString(),
-                8.2,
-                "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg",
-                "2018-05-02"
+                5.2,
+                "/bpmLMZP3M1vLujPqHnOTnKVjRJY.jpg",
+                "1995-10-23"
             )
         )
 
@@ -175,16 +175,16 @@ object DummyData {
 
         listMovieDetails.add(
             MovieDetailResponse(
-                634649,
-                "Spider-Man: No Way Home",
-                8.4,
-                "/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-                "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
-                "2021-12-15",
+                425909,
+                "Ghostbusters: Afterlife",
+                7.7,
+                "/sg4xJaufDiQl7caFEskBtQXfD4x.jpg",
+                "When a single mom and her two kids arrive in a small town, they begin to discover their connection to the original Ghostbusters and the secret legacy their grandfather left behind.",
+                "2021-11-11",
                 arrayListOf(
-                    Genres(28, "Action"),
-                    Genres(12, "Adventure"),
-                    Genres(878, "Science Fiction")
+                    Genres(35, "Comedy"),
+                    Genres(14, "Fantasy"),
+                    Genres(12, "Adventure")
                 ),
             )
         )
@@ -231,16 +231,15 @@ object DummyData {
 
         listTvShowDetails.add(
             TvShowDetailResponse(
-                77169,
-                "Cobra Kai",
-                8.2,
-                "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg",
-                "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi.",
+                966,
+                "Hollyoaks",
+                5.2,
+                "/bpmLMZP3M1vLujPqHnOTnKVjRJY.jpg",
+                "The daily soap that follows the loves, lives and misdemeanours of a group of people living in the Chester village of Hollyoaks where anything could, and frequently does, happen...",
                 arrayListOf(
-                    Genres(10759, "Action & Adventure"),
-                    Genres(18, "Drama")
+                    Genres(10766, "Soap")
                 ),
-                "2018-05-02"
+                "1995-10-23"
             )
         )
 
@@ -307,12 +306,15 @@ object DummyData {
 
         listTvShows.add(
             TvShowDetailResponse(
-                77169,
-                "Cobra Kai",
-                8.2,
-                "/6POBWybSBDBKjSs1VAQcnQC1qyt.jpg",
-                "This Karate Kid sequel series picks up 30 years after the events of the 1984 All Valley Karate Tournament and finds Johnny Lawrence on the hunt for redemption by reopening the infamous Cobra Kai karate dojo. This reignites his old rivalry with the successful Daniel LaRusso, who has been working to maintain the balance in his life without mentor Mr. Miyagi.",
-                first_air_date = "2018-05-02"
+                966,
+                "Hollyoaks",
+                5.2,
+                "/bpmLMZP3M1vLujPqHnOTnKVjRJY.jpg",
+                "The daily soap that follows the loves, lives and misdemeanours of a group of people living in the Chester village of Hollyoaks where anything could, and frequently does, happen...",
+                arrayListOf(
+                    Genres(10766, "Soap")
+                ),
+                "1995-10-23"
             )
         )
 

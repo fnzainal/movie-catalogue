@@ -10,7 +10,7 @@
     <string name="image_poster_catalogue">image poster</string>
     <string name="about_text">Movie Catalogue, a lite app show list movies &amp; tv shows.\n\nDeveloped by:\nZainal Fahrudin\nfnzainal@gmail.com</string>
     <string name="back">Back</string>
-    <string name="action_favorite">Favorit</string>
+    <string name="action_favorite">Favorite</string>
     <string name="discover">Discover</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
