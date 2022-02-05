@@ -116,7 +116,6 @@ class DetailViewModelTest {
 
         dummyDetailMovie.data?.let { detailViewModel.addMovieToFavorite(it) }
         verify(catalogueRepository).addMovieToFavorite(movie.value!!.data as CatalogueDetailEntity)
-        verifyNoMoreInteractions(catalogueObserver)
     }
 
     @Test
@@ -127,7 +126,6 @@ class DetailViewModelTest {
 
         dummyDetailTvShow.data?.let { detailViewModel.addTvShowToFavorite(it) }
         verify(catalogueRepository).addTvShowToFavorite(movie.value!!.data as CatalogueDetailEntity)
-        verifyNoMoreInteractions(catalogueObserver)
     }
 
     @Test
@@ -138,14 +136,12 @@ class DetailViewModelTest {
 
         dummyDetailTvShow.data?.let { detailViewModel.removeFromFavorite(it.id) }
         movie.value?.data?.let { verify(catalogueRepository).removeFromFavorite(it.id)}
-        verifyNoMoreInteractions(catalogueObserver)
     }
 
     @Test
     fun getFavoriteDetail() {
         val movie = MutableLiveData<CatalogueDetailEntity>()
         movie.value = dummyMovie
-
 
         Mockito.`when`(catalogueRepository.getDetailFavorite(dummyMovieDetailId.toInt())).thenReturn(movie)
         val detailFavMovie = detailViewModel.getFavoriteDetail(dummyMovieDetailId.toInt()).value
