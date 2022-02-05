@@ -14,7 +14,10 @@ import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.moviecatalogue.databinding.FragmentListCatalogueBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
-import com.zainalfn.moviecatalogue.util.*
+import com.zainalfn.moviecatalogue.util.Status
+import com.zainalfn.moviecatalogue.util.ViewModelFactory
+import com.zainalfn.moviecatalogue.util.gone
+import com.zainalfn.moviecatalogue.util.visible
 
 
 class MovieFragment : Fragment() {

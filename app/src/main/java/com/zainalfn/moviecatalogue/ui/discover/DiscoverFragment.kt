@@ -11,7 +11,6 @@ import com.zainalfn.moviecatalogue.ui.adapter.TabPagerAdapter
 import com.zainalfn.moviecatalogue.ui.adapter.TabPagerAdapter.Companion.TITLE
 import com.zainalfn.moviecatalogue.ui.discover.movie.MovieFragment
 import com.zainalfn.moviecatalogue.ui.discover.tvshow.TvShowsFragment
-import com.zainalfn.moviecatalogue.ui.favorite.FavoriteListFragment
 
 class DiscoverFragment : Fragment() {
     private var _binding: FragmentContainerBinding? = null

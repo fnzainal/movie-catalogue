@@ -1,13 +1,13 @@
 package com.zainalfn.moviecatalogue.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.doAnswer
 import com.nhaarman.mockitokotlin2.eq
 import com.nhaarman.mockitokotlin2.verify
 import com.zainalfn.moviecatalogue.data.source.local.LocalDataSource
+import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.data.source.remote.RemoteDataSource
 import com.zainalfn.moviecatalogue.ui.utils.PagedListUtil
@@ -40,6 +40,12 @@ class CatalogueRepositoryTest {
     private val tvShowsResponse = DummyData.getRemoteTvShow()
     private val tvShowId = tvShowsResponse.first().id.toString()
     private val tvShowDetail = DummyData.getRemoteDetailTvShow().first()
+
+    private val tvShowsFav = DummyData.getDetailTvShow()
+    private val tvShowFavId = tvShowsFav.first().id.toString()
+    private val tvShowShowDetail = tvShowsFav.first()
+
+    private val moviesFav = DummyData.getDetailMovie()
 
     @Test
     fun getMovies() {
@@ -112,4 +118,5 @@ class CatalogueRepositoryTest {
             assertEquals(tvShowDetail.first_air_date, releaseDate)
         }
     }
+
 }

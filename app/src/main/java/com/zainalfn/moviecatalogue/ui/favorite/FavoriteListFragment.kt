@@ -2,11 +2,10 @@ package com.zainalfn.moviecatalogue.ui.favorite
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
@@ -17,7 +16,9 @@ import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.moviecatalogue.databinding.FragmentFavoriteListBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueFavoriteAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
-import com.zainalfn.moviecatalogue.util.*
+import com.zainalfn.moviecatalogue.util.ViewModelFactory
+import com.zainalfn.moviecatalogue.util.gone
+import com.zainalfn.moviecatalogue.util.visible
 
 
 private const val ARG_TYPE = "type_catalogue"
@@ -89,7 +90,6 @@ class FavoriteListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.i(FavoriteListFragment::class.java.simpleName,"live data="+liveData)
         if (liveData!=null){
             initObserver(typeArgs)
         }

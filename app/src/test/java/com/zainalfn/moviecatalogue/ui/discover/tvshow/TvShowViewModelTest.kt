@@ -6,8 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.zainalfn.moviecatalogue.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
-import com.zainalfn.moviecatalogue.ui.discover.tvshow.TvShowViewModel
-import com.zainalfn.moviecatalogue.util.DummyData
 import com.zainalfn.moviecatalogue.util.Resource
 import org.junit.Assert
 import org.junit.Before
