@@ -10,15 +10,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
-import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
-import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
+import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
+import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
+import com.zainalfn.core.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.moviecatalogue.databinding.FragmentFavoriteListBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueFavoriteAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
-import com.zainalfn.moviecatalogue.util.ViewModelFactory
-import com.zainalfn.moviecatalogue.util.gone
-import com.zainalfn.moviecatalogue.util.visible
+import com.zainalfn.moviecatalogue.di.ViewModelFactory
+import com.zainalfn.core.util.gone
+import com.zainalfn.core.util.visible
 
 
 private const val ARG_TYPE = "type_catalogue"
@@ -82,6 +82,7 @@ class FavoriteListFragment : Fragment() {
                     viewEmpty()
                 } else {
                     favoriteEmptyTv.gone()
+                    favoriteListRv.visible()
                     favoriteAdapter.submitList(list)
                 }
             }

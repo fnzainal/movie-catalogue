@@ -6,10 +6,10 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zainalfn.moviecatalogue.R
-import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
+import com.zainalfn.core.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.databinding.ItemCatalogueMovieBinding
-import com.zainalfn.moviecatalogue.util.loadImage
-import com.zainalfn.moviecatalogue.util.toReadableDate
+import com.zainalfn.core.util.loadImage
+import com.zainalfn.core.util.toReadableDate
 
 class CatalogueAdapter(
     private val onClick: (CatalogueEntity: CatalogueEntity) -> Unit

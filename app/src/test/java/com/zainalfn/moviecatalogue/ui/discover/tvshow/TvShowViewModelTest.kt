@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
-import com.zainalfn.moviecatalogue.data.CatalogueRepository
+import com.zainalfn.core.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.util.Resource
 import org.junit.Assert
@@ -28,7 +28,7 @@ class TvShowViewModelTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var catalogueRepository: CatalogueRepository
+    private lateinit var catalogueRepository: com.zainalfn.core.data.CatalogueRepository
 
     @Mock
     private lateinit var pagedList: PagedList<CatalogueEntity>

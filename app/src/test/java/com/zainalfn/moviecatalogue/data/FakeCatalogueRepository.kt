@@ -20,7 +20,7 @@ import com.zainalfn.moviecatalogue.util.toGenreString
 class FakeCatalogueRepository(private val remoteDataSource: RemoteDataSource,
                               private val localDataSource: LocalDataSource,
                               private val appExecutors: AppExecutors
-) : CatalogueDataSource {
+) : com.zainalfn.core.data.CatalogueDataSource {
 
     override fun getMovies(): LiveData<Resource<PagedList<CatalogueEntity>>> {
         return object :

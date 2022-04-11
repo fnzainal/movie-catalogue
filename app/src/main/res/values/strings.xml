@@ -12,5 +12,6 @@
     <string name="back">Back</string>
     <string name="action_favorite">Favorite</string>
     <string name="discover">Discover</string>
+    <string name="title_favorite">Favorite</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

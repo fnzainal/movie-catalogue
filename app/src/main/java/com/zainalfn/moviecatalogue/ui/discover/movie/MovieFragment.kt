@@ -9,15 +9,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
-import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
+import com.zainalfn.core.data.source.local.entity.CatalogueEntity
+import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.moviecatalogue.databinding.FragmentListCatalogueBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
-import com.zainalfn.moviecatalogue.util.Status
-import com.zainalfn.moviecatalogue.util.ViewModelFactory
-import com.zainalfn.moviecatalogue.util.gone
-import com.zainalfn.moviecatalogue.util.visible
+import com.zainalfn.core.util.Status
+import com.zainalfn.moviecatalogue.di.ViewModelFactory
+import com.zainalfn.core.util.gone
+import com.zainalfn.core.util.visible
 
 
 class MovieFragment : Fragment() {

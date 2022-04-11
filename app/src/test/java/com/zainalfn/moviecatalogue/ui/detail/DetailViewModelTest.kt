@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
-import com.zainalfn.moviecatalogue.data.CatalogueRepository
+import com.zainalfn.core.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.moviecatalogue.util.DummyData
 import com.zainalfn.moviecatalogue.util.Resource
@@ -34,7 +34,7 @@ class DetailViewModelTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var catalogueRepository: CatalogueRepository
+    private lateinit var catalogueRepository: com.zainalfn.core.data.CatalogueRepository
 
     @Mock
     private lateinit var catalogueObserver: Observer<Resource<CatalogueDetailEntity>>

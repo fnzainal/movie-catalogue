@@ -8,11 +8,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.zainalfn.moviecatalogue.R
-import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
-import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_MOVIE
-import com.zainalfn.moviecatalogue.data.source.local.entity.TYPE_TVSHOW
+import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
+import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
+import com.zainalfn.core.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.moviecatalogue.databinding.ActivityDetailBinding
-import com.zainalfn.moviecatalogue.util.*
+import com.zainalfn.core.util.*
+import com.zainalfn.moviecatalogue.di.ViewModelFactory
 
 
 class DetailActivity : AppCompatActivity() {
@@ -172,7 +173,7 @@ class DetailActivity : AppCompatActivity() {
                 detailYearTv.gone()
             } else {
                 detailYearTv.visible()
-                detailYearTv.text = toReadableDate(releaseDate)
+                detailYearTv.text = toReadableDate(releaseDate.toString())
             }
             detailOverviewTv.text = overview
             "$voteAverage%".also { detailScoreTv.text = it }

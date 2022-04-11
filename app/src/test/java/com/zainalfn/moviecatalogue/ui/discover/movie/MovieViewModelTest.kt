@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
-import com.zainalfn.moviecatalogue.data.CatalogueRepository
+import com.zainalfn.core.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.zainalfn.moviecatalogue.util.Resource
 import org.junit.Assert.assertEquals
@@ -30,7 +30,7 @@ class MovieViewModelTest {
     private lateinit var viewModel: MovieViewModel
 
     @Mock
-    private lateinit var repository: CatalogueRepository
+    private lateinit var repository: com.zainalfn.core.data.CatalogueRepository
 
     @Mock
     private lateinit var pagedList: PagedList<CatalogueEntity>

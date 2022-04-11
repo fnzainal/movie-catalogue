@@ -1,8 +1,8 @@
 package com.zainalfn.moviecatalogue.ui.detail
 
 import androidx.lifecycle.ViewModel
-import com.zainalfn.moviecatalogue.data.CatalogueRepository
-import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
+import com.zainalfn.core.data.CatalogueRepository
+import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
 
 class DetailViewModel(
     private val repository: CatalogueRepository

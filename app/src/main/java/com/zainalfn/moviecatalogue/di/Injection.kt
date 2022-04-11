@@ -1,11 +1,11 @@
 package com.zainalfn.moviecatalogue.di
 
 import android.content.Context
-import com.zainalfn.moviecatalogue.data.CatalogueRepository
-import com.zainalfn.moviecatalogue.data.source.local.LocalDataSource
-import com.zainalfn.moviecatalogue.data.source.local.room.CatalogueDatabase
-import com.zainalfn.moviecatalogue.data.source.remote.RemoteDataSource
-import com.zainalfn.moviecatalogue.util.AppExecutors
+import com.zainalfn.core.data.CatalogueRepository
+import com.zainalfn.core.data.source.local.LocalDataSource
+import com.zainalfn.core.data.source.local.room.CatalogueDatabase
+import com.zainalfn.core.data.source.remote.RemoteDataSource
+import com.zainalfn.core.util.AppExecutors
 
 object Injection {
     fun provideRepository(context: Context): CatalogueRepository {

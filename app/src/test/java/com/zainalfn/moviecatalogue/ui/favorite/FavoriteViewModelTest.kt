@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.nhaarman.mockitokotlin2.verify
-import com.zainalfn.moviecatalogue.data.CatalogueRepository
+import com.zainalfn.core.data.CatalogueRepository
 import com.zainalfn.moviecatalogue.data.source.local.entity.CatalogueDetailEntity
 import junit.framework.TestCase
 import org.junit.Assert
@@ -27,7 +27,7 @@ class FavoriteViewModelTest{
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
-    private lateinit var catalogueRepository: CatalogueRepository
+    private lateinit var catalogueRepository: com.zainalfn.core.data.CatalogueRepository
 
     @Mock
     private lateinit var observer: Observer<PagedList<CatalogueDetailEntity>>
