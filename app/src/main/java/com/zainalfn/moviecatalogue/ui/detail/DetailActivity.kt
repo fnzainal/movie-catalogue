@@ -6,34 +6,31 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
-import com.zainalfn.moviecatalogue.R
-import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.core.data.source.local.entity.TYPE_TVSHOW
-import com.zainalfn.moviecatalogue.databinding.ActivityDetailBinding
+import com.zainalfn.core.domain.model.CatalogueDetail
 import com.zainalfn.core.util.*
-import com.zainalfn.moviecatalogue.di.ViewModelFactory
+import com.zainalfn.moviecatalogue.R
+import com.zainalfn.moviecatalogue.databinding.ActivityDetailBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class DetailActivity : AppCompatActivity() {
 
-    private var catalogData: CatalogueDetailEntity? = null
+    private var catalogData: CatalogueDetail? = null
     private var mMenu: Menu? = null
     private var idArgs: Int = 0
     private var isFavorite: Boolean = false
     private var typeCatalogue: Int = TYPE_TVSHOW
     private var _binding: ActivityDetailBinding? = null
     private val binding get() = _binding
-    private lateinit var viewModel: DetailViewModel
+    private val viewModel: DetailViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding?.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        val factory = ViewModelFactory.getInstance(this)
-        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
         intent.extras?.let {
             val id = it.getInt(ID)
@@ -45,7 +42,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun initObserver() {
         viewModel.getFavoriteDetail(idArgs).observe(this){
-            isFavorite = it != null
+            isFavorite = it?.id != 0
             setFavIconState()
 
             if (!isFavorite){
@@ -164,7 +161,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun ActivityDetailBinding.renderToView(catalog: CatalogueDetailEntity) {
+    private fun ActivityDetailBinding.renderToView(catalog: CatalogueDetail) {
         catalog.apply {
             catalogData = this
             detailTitleTv.text = name

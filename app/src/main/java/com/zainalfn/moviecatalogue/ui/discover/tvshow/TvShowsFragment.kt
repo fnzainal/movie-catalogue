@@ -7,22 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zainalfn.core.data.source.local.entity.CatalogueEntity
 import com.zainalfn.core.data.source.local.entity.TYPE_TVSHOW
+import com.zainalfn.core.domain.model.Catalogue
+import com.zainalfn.core.util.Status
+import com.zainalfn.core.util.gone
+import com.zainalfn.core.util.visible
 import com.zainalfn.moviecatalogue.databinding.FragmentListTvShowBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
-import com.zainalfn.core.util.Status
-import com.zainalfn.moviecatalogue.di.ViewModelFactory
-import com.zainalfn.core.util.gone
-import com.zainalfn.core.util.visible
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowsFragment : Fragment() {
 
     private lateinit var catalogueAdapter: CatalogueAdapter
-    private lateinit var viewModel: TvShowViewModel
+    private val viewModel: TvShowViewModel by viewModel()
     private var _binding: FragmentListTvShowBinding? = null
 
 
@@ -39,8 +38,6 @@ class TvShowsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this, factory)[TvShowViewModel::class.java]
 
         binding?.apply {
             setupAdapterRV()
@@ -64,7 +61,7 @@ class TvShowsFragment : Fragment() {
                     it.data?.apply {
                         if (this.isNotEmpty()) {
                             tvshowEmptyTv.gone()
-                            catalogueAdapter.submitList(this)
+                            catalogueAdapter.setData(this)
                         } else {
                             tvshowEmptyTv.visible()
                         }
@@ -93,7 +90,7 @@ class TvShowsFragment : Fragment() {
         }
     }
 
-    private fun onClickCatalogue(it: CatalogueEntity) {
+    private fun onClickCatalogue(it: Catalogue) {
         val intent = Intent(requireActivity(), DetailActivity::class.java)
         intent.putExtra(DetailActivity.ID, it.id)
         intent.putExtra(DetailActivity.TYPE, TYPE_TVSHOW)

@@ -1,12 +1,13 @@
 package com.zainalfn.moviecatalogue.ui.favorite
 
 import androidx.lifecycle.ViewModel
-import com.zainalfn.core.data.CatalogueRepository
+import androidx.lifecycle.asLiveData
+import com.zainalfn.core.domain.usecase.CatalogueUseCase
 
 class FavoriteViewModel(
-    private val repository: CatalogueRepository
+    private val useCase: CatalogueUseCase
 ) : ViewModel() {
 
-    fun getFavMovie() = repository.getFavMovies()
-    fun getFavTvShow() = repository.getFavTvShows()
+    fun getFavMovie() = useCase.getFavMovies().asLiveData()
+    fun getFavTvShow() = useCase.getFavTvShows().asLiveData()
 }

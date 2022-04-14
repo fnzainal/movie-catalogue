@@ -1,249 +1,107 @@
 package com.zainalfn.core.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
 import com.zainalfn.core.data.source.local.LocalDataSource
-import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
-import com.zainalfn.core.data.source.local.entity.CatalogueEntity
-import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
-import com.zainalfn.core.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.core.data.source.remote.ApiResponse
 import com.zainalfn.core.data.source.remote.RemoteDataSource
 import com.zainalfn.core.data.source.remote.response.MovieDetailResponse
 import com.zainalfn.core.data.source.remote.response.TvShowDetailResponse
-import com.zainalfn.core.util.AppExecutors
+import com.zainalfn.core.domain.model.Catalogue
+import com.zainalfn.core.domain.model.CatalogueDetail
+import com.zainalfn.core.domain.repository.ICatalogueRepository
+import com.zainalfn.core.util.DataMapper
 import com.zainalfn.core.util.Resource
-import com.zainalfn.core.util.toGenreString
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
-class CatalogueRepository private constructor(
+class CatalogueRepository constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource,
-    private val appExecutors: AppExecutors
-) : CatalogueDataSource {
+    private val localDataSource: LocalDataSource
+) : ICatalogueRepository {
 
-    override fun getMovies(): LiveData<Resource<PagedList<CatalogueEntity>>> {
-        return object :
-            com.zainalfn.core.data.NetworkBoundResource<PagedList<CatalogueEntity>, ArrayList<MovieDetailResponse>>(
-                appExecutors
-            ) {
-            override fun loadFromDb(): LiveData<PagedList<CatalogueEntity>> {
-                val config = PagedList.Config.Builder()
-                    .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(4)
-                    .setPageSize(4)
-                    .build()
-
-                return LivePagedListBuilder(localDataSource.getAllMovies(), config).build()
+    override fun getMovies(): Flow<Resource<List<Catalogue>>> {
+        return object : NetworkOnlyResource<List<Catalogue>, ArrayList<MovieDetailResponse>>() {
+            override fun loadFromNetwork(data: ArrayList<MovieDetailResponse>): Flow<List<Catalogue>> {
+                return DataMapper.catalogueResponseToDomain(data)
             }
 
-            override fun shouldFetch(data: PagedList<CatalogueEntity>?): Boolean =
-                data == null || data.isEmpty()
-
-            override fun createCall(): LiveData<ApiResponse<ArrayList<MovieDetailResponse>>> {
+            override suspend fun createCall(): Flow<ApiResponse<ArrayList<MovieDetailResponse>>> {
                 return remoteDataSource.getMovies()
             }
+        }.asFlow()
 
-            override fun saveCallResult(data: ArrayList<MovieDetailResponse>) {
-                val movieList = ArrayList<CatalogueEntity>()
-                for (response in data) {
-                    with(response) {
-                        val movie = CatalogueEntity(
-                            id,
-                            title,
-                            voteAverage,
-                            posterPath,
-                            overview,
-                            releaseDate,
-                            TYPE_MOVIE
-                        )
-                        movieList.add(movie)
-                    }
-                }
-                localDataSource.insertCatalogue(movieList)
-            }
-
-        }.asLiveData()
     }
 
-    override fun getDetailMovie(movieId: String): LiveData<Resource<CatalogueDetailEntity>> {
-        val liveData = MutableLiveData<Resource<CatalogueDetailEntity>>()
-        liveData.postValue(Resource.loading())
-        remoteDataSource.getDetailMovie(object : RemoteDataSource.LoadDetailMovieCallback {
-            override fun onDetailMovieLoaded(movieDetail: MovieDetailResponse?) {
-                if (movieDetail != null) {
-                    with(movieDetail) {
-                        val listGenres = ArrayList<String>()
-
-                        genres?.forEach { genre ->
-                            genre.name?.let { listGenres.add(it) }
-                        }
-
-                        val detailMovie = CatalogueDetailEntity(
-                            id,
-                            title,
-                            overview,
-                            genres.toGenreString(),
-                            voteAverage,
-                            posterPath,
-                            releaseDate
-                        )
-                        liveData.postValue(Resource.success(detailMovie))
-                    }
-                } else {
-                    liveData.postValue(Resource.error("Data detail not available"))
-                }
+    override fun getDetailMovie(movieId: String): Flow<Resource<CatalogueDetail>> {
+        return object : NetworkOnlyResource<CatalogueDetail, MovieDetailResponse>() {
+            override fun loadFromNetwork(data: MovieDetailResponse): Flow<CatalogueDetail> {
+                return DataMapper.responseDetailToDomainMovie(data)
             }
 
-            override fun onFailed(error: String?) {
-                liveData.postValue(Resource.error(error))
+            override suspend fun createCall(): Flow<ApiResponse<MovieDetailResponse>> {
+                return remoteDataSource.getDetailMovies(movieId)
             }
-        }, movieId)
-        return liveData
+        }.asFlow()
     }
 
-    override fun getTvShows(): LiveData<Resource<PagedList<CatalogueEntity>>> {
-        return object :
-            com.zainalfn.core.data.NetworkBoundResource<PagedList<CatalogueEntity>, ArrayList<TvShowDetailResponse>>(
-                appExecutors
-            ) {
-            override fun loadFromDb(): LiveData<PagedList<CatalogueEntity>> {
-                val config = PagedList.Config.Builder()
-                    .setEnablePlaceholders(false)
-                    .setInitialLoadSizeHint(4)
-                    .setPageSize(4)
-                    .build()
-
-                return LivePagedListBuilder(localDataSource.getAllTvShows(), config).build()
+    override fun getTvShows(): Flow<Resource<List<Catalogue>>> {
+        return object : NetworkOnlyResource<List<Catalogue>, ArrayList<TvShowDetailResponse>>() {
+            override fun loadFromNetwork(data: ArrayList<TvShowDetailResponse>): Flow<List<Catalogue>> {
+                return DataMapper.catalogueResponseToDomainTv(data)
             }
 
-            override fun shouldFetch(data: PagedList<CatalogueEntity>?): Boolean =
-                data == null || data.isEmpty()
+            override suspend fun createCall(): Flow<ApiResponse<ArrayList<TvShowDetailResponse>>> {
+                return remoteDataSource.getTvShows()
+            }
+        }.asFlow()
+    }
 
-            override fun createCall(): LiveData<ApiResponse<ArrayList<TvShowDetailResponse>>> =
-                remoteDataSource.getTvShows()
-
-            override fun saveCallResult(data: ArrayList<TvShowDetailResponse>) {
-                val tvList = ArrayList<CatalogueEntity>()
-                for (response in data) {
-                    with(response) {
-                        val tvShow = CatalogueEntity(
-                            id,
-                            name,
-                            voteAverage,
-                            posterPath,
-                            overview,
-                            first_air_date,
-                            TYPE_TVSHOW
-                        )
-                        tvList.add(tvShow)
-                    }
-                }
-                localDataSource.insertCatalogue(tvList)
-
+    override fun getDetailTvShow(tvShowId: String): Flow<Resource<CatalogueDetail>> {
+        return object : NetworkOnlyResource<CatalogueDetail, TvShowDetailResponse>() {
+            override fun loadFromNetwork(data: TvShowDetailResponse): Flow<CatalogueDetail> {
+                return DataMapper.responseDetailToDomainTv(data)
             }
 
-        }.asLiveData()
-    }
-
-    override fun getDetailTvShow(tvShowId: String): LiveData<Resource<CatalogueDetailEntity>> {
-        val movieDetailResult = MutableLiveData<Resource<CatalogueDetailEntity>>()
-        movieDetailResult.postValue(Resource.loading())
-        remoteDataSource.getDetailTvShow(object : RemoteDataSource.LoadDetailTvShowCallback {
-            override fun onDetailTvShowLoaded(tvShowDetail: TvShowDetailResponse?) {
-                if (tvShowDetail != null) {
-                    with(tvShowDetail) {
-                        val listGenres = ArrayList<String>()
-
-                        genres?.forEach { genre ->
-                            genre.name?.let { listGenres.add(it) }
-                        }
-
-                        val detailMovie = CatalogueDetailEntity(
-                            id,
-                            name,
-                            overview,
-                            genres.toGenreString(),
-                            voteAverage,
-                            posterPath,
-                            first_air_date
-                        )
-                        movieDetailResult.postValue(
-                            Resource.success(detailMovie)
-                        )
-                    }
-                } else {
-                    movieDetailResult.postValue(Resource.error("Data detail not available"))
-                }
+            override suspend fun createCall(): Flow<ApiResponse<TvShowDetailResponse>> {
+                return remoteDataSource.getDetailTvShow(tvShowId)
             }
+        }.asFlow()
+    }
 
-            override fun onFailed(error: String?) {
-                movieDetailResult.postValue(
-                    Resource.error(error)
-                )
+    override fun getFavMovies(): Flow<List<CatalogueDetail>?> {
+        return localDataSource.getFavMovies().map{
+            it?.let {
+                DataMapper.detailListToDomain(it)
             }
-        }, tvShowId)
-        return movieDetailResult
-    }
-
-    override fun getFavMovies(): LiveData<PagedList<CatalogueDetailEntity>> {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(4)
-            .setPageSize(4)
-            .build()
-
-        return LivePagedListBuilder(localDataSource.getFavMovies(), config).build()
-    }
-
-    override fun getFavTvShows(): LiveData<PagedList<CatalogueDetailEntity>> {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(4)
-            .setPageSize(4)
-            .build()
-
-        return LivePagedListBuilder(localDataSource.getFavTvShows(), config).build()
-    }
-
-    override fun getDetailFavorite(id: Int): LiveData<CatalogueDetailEntity?> {
-        return localDataSource.getFavoriteById(id)
-    }
-
-    override fun addMovieToFavorite(entity: CatalogueDetailEntity) {
-        appExecutors.diskIO().execute {
-            localDataSource.setMovieFavorite(entity)
         }
     }
 
-    override fun addTvShowToFavorite(entity: CatalogueDetailEntity) {
-        appExecutors.diskIO().execute {
-            localDataSource.setTvShowFavorite(entity)
-        }
-    }
-
-    override fun removeFromFavorite(id: Int) {
-        appExecutors.diskIO().execute {
-            localDataSource.removeFavorite(id)
-        }
-    }
-
-    companion object {
-        @Volatile
-        private var instance: com.zainalfn.core.data.CatalogueRepository? = null
-        fun getInstance(
-            remoteData: RemoteDataSource,
-            localData: LocalDataSource,
-            appExecutors: AppExecutors
-        ): com.zainalfn.core.data.CatalogueRepository =
-            com.zainalfn.core.data.CatalogueRepository.Companion.instance ?: synchronized(this) {
-                com.zainalfn.core.data.CatalogueRepository.Companion.instance
-                    ?: com.zainalfn.core.data.CatalogueRepository(
-                        remoteData,
-                        localData,
-                        appExecutors
-                    )
+    override fun getFavTvShows(): Flow<List<CatalogueDetail>?> {
+        return localDataSource.getFavTvShows().map {
+            it?.let {
+                DataMapper.detailListToDomain(it)
             }
+        }
+    }
+
+    override fun getDetailFavorite(id: Int): Flow<CatalogueDetail?> {
+        return localDataSource.getFavoriteById(id).map {
+            DataMapper.detailToDomain(it)
+        }
+    }
+
+    override suspend fun addMovieToFavorite(entity: CatalogueDetail) {
+        localDataSource.setMovieFavorite(
+            DataMapper.mapDetailToEntity(entity)
+        )
+    }
+
+    override suspend fun addTvShowToFavorite(entity: CatalogueDetail) {
+        localDataSource.setTvShowFavorite(
+            DataMapper.mapDetailToEntity(entity)
+        )
+    }
+
+    override suspend fun removeFromFavorite(id: Int) {
+        localDataSource.removeFavorite(id)
     }
 }

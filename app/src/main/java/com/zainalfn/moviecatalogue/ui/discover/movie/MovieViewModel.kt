@@ -1,11 +1,12 @@
 package com.zainalfn.moviecatalogue.ui.discover.movie
 
 import androidx.lifecycle.ViewModel
-import com.zainalfn.core.data.CatalogueRepository
+import androidx.lifecycle.asLiveData
+import com.zainalfn.core.domain.usecase.CatalogueUseCase
 
 class MovieViewModel(
-    private val repository: CatalogueRepository
+    private val useCase: CatalogueUseCase
 ) : ViewModel() {
 
-    fun getMovies() = repository.getMovies()
+    fun getMovies() = useCase.getMovies().asLiveData()
 }

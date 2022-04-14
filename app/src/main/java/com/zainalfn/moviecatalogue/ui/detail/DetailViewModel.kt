@@ -1,19 +1,30 @@
 package com.zainalfn.moviecatalogue.ui.detail
 
 import androidx.lifecycle.ViewModel
-import com.zainalfn.core.data.CatalogueRepository
-import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
-
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.zainalfn.core.domain.model.CatalogueDetail
+import com.zainalfn.core.domain.usecase.CatalogueUseCase
+import kotlinx.coroutines.launch
 class DetailViewModel(
-    private val repository: CatalogueRepository
+    private val repository: CatalogueUseCase
 ) : ViewModel() {
 
-    fun getDetailMovie(id: Int) = repository.getDetailMovie(id.toString())
-    fun getDetailTvShow(id: Int) = repository.getDetailTvShow(id.toString())
+    fun getDetailMovie(id: Int) = repository.getDetailMovie(id.toString()).asLiveData()
+    fun getDetailTvShow(id: Int) = repository.getDetailTvShow(id.toString()).asLiveData()
 
-    fun addMovieToFavorite(data: CatalogueDetailEntity) = repository.addMovieToFavorite(data)
-    fun addTvShowToFavorite(data: CatalogueDetailEntity) = repository.addTvShowToFavorite(data)
-    fun removeFromFavorite(id: Int) = repository.removeFromFavorite(id)
+    fun addMovieToFavorite(data: CatalogueDetail) {
+        viewModelScope.launch {
+            repository.addMovieToFavorite(data)
+        }
+    }
+    fun addTvShowToFavorite(data: CatalogueDetail) {
+        viewModelScope.launch {
+            repository.addTvShowToFavorite(data)
+        }
+    }
+    fun removeFromFavorite(id: Int) = viewModelScope.launch { repository.removeFromFavorite(id) }
 
-    fun getFavoriteDetail(id: Int) = repository.getDetailFavorite(id)
+    fun getFavoriteDetail(id: Int) = repository.getDetailFavorite(id).asLiveData()
 }
+

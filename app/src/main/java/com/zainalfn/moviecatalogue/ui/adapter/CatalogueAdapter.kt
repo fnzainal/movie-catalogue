@@ -2,19 +2,25 @@ package com.zainalfn.moviecatalogue.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.zainalfn.moviecatalogue.R
-import com.zainalfn.core.data.source.local.entity.CatalogueEntity
-import com.zainalfn.moviecatalogue.databinding.ItemCatalogueMovieBinding
+import com.zainalfn.core.domain.model.Catalogue
 import com.zainalfn.core.util.loadImage
 import com.zainalfn.core.util.toReadableDate
+import com.zainalfn.moviecatalogue.R
+import com.zainalfn.moviecatalogue.databinding.ItemCatalogueMovieBinding
 
 class CatalogueAdapter(
-    private val onClick: (CatalogueEntity: CatalogueEntity) -> Unit
-) : PagedListAdapter<CatalogueEntity, CatalogueAdapter.CatalogueViewHolder>(
-    DIFF_CALLBACK) {
+    private val onClick: (catalogueEntity: Catalogue) -> Unit
+) : RecyclerView.Adapter<CatalogueAdapter.CatalogueViewHolder>() {
+
+
+    private val mData = mutableListOf<Catalogue>()
+
+    fun setData(data: List<Catalogue>) {
+        mData.clear()
+        mData.addAll(data)
+        notifyDataSetChanged()
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogueViewHolder {
         val itemCatalogueBinding =
@@ -26,12 +32,12 @@ class CatalogueAdapter(
     }
 
     override fun onBindViewHolder(holder: CatalogueViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it) }
+        mData[position].let { holder.bind(it) }
     }
 
     inner class CatalogueViewHolder(private val binding: ItemCatalogueMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: CatalogueEntity) {
+        fun bind(data: Catalogue) {
             with(binding) {
                 data.apply {
                     itemMovieTitleTv.text = name
@@ -50,22 +56,5 @@ class CatalogueAdapter(
         }
     }
 
-
-
-
-    companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CatalogueEntity>() {
-            override fun areItemsTheSame(oldItem: CatalogueEntity,
-                                         newItem: CatalogueEntity
-            ): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: CatalogueEntity,
-                                            newItem: CatalogueEntity
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
+    override fun getItemCount(): Int = mData.size
 }

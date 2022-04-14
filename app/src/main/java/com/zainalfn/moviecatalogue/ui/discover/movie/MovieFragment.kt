@@ -7,23 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zainalfn.core.data.source.local.entity.CatalogueEntity
 import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
+import com.zainalfn.core.domain.model.Catalogue
+import com.zainalfn.core.util.Status
+import com.zainalfn.core.util.gone
+import com.zainalfn.core.util.visible
 import com.zainalfn.moviecatalogue.databinding.FragmentListCatalogueBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
-import com.zainalfn.core.util.Status
-import com.zainalfn.moviecatalogue.di.ViewModelFactory
-import com.zainalfn.core.util.gone
-import com.zainalfn.core.util.visible
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MovieFragment : Fragment() {
 
     private lateinit var catalogueAdapter: CatalogueAdapter
-    private lateinit var viewModel: MovieViewModel
+    private val viewModel: MovieViewModel by viewModel()
     private var _binding: FragmentListCatalogueBinding? = null
 
 
@@ -40,8 +39,6 @@ class MovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        setupViewModel()
 
         binding?.apply {
             setupAdapterRV()
@@ -64,7 +61,7 @@ class MovieFragment : Fragment() {
                     showLoading(false)
                     it.data?.apply {
                         if (this.isNotEmpty()) {
-                            catalogueAdapter.submitList(this)
+                            catalogueAdapter.setData(this)
                             movieEmptyTv.gone()
                         } else {
                             movieEmptyTv.visible()
@@ -86,11 +83,6 @@ class MovieFragment : Fragment() {
         }
     }
 
-    private fun setupViewModel() {
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this, factory)[MovieViewModel::class.java]
-    }
-
     private fun showLoading(isLoading: Boolean) {
         binding?.apply {
             if (isLoading) {
@@ -101,7 +93,7 @@ class MovieFragment : Fragment() {
         }
     }
 
-    private fun onClickCatalogue(it: CatalogueEntity) {
+    private fun onClickCatalogue(it: Catalogue) {
         val intent = Intent(requireActivity(), DetailActivity::class.java)
         intent.putExtra(DetailActivity.ID, it.id)
         intent.putExtra(DetailActivity.TYPE, TYPE_MOVIE)

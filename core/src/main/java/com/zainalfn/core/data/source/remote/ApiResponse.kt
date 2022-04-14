@@ -1,7 +1,7 @@
 package com.zainalfn.core.data.source.remote
 
-class ApiResponse<T>(val status: StatusResponse, val body: T, val message: String?) {
-    companion object {
-        fun <T> success(body: T): ApiResponse<T> = ApiResponse(StatusResponse.SUCCESS, body, null)
-    }
+sealed class ApiResponse<out T> {
+    data class Success<out T> (val data: T): ApiResponse<T>()
+    data class Error(val errorMessage: String?): ApiResponse<Nothing>()
+    object Empty : ApiResponse<Nothing>()
 }

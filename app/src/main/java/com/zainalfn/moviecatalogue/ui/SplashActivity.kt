@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.zainalfn.moviecatalogue.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
+
+    private val DURATION_SPLASH: Long = 2000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -22,6 +25,6 @@ class SplashActivity : AppCompatActivity() {
                     MainActivity::class.java
                 )
             )
-        }, 2000)
+        }, DURATION_SPLASH)
     }
 }

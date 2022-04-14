@@ -1,11 +1,12 @@
 package com.zainalfn.moviecatalogue.ui.discover.tvshow
 
 import androidx.lifecycle.ViewModel
-import com.zainalfn.core.data.CatalogueRepository
+import androidx.lifecycle.asLiveData
+import com.zainalfn.core.domain.usecase.CatalogueUseCase
 
 class TvShowViewModel(
-    private val repository: CatalogueRepository
+    private val useCase: CatalogueUseCase
 ) : ViewModel() {
 
-    fun getTvShows() = repository.getTvShows()
+    fun getTvShows() = useCase.getTvShows().asLiveData()
 }

@@ -1,47 +1,32 @@
 package com.zainalfn.core.data.source.local
 
-import androidx.lifecycle.LiveData
-import androidx.paging.DataSource
 import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
-import com.zainalfn.core.data.source.local.entity.CatalogueEntity
 import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.core.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.core.data.source.local.room.CatalogueDao
+import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource(private val mCatalogueDao: CatalogueDao) {
 
+    fun getFavMovies(): Flow<List<CatalogueDetailEntity>?> = mCatalogueDao.getFavoriteMovies()
+    fun getFavTvShows(): Flow<List<CatalogueDetailEntity>?> = mCatalogueDao.getFavoriteTvShows()
+    fun getFavoriteById(id: Int): Flow<CatalogueDetailEntity> = mCatalogueDao.getFavoriteById(id)
 
-    fun getAllMovies(): DataSource.Factory<Int, CatalogueEntity> = mCatalogueDao.getMovies()
-    fun getAllTvShows(): DataSource.Factory<Int, CatalogueEntity> = mCatalogueDao.getTvShows()
-
-    fun getFavMovies(): DataSource.Factory<Int, CatalogueDetailEntity> = mCatalogueDao.getFavoriteMovies()
-    fun getFavTvShows(): DataSource.Factory<Int, CatalogueDetailEntity> = mCatalogueDao.getFavoriteTvShows()
-    fun getFavoriteById(id: Int): LiveData<CatalogueDetailEntity?> = mCatalogueDao.getFavoriteById(id)
-
-    fun setMovieFavorite(entity: CatalogueDetailEntity) {
+    suspend fun setMovieFavorite(entity: CatalogueDetailEntity) {
         entity.apply {
             type = TYPE_MOVIE
             mCatalogueDao.insertFavorite(this)
         }
     }
 
-    fun insertCatalogue(list: List<CatalogueEntity>) = mCatalogueDao.insertCatalogue(list)
-
-    fun setTvShowFavorite(entity: CatalogueDetailEntity) {
+    suspend fun setTvShowFavorite(entity: CatalogueDetailEntity) {
         entity.apply {
             type = TYPE_TVSHOW
             mCatalogueDao.insertFavorite(this)
         }
     }
 
-    fun removeFavorite(idData: Int) {
+    suspend fun removeFavorite(idData: Int) {
         mCatalogueDao.removeFavorite(idData)
-    }
-
-    companion object {
-        private var INSTANCE: LocalDataSource? = null
-
-        fun getInstance(catalogueDao: CatalogueDao): LocalDataSource =
-            INSTANCE ?: LocalDataSource(catalogueDao)
     }
 }

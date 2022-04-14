@@ -7,45 +7,37 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModelProvider
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
 import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.core.data.source.local.entity.TYPE_TVSHOW
+import com.zainalfn.core.domain.model.CatalogueDetail
+import com.zainalfn.core.util.gone
+import com.zainalfn.core.util.visible
 import com.zainalfn.moviecatalogue.databinding.FragmentFavoriteListBinding
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueFavoriteAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
-import com.zainalfn.moviecatalogue.di.ViewModelFactory
-import com.zainalfn.core.util.gone
-import com.zainalfn.core.util.visible
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 private const val ARG_TYPE = "type_catalogue"
 
 class FavoriteListFragment : Fragment() {
 
-    private var liveData: LiveData<PagedList<CatalogueDetailEntity>>? = null
+    private lateinit var liveData: LiveData<List<CatalogueDetail>?>
     private lateinit var favoriteAdapter: CatalogueFavoriteAdapter
-    private lateinit var viewModel: FavoriteViewModel
+    private val viewModel: FavoriteViewModel by viewModel()
     private var typeArgs: Int = 0
     private var binding: FragmentFavoriteListBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initViewModel()
         initAdapter()
 
         arguments?.let {
             typeArgs = it.getInt(ARG_TYPE)
             initObserver(typeArgs)
         }
-    }
-
-    private fun initViewModel() {
-        val factory = ViewModelFactory.getInstance(requireActivity())
-        viewModel = ViewModelProvider(this, factory)[FavoriteViewModel::class.java]
     }
 
     private fun initAdapter() {
@@ -62,7 +54,7 @@ class FavoriteListFragment : Fragment() {
         }
     }
 
-    private fun onClickCatalogue(it: CatalogueDetailEntity) {
+    private fun onClickCatalogue(it: CatalogueDetail) {
         val intent = Intent(requireActivity(), DetailActivity::class.java)
         intent.putExtra(DetailActivity.ID, it.id)
         intent.putExtra(DetailActivity.TYPE, typeArgs)
@@ -75,15 +67,15 @@ class FavoriteListFragment : Fragment() {
             else-> viewModel.getFavTvShow()
         }
 
-        liveData?.observe(viewLifecycleOwner) { list ->
+        liveData.observe(viewLifecycleOwner) { list ->
             binding?.apply {
                 showLoading(false)
-                if (list.isEmpty()) {
+                if (list.isNullOrEmpty()) {
                     viewEmpty()
                 } else {
                     favoriteEmptyTv.gone()
                     favoriteListRv.visible()
-                    favoriteAdapter.submitList(list)
+                    favoriteAdapter.setData(list)
                 }
             }
         }

@@ -3,131 +3,75 @@ package com.zainalfn.core.data.source.remote
 /**
  * Created by zainal on 1/17/22 - 7:42 AM
  */
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.zainalfn.core.BuildConfig.API_KEY
 import com.zainalfn.core.data.source.remote.response.MovieDetailResponse
-import com.zainalfn.core.data.source.remote.response.MoviesResponse
 import com.zainalfn.core.data.source.remote.response.TvShowDetailResponse
-import com.zainalfn.core.data.source.remote.response.TvShowsResponse
-import com.zainalfn.core.network.RetrofitConfig
-import com.zainalfn.core.util.EspressoIdlingResource
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.zainalfn.core.network.ApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 
 
-class RemoteDataSource {
+class RemoteDataSource(
+    private val apiService: ApiService
+) {
 
-    fun getMovies() : LiveData<ApiResponse<ArrayList<MovieDetailResponse>>> {
-        EspressoIdlingResource.increment()
-        val movies = MutableLiveData<ApiResponse<ArrayList<MovieDetailResponse>>>()
-        val client = apiService().getMovies(API_KEY)
-        client.enqueue(object : Callback<MoviesResponse> {
-            override fun onResponse(
-                call: Call<MoviesResponse>,
-                response: Response<MoviesResponse>
-            ) {
-                movies.postValue(ApiResponse.success(response.body()?.results as ArrayList<MovieDetailResponse>))
-                EspressoIdlingResource.decrement()
+    fun getMovies() : Flow<ApiResponse<ArrayList<MovieDetailResponse>>> =
+        flow {
+            try {
+                val response = apiService.getMovies(API_KEY)
+                val data = response.results
+
+                if (data.isEmpty()){
+                    emit(ApiResponse.Empty)
+                } else {
+                    emit(ApiResponse.Success(data))
+                }
+            } catch (e :Exception){
+                emit(ApiResponse.Error(e.message))
             }
 
-            override fun onFailure(call: Call<MoviesResponse>, t: Throwable) {
-                t.printStackTrace()
-                EspressoIdlingResource.decrement()
-            }
-        })
-
-        return movies
-    }
-
-    fun getDetailMovie(callback: LoadDetailMovieCallback, movieId: String) {
-        EspressoIdlingResource.increment()
-        val client = apiService().getMovieDetail(movieId, API_KEY)
-        client.enqueue(object : Callback<MovieDetailResponse> {
-            override fun onResponse(
-                call: Call<MovieDetailResponse>,
-                response: Response<MovieDetailResponse>
-            ) {
-                callback.onDetailMovieLoaded(response.body())
-                EspressoIdlingResource.decrement()
+        }.flowOn(Dispatchers.IO)
+    
+    fun getDetailMovies( movieId: String) : Flow<ApiResponse<MovieDetailResponse>> =
+        flow {
+            try {
+                val response = apiService.getMovieDetail(movieId, API_KEY)
+                emit(ApiResponse.Success(response))
+            } catch (e :Exception){
+                emit(ApiResponse.Error(e.message))
             }
 
-            override fun onFailure(call: Call<MovieDetailResponse>, t: Throwable) {
-                callback.onFailed(t.message)
-                EspressoIdlingResource.decrement()
-            }
-        })
-    }
+        }.flowOn(Dispatchers.IO)
 
-    fun getTvShows() :LiveData<ApiResponse<ArrayList<TvShowDetailResponse>>> {
-        EspressoIdlingResource.increment()
-        val tvShows = MutableLiveData<ApiResponse<ArrayList<TvShowDetailResponse>>>()
-        val client = apiService().getTvShows(API_KEY)
-        client.enqueue(object : Callback<TvShowsResponse> {
-            override fun onResponse(
-                call: Call<TvShowsResponse>,
-                response: Response<TvShowsResponse>
-            ) {
-                tvShows.postValue(ApiResponse.success(response.body()?.results as ArrayList<TvShowDetailResponse>))
-                EspressoIdlingResource.decrement()
+    fun getTvShows() : Flow<ApiResponse<ArrayList<TvShowDetailResponse>>> =
+        flow {
+            try {
+                val response = apiService.getTvShows(API_KEY)
+                val data = response.results
+
+                if (data.isEmpty()){
+                    emit(ApiResponse.Empty)
+                } else {
+                    emit(ApiResponse.Success(data))
+                }
+            } catch (e :Exception){
+                emit(ApiResponse.Error(e.message))
             }
 
-            override fun onFailure(call: Call<TvShowsResponse>, t: Throwable) {
-                t.printStackTrace()
-                EspressoIdlingResource.decrement()
-            }
-        })
-        return tvShows
-    }
+        }.flowOn(Dispatchers.IO)
 
-    fun getDetailTvShow(callback: LoadDetailTvShowCallback, tvShowId: String) {
-        EspressoIdlingResource.increment()
-        val client = apiService().getTvShowDetail(tvShowId, API_KEY)
-        client.enqueue(object : Callback<TvShowDetailResponse> {
-            override fun onResponse(
-                call: Call<TvShowDetailResponse>,
-                response: Response<TvShowDetailResponse>
-            ) {
-                callback.onDetailTvShowLoaded(response.body())
-                EspressoIdlingResource.decrement()
+
+    fun getDetailTvShow( tvShowId: String) : Flow<ApiResponse<TvShowDetailResponse>> =
+        flow {
+            try {
+                val response = apiService.getTvShowDetail(tvShowId, API_KEY)
+                emit(ApiResponse.Success(response))
+            } catch (e :Exception){
+                emit(ApiResponse.Error(e.message))
             }
 
-            override fun onFailure(call: Call<TvShowDetailResponse>, t: Throwable) {
-                callback.onFailed(t.message)
-                EspressoIdlingResource.decrement()
-            }
-        })
-    }
+        }.flowOn(Dispatchers.IO)
 
-    private fun apiService() = RetrofitConfig.apiInstance
-
-    interface LoadMoviesCallback {
-        fun onMoviesLoaded(movies: ArrayList<MovieDetailResponse>?)
-    }
-
-    interface LoadDetailMovieCallback {
-        fun onDetailMovieLoaded(movieDetail: MovieDetailResponse?)
-        fun onFailed(error: String?)
-    }
-
-    interface LoadTvShowsCallback {
-        fun onTvShowsLoaded(tvShows: ArrayList<TvShowDetailResponse>?)
-        fun onFailed(error: String?)
-    }
-
-    interface LoadDetailTvShowCallback {
-        fun onDetailTvShowLoaded(tvShowDetail: TvShowDetailResponse?)
-        fun onFailed(error: String?)
-    }
-
-    companion object {
-        @Volatile
-        private var instance: RemoteDataSource? = null
-
-        fun getInstance(): RemoteDataSource =
-            instance ?: synchronized(this) {
-                instance ?: RemoteDataSource()
-            }
-    }
 }
