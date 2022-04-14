@@ -1,6 +1,9 @@
 package com.zainalfn.moviecatalogue.ui.detail
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -18,7 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class DetailActivity : AppCompatActivity() {
 
     private var catalogData: CatalogueDetail? = null
-    private var mMenu: Menu? = null
+    private var favMenu: MenuItem? = null
     private var idArgs: Int = 0
     private var isFavorite: Boolean = false
     private var typeCatalogue: Int = TYPE_TVSHOW
@@ -43,9 +46,13 @@ class DetailActivity : AppCompatActivity() {
     private fun initObserver() {
         viewModel.getFavoriteDetail(idArgs).observe(this){
             isFavorite = it?.id != 0
-            setFavIconState()
 
-            if (!isFavorite){
+            if (isFavorite) {
+                // if favorite, render data from local
+                it?.apply {
+                    binding?.renderToView(this)
+                }
+            } else {
                 // if not favorite get detail from api
                 when (typeCatalogue) {
                     TYPE_MOVIE -> {
@@ -55,27 +62,25 @@ class DetailActivity : AppCompatActivity() {
                         getDetailTvShow(idArgs)
                     }
                 }
-            } else {
-                // if favorite, render data from local
-                it?.apply {
-                    binding?.renderToView(this)
-                }
             }
+
+            setFavIconState()
         }
     }
 
     private fun setFavIconState() {
-        val iconResId = if (!isFavorite) {
-            R.drawable.ic_round_favorite_border_24
-        } else {
+        val iconResId = if (isFavorite) {
             R.drawable.ic_round_favorite_24
+        } else {
+            R.drawable.ic_round_favorite_border_24
         }
-        val favIcon = mMenu?.findItem(R.id.action_favorite)
-        favIcon?.icon = ContextCompat.getDrawable(this, iconResId)
+        Handler(Looper.getMainLooper()).postDelayed({
+            favMenu?.icon = ContextCompat.getDrawable(this, iconResId)
+        },200)
     }
 
     private fun enableFavButton(state: Boolean) {
-        mMenu?.findItem(R.id.action_favorite)?.isEnabled = state
+        favMenu?.isEnabled = state
     }
 
     private fun getDetailTvShow(id: Int) {
@@ -98,7 +103,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_favorite, menu)
-        mMenu = menu
+        favMenu = menu.findItem(R.id.action_favorite)
         return super.onCreateOptionsMenu(menu)
     }
 

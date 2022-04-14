@@ -96,11 +96,6 @@ object DataMapper {
         return flowOf(list)
     }
 
-    fun detailToEntities(input: List<CatalogueDetail>): List<CatalogueDetailEntity> =
-        input.map {
-            mapDetailToEntity(it)
-        }
-
     fun mapDetailToEntity(it: CatalogueDetail) =
         CatalogueDetailEntity(
             it.id!!,
@@ -119,7 +114,7 @@ object DataMapper {
                 it.id,
                 it.title,
                 it.overview,
-                it.genres.toString(),
+                it.genres.toGenreString(),
                 it.voteAverage,
                 it.posterPath,
                 it.releaseDate,
@@ -133,7 +128,7 @@ object DataMapper {
                 it.id,
                 it.name,
                 it.overview,
-                it.genres.toString(),
+                it.genres.toGenreString(),
                 it.voteAverage,
                 it.posterPath,
                 it.first_air_date,
