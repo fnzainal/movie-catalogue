@@ -1,4 +1,4 @@
-package com.zainalfn.moviecatalogue.ui.favorite
+package com.zainalfn.favorite.favorite
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData

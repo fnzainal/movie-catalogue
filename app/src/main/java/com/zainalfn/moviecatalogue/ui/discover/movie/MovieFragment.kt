@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.core.domain.model.Catalogue
+import com.zainalfn.core.ui.CatalogueAdapter
 import com.zainalfn.core.util.Status
 import com.zainalfn.core.util.gone
 import com.zainalfn.core.util.visible
 import com.zainalfn.moviecatalogue.databinding.FragmentListCatalogueBinding
-import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

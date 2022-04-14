@@ -3,11 +3,11 @@ package com.zainalfn.moviecatalogue.ui.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.zainalfn.core.databinding.ItemCatalogueMovieBinding
 import com.zainalfn.core.domain.model.CatalogueDetail
 import com.zainalfn.core.util.loadImage
 import com.zainalfn.core.util.toReadableDate
 import com.zainalfn.moviecatalogue.R
-import com.zainalfn.moviecatalogue.databinding.ItemCatalogueMovieBinding
 
 class CatalogueFavoriteAdapter(
     private val onClick: (catalogue: CatalogueDetail) -> Unit

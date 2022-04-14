@@ -1,4 +1,4 @@
-package com.zainalfn.moviecatalogue.ui.favorite
+package com.zainalfn.favorite.favorite
 
 import android.os.Bundle
 import android.view.LayoutInflater

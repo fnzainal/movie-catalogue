@@ -1,13 +1,13 @@
-package com.zainalfn.moviecatalogue.ui.adapter
+package com.zainalfn.core.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.zainalfn.core.R
+import com.zainalfn.core.databinding.ItemCatalogueMovieBinding
 import com.zainalfn.core.domain.model.Catalogue
 import com.zainalfn.core.util.loadImage
 import com.zainalfn.core.util.toReadableDate
-import com.zainalfn.moviecatalogue.R
-import com.zainalfn.moviecatalogue.databinding.ItemCatalogueMovieBinding
 
 class CatalogueAdapter(
     private val onClick: (catalogueEntity: Catalogue) -> Unit

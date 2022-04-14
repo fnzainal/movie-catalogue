@@ -14,7 +14,7 @@ import com.zainalfn.core.util.Status
 import com.zainalfn.core.util.gone
 import com.zainalfn.core.util.visible
 import com.zainalfn.moviecatalogue.databinding.FragmentListTvShowBinding
-import com.zainalfn.moviecatalogue.ui.adapter.CatalogueAdapter
+import com.zainalfn.core.ui.CatalogueAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 

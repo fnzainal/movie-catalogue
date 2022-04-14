@@ -1,4 +1,4 @@
-package com.zainalfn.moviecatalogue.ui.favorite
+package com.zainalfn.favorite.favorite
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,11 +13,13 @@ import com.zainalfn.core.data.source.local.entity.TYPE_TVSHOW
 import com.zainalfn.core.domain.model.CatalogueDetail
 import com.zainalfn.core.util.gone
 import com.zainalfn.core.util.visible
-import com.zainalfn.moviecatalogue.databinding.FragmentFavoriteListBinding
+import com.zainalfn.favorite.databinding.FragmentFavoriteListBinding
+import com.zainalfn.favorite.di.favoriteModule
 import com.zainalfn.moviecatalogue.ui.adapter.CatalogueFavoriteAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 
 private const val ARG_TYPE = "type_catalogue"
 
@@ -42,7 +44,7 @@ class FavoriteListFragment : Fragment() {
 
     private fun initAdapter() {
         showLoading(true)
-        favoriteAdapter = CatalogueFavoriteAdapter{
+        favoriteAdapter = CatalogueFavoriteAdapter {
             onClickCatalogue(it)
         }
         binding?.apply {
@@ -62,9 +64,9 @@ class FavoriteListFragment : Fragment() {
     }
 
     private fun initObserver(typeArgs: Int) {
-        liveData = when(typeArgs){
+        liveData = when (typeArgs) {
             TYPE_MOVIE -> viewModel.getFavMovie()
-            else-> viewModel.getFavTvShow()
+            else -> viewModel.getFavTvShow()
         }
 
         liveData.observe(viewLifecycleOwner) { list ->
@@ -83,7 +85,7 @@ class FavoriteListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (liveData!=null){
+        if (liveData != null) {
             initObserver(typeArgs)
         }
     }
@@ -95,7 +97,7 @@ class FavoriteListFragment : Fragment() {
 
     private fun showLoading(isLoading: Boolean) {
         binding?.apply {
-            if (isLoading){
+            if (isLoading) {
                 favoriteProgress.visible()
             } else {
                 favoriteProgress.gone()
@@ -107,8 +109,15 @@ class FavoriteListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentFavoriteListBinding.inflate(inflater,container,false)
+        binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
+        loadKoinModules(favoriteModule)
         return binding?.root
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+        unloadKoinModules(favoriteModule)
     }
 
     companion object {
