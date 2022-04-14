@@ -1,7 +1,6 @@
 package com.zainalfn.core.util
 
 import com.zainalfn.core.data.source.local.entity.CatalogueDetailEntity
-import com.zainalfn.core.data.source.local.entity.CatalogueEntity
 import com.zainalfn.core.data.source.local.entity.TYPE_MOVIE
 import com.zainalfn.core.data.source.remote.response.MovieDetailResponse
 import com.zainalfn.core.data.source.remote.response.TvShowDetailResponse
@@ -15,29 +14,6 @@ import kotlinx.coroutines.flow.flowOf
  * Created by zainal on 4/13/22 - 7:47 AM
  */
 object DataMapper {
-
-    fun mapEntitiesToDomain(input: List<CatalogueEntity>): List<Catalogue> =
-        input.map {
-            Catalogue(
-                it.id,
-                it.name,
-                it.voteAverage,
-                it.posterPath,
-                it.overview,
-                it.releaseDate,
-                it.type
-            )
-        }
-
-    private fun mapToEntity(it: Catalogue) = CatalogueEntity(
-        it.id,
-        it.name,
-        it.voteAverage,
-        it.posterPath,
-        it.overview,
-        it.releaseDate,
-        it.type
-    )
 
     fun detailListToDomain(input: List<CatalogueDetailEntity>?): List<CatalogueDetail>? {
         return input?.map {
@@ -98,14 +74,14 @@ object DataMapper {
 
     fun mapDetailToEntity(it: CatalogueDetail) =
         CatalogueDetailEntity(
-            it.id!!,
+            it.id,
             it.name,
             it.overview,
             it.genres,
             it.voteAverage,
             it.posterPath,
             it.releaseDate,
-            it.type!!
+            it.type
         )
 
     fun responseDetailToDomainMovie(it: MovieDetailResponse): Flow<CatalogueDetail> =

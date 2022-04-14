@@ -15,7 +15,6 @@ import com.zainalfn.core.util.gone
 import com.zainalfn.core.util.visible
 import com.zainalfn.favorite.databinding.FragmentFavoriteListBinding
 import com.zainalfn.favorite.di.favoriteModule
-import com.zainalfn.moviecatalogue.ui.adapter.CatalogueFavoriteAdapter
 import com.zainalfn.moviecatalogue.ui.detail.DetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules

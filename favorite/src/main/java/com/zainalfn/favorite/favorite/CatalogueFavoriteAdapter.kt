@@ -1,4 +1,4 @@
-package com.zainalfn.moviecatalogue.ui.adapter
+package com.zainalfn.favorite.favorite
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
