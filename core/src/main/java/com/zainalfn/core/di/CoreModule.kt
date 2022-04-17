@@ -12,6 +12,7 @@ import com.zainalfn.core.data.source.remote.network.ApiService
 import com.zainalfn.core.util.SSLCertificateConfigurator
 import net.sqlcipher.database.SQLiteDatabase
 import net.sqlcipher.database.SupportFactory
+import okhttp3.CertificatePinner
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -41,6 +42,7 @@ val databaseModule = module {
 
 val networkModule = module {
     single {
+        // SSL certificate
         val trustManagerFactory = SSLCertificateConfigurator.getTrustManager(androidContext())
         val trustManagers = trustManagerFactory.trustManagers
         if (trustManagers.size != 1 || trustManagers[0] !is X509TrustManager) {
@@ -51,8 +53,15 @@ val networkModule = module {
         val loggingInterceptor =
             if (DEBUG) HttpLoggingInterceptor.Level.BODY else HttpLoggingInterceptor.Level.NONE
 
+        // Certificate Pinner
+        val hostname = "themoviedb.org"
+        val certificatePinner = CertificatePinner.Builder()
+            .add(hostname, "sha256/oD/WAoRPvbez1Y2dfYfuo4yujAcYHXdv1Ivb2v2MOKk=")
+            .build()
+
         OkHttpClient.Builder()
             .sslSocketFactory(SSLCertificateConfigurator.getSSLConfiguration(androidContext()).socketFactory, trustManager)
+            .certificatePinner(certificatePinner)
             .addInterceptor(HttpLoggingInterceptor().setLevel(loggingInterceptor))
             .connectTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
