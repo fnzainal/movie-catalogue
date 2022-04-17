@@ -6,7 +6,7 @@ package com.zainalfn.core.data.source.remote
 import com.zainalfn.core.BuildConfig.API_KEY
 import com.zainalfn.core.data.source.remote.response.MovieDetailResponse
 import com.zainalfn.core.data.source.remote.response.TvShowDetailResponse
-import com.zainalfn.core.network.ApiService
+import com.zainalfn.core.data.source.remote.network.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

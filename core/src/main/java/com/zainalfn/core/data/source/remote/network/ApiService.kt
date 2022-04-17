@@ -1,4 +1,4 @@
-package com.zainalfn.core.network
+package com.zainalfn.core.data.source.remote.network
 
 import com.zainalfn.core.data.source.remote.response.MovieDetailResponse
 import com.zainalfn.core.data.source.remote.response.MoviesResponse
