@@ -8,7 +8,9 @@ import com.zainalfn.core.data.source.local.LocalDataSource
 import com.zainalfn.core.data.source.local.room.CatalogueDatabase
 import com.zainalfn.core.data.source.remote.RemoteDataSource
 import com.zainalfn.core.domain.repository.ICatalogueRepository
-import com.zainalfn.core.network.ApiService
+import com.zainalfn.core.data.source.remote.network.ApiService
+import net.sqlcipher.database.SQLiteDatabase
+import net.sqlcipher.database.SupportFactory
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,11 +23,16 @@ import java.util.concurrent.TimeUnit
 val databaseModule = module {
     factory { get<CatalogueDatabase>().catalogueDao() }
     single {
+        val passphrase: ByteArray = SQLiteDatabase.getBytes("zainalfn".toCharArray())
+        val factory = SupportFactory(passphrase)
+
         Room.databaseBuilder(
             androidContext(),
             CatalogueDatabase::class.java,
             "movie_catalogue.db"
-        ).fallbackToDestructiveMigration().build()
+        ).fallbackToDestructiveMigration()
+            .openHelperFactory(factory)
+            .build()
     }
 }
 
