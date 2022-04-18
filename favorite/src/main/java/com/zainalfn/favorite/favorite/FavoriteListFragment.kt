@@ -1,3 +1,5 @@
+@file:Suppress("UnnecessaryVariable")
+
 package com.zainalfn.favorite.favorite
 
 import android.content.Intent
@@ -24,8 +26,8 @@ private const val ARG_TYPE = "type_catalogue"
 
 class FavoriteListFragment : Fragment() {
 
-    private lateinit var liveData: LiveData<List<CatalogueDetail>?>
-    private lateinit var favoriteAdapter: CatalogueFavoriteAdapter
+    private var liveData: LiveData<List<CatalogueDetail>?>? = null
+    private var favoriteAdapter: CatalogueFavoriteAdapter? = null
     private val viewModel: FavoriteViewModel by viewModel()
     private var typeArgs: Int = 0
     private var binding: FragmentFavoriteListBinding? = null
@@ -68,7 +70,7 @@ class FavoriteListFragment : Fragment() {
             else -> viewModel.getFavTvShow()
         }
 
-        liveData.observe(viewLifecycleOwner) { list ->
+        liveData?.observe(viewLifecycleOwner) { list ->
             binding?.apply {
                 showLoading(false)
                 if (list.isNullOrEmpty()) {
@@ -76,7 +78,7 @@ class FavoriteListFragment : Fragment() {
                 } else {
                     favoriteEmptyTv.gone()
                     favoriteListRv.visible()
-                    favoriteAdapter.setData(list)
+                    favoriteAdapter?.setData(list)
                 }
             }
         }
@@ -110,7 +112,8 @@ class FavoriteListFragment : Fragment() {
     ): View? {
         binding = FragmentFavoriteListBinding.inflate(inflater, container, false)
         loadKoinModules(favoriteModule)
-        return binding?.root
+        val view = binding?.root
+        return view
     }
 
 

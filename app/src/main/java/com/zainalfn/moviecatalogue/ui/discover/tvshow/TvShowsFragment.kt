@@ -20,11 +20,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TvShowsFragment : Fragment() {
 
-    private lateinit var catalogueAdapter: CatalogueAdapter
+    private var catalogueAdapter: CatalogueAdapter? = null
     private val viewModel: TvShowViewModel by viewModel()
     private var _binding: FragmentListTvShowBinding? = null
-
-
     private val binding get() = _binding
 
     override fun onCreateView(
@@ -32,7 +30,8 @@ class TvShowsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentListTvShowBinding.inflate(inflater, container, false)
-        return binding?.root
+        val view = binding?.root
+        return view
 
     }
 
@@ -61,7 +60,7 @@ class TvShowsFragment : Fragment() {
                     it.data?.apply {
                         if (this.isNotEmpty()) {
                             tvshowEmptyTv.gone()
-                            catalogueAdapter.setData(this)
+                            catalogueAdapter?.setData(this)
                         } else {
                             tvshowEmptyTv.visible()
                         }

@@ -9,12 +9,13 @@ import com.zainalfn.moviecatalogue.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
 
+    private var binding: ActivitySplashBinding? = null
     private val DURATION_SPLASH: Long = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivitySplashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
 
 
         Handler(Looper.getMainLooper()).postDelayed({
@@ -26,5 +27,10 @@ class SplashActivity : AppCompatActivity() {
                 )
             )
         }, DURATION_SPLASH)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 }

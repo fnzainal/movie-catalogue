@@ -31,7 +31,8 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityDetailBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
+        val view = binding?.root
+        setContentView(view)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         intent.extras?.let {

@@ -13,5 +13,7 @@
     <string name="action_favorite">Favorite</string>
     <string name="discover">Discover</string>
     <string name="title_favorite">Favorite</string>
+    <string name="power_connected">Power connected</string>
+    <string name="power_disconnected">Power disconnected</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

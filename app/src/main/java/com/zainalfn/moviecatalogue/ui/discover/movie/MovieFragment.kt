@@ -21,7 +21,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MovieFragment : Fragment() {
 
-    private lateinit var catalogueAdapter: CatalogueAdapter
+    private var catalogueAdapter: CatalogueAdapter? = null
     private val viewModel: MovieViewModel by viewModel()
     private var _binding: FragmentListCatalogueBinding? = null
 
@@ -33,7 +33,8 @@ class MovieFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentListCatalogueBinding.inflate(inflater, container, false)
-        return binding?.root
+        val view = binding?.root
+        return view
 
     }
 
@@ -61,7 +62,7 @@ class MovieFragment : Fragment() {
                     showLoading(false)
                     it.data?.apply {
                         if (this.isNotEmpty()) {
-                            catalogueAdapter.setData(this)
+                            catalogueAdapter?.setData(this)
                             movieEmptyTv.gone()
                         } else {
                             movieEmptyTv.visible()
