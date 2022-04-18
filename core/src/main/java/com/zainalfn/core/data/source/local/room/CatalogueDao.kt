@@ -1,6 +1,5 @@
 package com.zainalfn.core.data.source.local.room
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -13,10 +12,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CatalogueDao {
 
-    @Query("SELECT * FROM catalog_entities WHERE id = :id")
-    fun getCatalogueById(id: Int): LiveData<CatalogueDetailEntity?>
-
-    /* favorite group*/
     @Query("SELECT * FROM favorite_entities WHERE id = :id")
     fun getFavoriteById(id: Int): Flow<CatalogueDetailEntity>
 
