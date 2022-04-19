@@ -28,6 +28,7 @@ class MovieFragment : Fragment() {
 
     private val binding get() = _binding
 
+    @Suppress("UnnecessaryVariable")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,7 +63,7 @@ class MovieFragment : Fragment() {
                     showLoading(false)
                     it.data?.apply {
                         if (this.isNotEmpty()) {
-                            catalogueAdapter?.setData(this)
+                            renderToView(this)
                             movieEmptyTv.gone()
                         } else {
                             movieEmptyTv.visible()
@@ -73,14 +74,19 @@ class MovieFragment : Fragment() {
         }
     }
 
-    private fun FragmentListCatalogueBinding.setupAdapterRV() {
-        catalogueAdapter = CatalogueAdapter { data ->
+    private fun renderToView(list: List<Catalogue>) {
+        catalogueAdapter = CatalogueAdapter(list) { data ->
             onClickCatalogue(data)
         }
+        binding?.apply {
+            movieListRv.adapter = catalogueAdapter
+        }
+    }
+
+    private fun FragmentListCatalogueBinding.setupAdapterRV() {
         movieListRv.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireActivity())
-            adapter = catalogueAdapter
         }
     }
 

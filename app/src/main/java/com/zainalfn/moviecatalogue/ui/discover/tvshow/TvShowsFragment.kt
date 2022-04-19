@@ -25,6 +25,7 @@ class TvShowsFragment : Fragment() {
     private var _binding: FragmentListTvShowBinding? = null
     private val binding get() = _binding
 
+    @Suppress("UnnecessaryVariable")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +61,7 @@ class TvShowsFragment : Fragment() {
                     it.data?.apply {
                         if (this.isNotEmpty()) {
                             tvshowEmptyTv.gone()
-                            catalogueAdapter?.setData(this)
+                            renderToView(this)
                         } else {
                             tvshowEmptyTv.visible()
                         }
@@ -70,14 +71,19 @@ class TvShowsFragment : Fragment() {
         }
     }
 
-    private fun FragmentListTvShowBinding.setupAdapterRV() {
-        catalogueAdapter = CatalogueAdapter { data ->
+    private fun renderToView(list: List<Catalogue>) {
+        catalogueAdapter = CatalogueAdapter(list) { data ->
             onClickCatalogue(data)
         }
+        binding?.apply {
+            tvshowListRv.adapter = catalogueAdapter
+        }
+    }
+
+    private fun FragmentListTvShowBinding.setupAdapterRV() {
         tvshowListRv.apply {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireActivity())
-            adapter = catalogueAdapter
         }
     }
 

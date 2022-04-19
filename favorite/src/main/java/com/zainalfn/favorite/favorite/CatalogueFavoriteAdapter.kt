@@ -10,17 +10,9 @@ import com.zainalfn.core.util.toReadableDate
 import com.zainalfn.moviecatalogue.R
 
 class CatalogueFavoriteAdapter(
+    private val list: List<CatalogueDetail>,
     private val onClick: (catalogue: CatalogueDetail) -> Unit
 ) : RecyclerView.Adapter<CatalogueFavoriteAdapter.CatalogueViewHolder>() {
-
-
-    private val mData = mutableListOf<CatalogueDetail>()
-
-    fun setData(data: List<CatalogueDetail>) {
-        mData.clear()
-        mData.addAll(data)
-        notifyDataSetChanged()
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogueViewHolder {
         val itemCatalogueBinding =
@@ -32,7 +24,7 @@ class CatalogueFavoriteAdapter(
     }
 
     override fun onBindViewHolder(holder: CatalogueViewHolder, position: Int) {
-        mData[position].let { holder.bind(it) }
+        list[position].let { holder.bind(it) }
     }
 
     inner class CatalogueViewHolder(private val binding: ItemCatalogueMovieBinding) :
@@ -56,5 +48,5 @@ class CatalogueFavoriteAdapter(
         }
     }
 
-    override fun getItemCount(): Int = mData.size
+    override fun getItemCount(): Int = list.size
 }

@@ -45,14 +45,10 @@ class FavoriteListFragment : Fragment() {
 
     private fun initAdapter() {
         showLoading(true)
-        favoriteAdapter = CatalogueFavoriteAdapter {
-            onClickCatalogue(it)
-        }
         binding?.apply {
             favoriteListRv.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = favoriteAdapter
             }
         }
     }
@@ -78,9 +74,18 @@ class FavoriteListFragment : Fragment() {
                 } else {
                     favoriteEmptyTv.gone()
                     favoriteListRv.visible()
-                    favoriteAdapter?.setData(list)
+                    renderToView(list)
                 }
             }
+        }
+    }
+
+    private fun renderToView(list: List<CatalogueDetail>) {
+        favoriteAdapter = CatalogueFavoriteAdapter(list) {
+            onClickCatalogue(it)
+        }
+        binding?.apply {
+            favoriteListRv.adapter = favoriteAdapter
         }
     }
 

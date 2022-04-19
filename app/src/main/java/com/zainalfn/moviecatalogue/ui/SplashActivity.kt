@@ -10,7 +10,7 @@ import com.zainalfn.moviecatalogue.databinding.ActivitySplashBinding
 class SplashActivity : AppCompatActivity() {
 
     private var binding: ActivitySplashBinding? = null
-    private val DURATION_SPLASH: Long = 2000
+    private val durationSplash: Long = 2000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
                     MainActivity::class.java
                 )
             )
-        }, DURATION_SPLASH)
+        }, durationSplash)
     }
 
     override fun onDestroy() {
